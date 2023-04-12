@@ -2,7 +2,7 @@
 
 import pymysql
 
-### the function returns recievers list with database table name as params ###
+### the function returns recievers list(tuple) with database table name as params ###
 def get_recievers(websiteName):
     
     conn = pymysql.connect(host='localhost', user='', passwd='', db='', charset='utf8')

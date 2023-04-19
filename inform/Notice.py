@@ -6,8 +6,8 @@ class Notice:
     link = ""
         
     def make_script(self, content, link):
-        self.content = '<p>' + content + '</p>'
-        self.content += '<a href="' + link + '">' + link + '</a>'
+        self.content = content
+        self.content = self.content.replace("\n", "<br>")
         
         self.link = link
     

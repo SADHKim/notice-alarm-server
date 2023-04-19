@@ -11,6 +11,7 @@ def get_recievers(websiteName):
     sql = 'SELECT email FROM eamil_list WHERE website_name = ' + websiteName
     cursor.execute(sql)
     
+    ## the list of tuple ##
     recieversList = cursor.fetchall()
     
     return recieversList

@@ -17,6 +17,8 @@ options.add_argument('--disable-blink-features=AutomationControlled')
 driver = webdriver.Chrome(executable_path=chromedriver_path, options=options)
 
 def searchUpdate(url):
+    global posts_list
+    
     # 페이지 열기
     driver.get(url)
 
@@ -31,18 +33,17 @@ def searchUpdate(url):
     for i in range(len(posts_element)):
         posts_title = posts_element[i].find_elements(By.TAG_NAME, "a")[0].get_attribute("text").strip()
         if not posts_title in posts_list:
-            posts_list.append(posts_title)
-            print(posts_title)
+            posts_list = posts_title
+            return True
+        
+    return False
+    
 
 def hyu_cs_board_crawling():
     # 크롤링할 페이지의 URL
     url = 'http://cs.hanyang.ac.kr/board/gradu_board.php'
-    schedule.every(1).minutes.do(lambda: searchUpdate(url))
 
-    while 1:
-        schedule.run_pending()
-        time.sleep(1)
-
-        
-if __name__ == "__main__":
-	hyu_cs_board_crawling()
+    if searchUpdate(url):
+        return url
+    else:
+        return False

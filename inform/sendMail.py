@@ -10,7 +10,7 @@ def send_mail(classObj, recievers):
     smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
     smtpObj.starttls()
 
-    smtpObj.login('kdh101800@gmail.com', 'fpie jqjn xgza cibl')
+    smtpObj.login('kdh101800@gmail.com', 'vadyhkqbhgfvxpac')
     
     mailContent = '<p>' + classObj.content + '</p>'
     if classObj.link != "":

@@ -16,9 +16,9 @@ def main():
         script.make_title(result[2], result[0])
         
         # 해당 웹사이트에서 알림을 받는 사람들 추출#
-        recievers = inform.get_recievers(result[0])
+        recievers = mail.get_recievers(result[0])
         # 메일 전송 #
-        inform.send_mail(script, recievers)
+        mail.send_mail(script, recievers)
         
         
 if __name__ == '__main__':

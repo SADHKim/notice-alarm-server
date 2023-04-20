@@ -1,1 +1,1 @@
-from .hyu_cs_board import hyu_cs_board_crawling
+from .checkScript import check_script

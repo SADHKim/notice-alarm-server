@@ -24,25 +24,20 @@ def searchUpdate(driver, url):
 
     posts_element = driver.find_element(By.CSS_SELECTOR, '.bbs_con').find_elements(By.TAG_NAME, 'tr')[1:]
     
-    idx = 0
+    tmp = [] # 페이지에 나타나는 게시글을 저장하는 list (이전 list 저장) #
     for post in posts_element:
         post_title = post.find_elements(By.TAG_NAME, "a")[0].get_attribute("text").strip()
         
         if not post_title in posts_list and isStarted:
             ret.append(post_title)
-            tmp_posts.insert(idx, post_title)
-            dix += 1
-        elif not isStarted:
-            posts_list.append(post_title)
+        
+        tmp.append(post_title)
     
                               
     if not isStarted:
         isStarted = True
         
-    if len(posts_element) < len(posts_list):
-        tmp = len(posts_list) - len(posts_element)
-        for i in range(tmp):
-            posts_list.pop()
+    posts_list = tmp
     
             
     return ret

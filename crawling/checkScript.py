@@ -1,6 +1,7 @@
 from selenium import webdriver
 
 from .hyu_cs_board import hyu_cs_board_crawling
+from .sw_maestro import sw_maestro_crawling
 
 
 # 웹 드라이버 설정
@@ -15,5 +16,6 @@ def check_script():
     result = []
     
     result.append(hyu_cs_board_crawling(driver))
+    result.append(sw_maestro_crawling(driver))
     
     return result

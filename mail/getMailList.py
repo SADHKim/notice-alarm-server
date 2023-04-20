@@ -14,10 +14,12 @@ def get_recievers(websiteName):
     conn = pymysql.connect(host='localhost', user=dbId, passwd=dbPwd, db=dbName, charset='utf8')
     cursor = conn.cursor()
     
-    sql = 'SELECT email FROM eamil_list WHERE website_name = ' + websiteName
+    sql = 'SELECT email FROM email_list WHERE website_name = "' + websiteName + '"'
     cursor.execute(sql)
     
     ## the list of tuple ##
     recieversList = cursor.fetchall()
+    
+    cursor.close()
     
     return recieversList

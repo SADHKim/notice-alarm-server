@@ -1,4 +1,6 @@
 __pycache__/
 
+config.py
+
 crawling/chromedriver.exe
 

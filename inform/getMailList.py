@@ -3,9 +3,9 @@
 import pymysql
 
 ### the function returns recievers list(tuple) with database table name as params ###
-def get_recievers(websiteName):
+def get_recievers(websiteName, dbId, dbPwd, dbName):
     
-    conn = pymysql.connect(host='localhost', user='', passwd='', db='', charset='utf8')
+    conn = pymysql.connect(host='localhost', user=dbId, passwd=dbPwd, db=dbName, charset='utf8')
     cursor = conn.cursor()
     
     sql = 'SELECT email FROM eamil_list WHERE website_name = ' + websiteName

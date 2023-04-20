@@ -6,11 +6,11 @@ from email.mime.text import MIMEText
 
 ### the function sends mail with class object, recievers as params ###
 ### classObj has mail subject, content, and link ###
-def send_mail(classObj, recievers):
+def send_mail(classObj, recievers, mailId, mailPwd):
     smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
     smtpObj.starttls()
 
-    smtpObj.login('kdh101800@gmail.com', 'vadyhkqbhgfvxpac')
+    smtpObj.login(mailId, mailPwd)
     
     mailContent = '<p>' + classObj.content + '</p>'
     if classObj.link != "":

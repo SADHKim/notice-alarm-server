@@ -1,3 +1,3 @@
 from .getMailList import get_recievers
-from .Notice import Notice
+from .Script import Script
 from .sendMail import send_mail

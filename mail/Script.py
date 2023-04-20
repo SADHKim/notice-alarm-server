@@ -1,6 +1,6 @@
 ### this file provide class that contain Notice subject, content, link ###
 
-class Notice:
+class Script:
     subject = ""
     content = "" # html type #
     link = ""

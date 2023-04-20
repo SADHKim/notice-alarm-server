@@ -1,4 +1,4 @@
-import inform
+import mail
 import crawling
 
 
@@ -11,7 +11,7 @@ def main():
             continue
         
         # Notice object 생성, 내용 만들기 #
-        script = inform.Notice()
+        script = mail.Script()
         script.make_script(result[2], result[1])
         script.make_title(result[2], result[0])
         

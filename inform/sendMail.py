@@ -3,10 +3,14 @@
 
 import smtplib
 from email.mime.text import MIMEText
+import config
+
+mailId = config.MAIL_ID
+mailPwd = config.MAIL_PWD
 
 ### the function sends mail with class object, recievers as params ###
 ### classObj has mail subject, content, and link ###
-def send_mail(classObj, recievers, mailId, mailPwd):
+def send_mail(classObj, recievers):
     smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
     smtpObj.starttls()
 

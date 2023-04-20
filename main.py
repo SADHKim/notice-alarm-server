@@ -1,13 +1,6 @@
 import inform
 import crawling
-import config
 
-mailId = config.MAIL_ID
-mailPwd = config.MAIL_PWD
-
-dbName = config.DB_NAME
-dbId = config.DB_ID
-dbPwd = config.DB_PWD
 
 def main():
     link = crawling.hyu_cs_board_crawling()
@@ -19,7 +12,7 @@ def main():
         
         recievers = ['kdh101800@gmail.com', 'ken1934@naver.com']
         
-        inform.send_mail(noticeObj, recievers, mailId, mailPwd)
+        inform.send_mail(noticeObj, recievers)
         
 
 if __name__ == '__main__':

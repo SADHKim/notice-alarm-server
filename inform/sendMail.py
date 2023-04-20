@@ -17,8 +17,7 @@ def send_mail(classObj, recievers):
     smtpObj.login(mailId, mailPwd)
     
     mailContent = '<p>' + classObj.content + '</p>'
-    if classObj.link != "":
-        '<a href="' + classObj.link + '">' + classObj.link + '</a>'
+    mailContent += '<a href="' + classObj.link + '">' + classObj.link + '</a>'
         
     msg = MIMEText(mailContent, 'html')
     msg['Subject'] = classObj.subject

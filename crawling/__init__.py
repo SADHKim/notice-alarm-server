@@ -1,1 +1,0 @@
-from .checkScript import check_script

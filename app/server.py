@@ -51,5 +51,5 @@ class addEmail(Resource):
         return ret
 
 
-if __name__ == '__main__':
+def start():
     app.run()

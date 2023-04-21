@@ -1,9 +1,11 @@
+import schedule
+import time
+
 import mail
 import crawling
 
 
-
-def main():
+def search_pages():
     # 크롤링의 결과값 저장 (False or websitename, url, posts : list) #
     checkResult = crawling.checking()
     
@@ -22,5 +24,9 @@ def main():
         mail.send_mail(script, recievers)
         
         
-if __name__ == '__main__':
-    main()
+def start():
+    schedule.every(2).hours.do(search_pages())
+    
+    while True:
+        schedule.run_pending()
+        time.sleep(1)

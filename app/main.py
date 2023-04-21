@@ -1,5 +1,5 @@
-from . import mail
-from . import crawling
+import mail
+import crawling
 
 
 

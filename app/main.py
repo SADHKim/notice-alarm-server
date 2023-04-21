@@ -1,7 +1,6 @@
-import mail
-import crawling
+from . import mail
+from . import crawling
 
-from conf import prev_lists
 
 
 def main():

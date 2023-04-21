@@ -5,3 +5,4 @@ config.py
 
 crawling/chromedriver.exe
 
+geckodriver.log

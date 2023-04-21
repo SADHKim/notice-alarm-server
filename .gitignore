@@ -1,8 +1,25 @@
+venv/
+
+*.pyc
 __pycache__/
 
+<<<<<<< HEAD
 conf/
 config.py
+=======
+instance/
 
-crawling/chromedriver.exe
+.pytest_cache/
+.coverage
+htmlcov/
+>>>>>>> a612b14bccfc28d744d8c3b3c90acdf9115565f4
 
+dist/
+build/
+*.egg-info/
+
+<<<<<<< HEAD
 geckodriver.log
+=======
+app/conf/
+>>>>>>> a612b14bccfc28d744d8c3b3c90acdf9115565f4

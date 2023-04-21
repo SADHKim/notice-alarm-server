@@ -1,10 +1,12 @@
 import mail
 import crawling
 
+from conf import prev_lists
+
 
 def main():
     # 크롤링의 결과값 저장 (False or websitename, url, posts : list) #
-    checkResult = crawling.check_script()
+    checkResult = crawling.checking()
     
     for result in checkResult:
         if result is False:

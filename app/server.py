@@ -60,28 +60,16 @@ class Email(Resource):
         
         data = request.get_json()
         
-        if connectDB.push_email(data['user'], data['email'], data['website']):
-            return {
-                'post' : 'success'
-            }
-        else:
-            return{
-                'post' : 'fail'
-            }
+        res = connectDB.push_email(data['user'], data['email'], data['website'])
+        return {'post' : res}
     
     def delete(self):
         # drop row from email_list #
         
         data = request.get_json()
         
-        if connectDB.delete_email(data['user'], data['email'], data['website']):
-            return {
-                'delete' : 'success'
-            }
-        else:
-            return{
-                'delete' : 'fail'
-            }
+        res = connectDB.delete_email(data['user'], data['email'], data['website'])
+        return {'delete' : res}
 
 @api.route('/api/websites')
 class Website(Resource):
@@ -97,3 +85,6 @@ class Website(Resource):
 
 def start():
     app.run()
+    
+if __name__ == '__main__':
+    start()

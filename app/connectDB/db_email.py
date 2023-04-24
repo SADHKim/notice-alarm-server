@@ -1,8 +1,4 @@
-import pymysql
-
-import connectDB.connect as connect
-    
-def push_email(user, email, website):
+def p_email(conn, user, email, website):
     try:
         cursor = connect.conn.cursor()
                 
@@ -16,7 +12,7 @@ def push_email(user, email, website):
     
     return 'push_email success'
 
-def delete_email(user, email, website):
+def d_email(conn, user, email, website):
     try:
         cursor = connect.conn.cursor()
             
@@ -28,7 +24,4 @@ def delete_email(user, email, website):
     except Exception as e:
         return e
     
-    return 'delete_email success'
-
-    
-    
+    return True

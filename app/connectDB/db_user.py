@@ -1,10 +1,7 @@
-import pymysql
-
-from connect import conn
 
 # get user's information, and push information to databse #
 # return True if successed or return False if failed #
-def push_user(info):
+def p_user(conn, info):
     cursor = conn.cursor()
     
     try:
@@ -20,7 +17,7 @@ def push_user(info):
 
 # update user's passwd or email. !!NOT ID!!  #
 # return True if successed or return False if failed #
-def update_user(info):
+def u_user(conn, info):
     cursor = conn.cursor()
     
     try:
@@ -36,7 +33,7 @@ def update_user(info):
 
 
 # get user's id and return user's id, passwd, email #
-def get_user_info(user):
+def g_user_info(conn, user):
     cursor = conn.cursor()
     
     sql = "SELECT id, passwd, email FROM users where id = '%s'" % user

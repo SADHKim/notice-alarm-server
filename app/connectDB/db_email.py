@@ -1,8 +1,4 @@
-import pymysql
-
-from connect import conn
-    
-def push_email(user, email, website):
+def p_email(conn, user, email, website):
     try:
         cursor = conn.cursor()
                 
@@ -16,7 +12,7 @@ def push_email(user, email, website):
     
     return True
 
-def delete_email(user, email, website):
+def d_email(conn, user, email, website):
     try:
         cursor = conn.cursor()
             
@@ -29,6 +25,3 @@ def delete_email(user, email, website):
         return False
     
     return True
-
-    
-    

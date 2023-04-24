@@ -17,5 +17,6 @@ def get_recievers(websiteName):
     recieversList = cursor.fetchall()
     
     cursor.close()
+    conn = None
     
     return recieversList

@@ -8,7 +8,7 @@ def p_user(conn, info):
         sql = "INSERT INTO users (id, passwd, email) VALUES ('%s', '%s', '%s')" % (info['id'], info['passwd'], info['email'])
         cursor.execute(sql)
         
-        connect.conn.commit()
+        conn.commit()
         cursor.close()
     except:
         return False
@@ -24,7 +24,7 @@ def u_user(conn, info):
         sql = "UPDATE users SET passwd = '%s', email = '%s' WHERE id = '%s'" %(info['passwd'], info['email'], info['id'])
         cursor.execute(sql)
         
-        connect.conn.commit()
+        conn.commit()
         cursor.close()
     except:
         return False

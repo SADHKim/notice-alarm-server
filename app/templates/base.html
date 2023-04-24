@@ -1,25 +1,62 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="{{url_for('static', filename='./css/style.css')}}">
 
-    <link rel="stylesheet" href="../static/css/style.css">
+  {% block style %}
+  {% endblock %}
+  
+  {% block js %}
+  {% endblock %}
 
-    <title>notice-alarm</title>
-  </head>
-  <body>
-    <head>
+  <title>notice-alarm</title>
+</head>
 
-    </head>
-    
-    <div class="container">
-        {% block content %} {% endblock %}
-    </div>
+<body>
+  <!-- 헤더 시작 -->
+  <div style="padding: 0; margin: 0;">
+    <a href="{{url_for('main')}}"><h1>Notice-alarm</h1></a>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>
+    <!-- user info -->
+    <ul>
+    {% if 'user' in info %}
+      <li style="text-align: end;">
+        <span>Welcome, <span style="color: darkgreen;">{{info['user']}}</span>!</span>
+      </li>
+      <li style="text-align: end;">
+        <span><a href="{{url_for('logout')}}">logout</a></span>
+      </li>
+
+    {% else %}
+      <li style="text-align: end;">
+        <span>Welcome, <span style="color: darkgreen;">guest</span>!</span>
+      </li>
+      <li style="text-align: end;">
+          <span><a href="{{url_for('register')}}">register</a></span>
+          <span> | </span>
+          <span><a href="{{url_for('login')}}">login</a></span>
+      </li>
+    {% endif %}
+    </ul>
+
+    <!-- 서비스 내비게이션 -->
+    <nav class="nav" style="margin-top: 30px;">
+      <span class="nav_col"><a href="{{url_for('profile')}}"><h4>Profile</h4></a></span>
+      <span class="nav_col"><a href="{{url_for('websites')}}"><h4>Websites</h4></a></span>
+      <span class="nav_col"><a href="{{url_for('ask')}}"><h4>Ask</h4></a></span>
+      <span class="nav_col"><a href="{{url_for('notice')}}"><h4>Notice</h4></a></span>
+    </nav>
+    <!-- 서비스 내비게이션 종료 -->
+
+  </div>
+  <!-- 헤더 종료 -->
+  
+  <!-- 본문 시작 -->
+  <div>
+    {% block content %} {% endblock %}
+  </div>
+  <!-- 본문 종료 -->
+
+</body>
 </html>

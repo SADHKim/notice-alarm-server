@@ -1,17 +1,16 @@
-from flask import Flask, session, request, render_template, redirect, url_for
-from flask_restx import Api, Resource
+from flask import Flask, session, request, render_template, redirect, url_for, jsonify
 
 
 import connectDB
 from conf import DB_ID, DB_PWD, DB_NAME, sites
 
 app = Flask(__name__)
-api = Api(app)
 
 @app.route('/')
 def main():
     info = {}
-    if session['user'] is not None:
+    
+    if 'user' in session:
         info['user'] = session['user']
         info['email'] = session['email']
         
@@ -42,46 +41,58 @@ def register():
             return redirect(url_for('main'))
         else:
             return redirect(url_for('error', code = 500))
+        
+@app.route('/profile/login')
+def login():
+    return 'login'
+        
+@app.route('/websites')
+def websites():
+    return 'websites'    
 
+@app.route('/websites/ask')
+def ask():
+    return 'ask'
 
-
+@app.route('/notice')
+def notice():
+    return 'notice'
 
 
 
 
 ### API server requests post, delete with json file ###
-@api.route('/api/email')
-class Email(Resource):
+@app.route('/api/email', methods = ['POST', 'DELETE'])
+def api_email():
     
     connectDB.connect(DB_ID, DB_PWD, DB_NAME)
     
-    def post(self):
+    if request.method == 'POST':
         # insert to database user email #
         
         data = request.get_json()
         
         res = connectDB.push_email(data['user'], data['email'], data['website'])
-        return {'post' : res}
+        return jsonify({'post' : res})
     
-    def delete(self):
+    if request.method == 'DELETE':
         # drop row from email_list #
         
         data = request.get_json()
         
         res = connectDB.delete_email(data['user'], data['email'], data['website'])
-        return {'delete' : res}
+        return jsonify({'delete' : res})
 
-@api.route('/api/websites')
-class Website(Resource):
-    def get(self):
-        # get list of providing websites #
+@app.route('/api/websites')
+def api_websites():
+    # get list of providing websites #
         
-        ret = {}
-        for site in sites:
-            ret[site['name']] = site['url']
+    ret = {}
+    for site in sites:
+        ret[site['name']] = site['url']
             
-        return ret
-        
+    return jsonify(ret)
+
 
 def start():
     app.run()

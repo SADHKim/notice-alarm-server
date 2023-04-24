@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<style>
+    .register_li{
+        margin-top: 30px;
+    }
+    .col{
+        width: 200px;
+    }
+</style>
+{% endblock %}
+
+{% block js %}
+    <script rel="javascript/text" src="{{url_for('static', filename='./js/register_functions.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="mini_layout">
+    <form action="{{url_for('register')}}", method="post", name="register_form", onSubmit="return register_check()">
+    <ul>
+        <li class="register_li">
+            <h3>회원가입</h3>
+        </li>
+        <li class="register_li">
+            <span class="col">ID : </span>
+            <span class="col"><input type="text", name="id"></span>
+            <span><button onclick="">중복확인</button></span>
+        </li>
+        <li class="register_li">
+            <span class="col">PASSWORD : </span>
+            <span class="col"><input type="password", name="passwd"></span>
+        </li>
+        <li class="register_li">
+            <span class="col">PASSWORD 재입력 : </span>
+            <span class="col"><input type="password", name="passwd_1"></span>
+        </li>
+        <li class="register_li">
+            <span class="col">EMAIL : </span>
+            <span class="col"><input type="text", name="email"></span>
+        </li>
+        <li class="register_li" style="text-align: end; margin-right:10px;">
+            <button type="submit">register</button>
+        </li>
+    </ul>
+    </form>
+</div>
+
+{% endblock %}

@@ -10,10 +10,10 @@ def p_user(conn, info):
         
         conn.commit()
         cursor.close()
-    except:
-        return False
+    except Exception as e:
+        return e
     
-    return True
+    return 'push_user success'
 
 # update user's passwd or email. !!NOT ID!!  #
 # return True if successed or return False if failed #
@@ -26,10 +26,10 @@ def u_user(conn, info):
         
         conn.commit()
         cursor.close()
-    except:
-        return False
+    except Exception as e:
+        return e
 
-    return True
+    return 'update_user success'
 
 
 # get user's id and return user's id, passwd, email #

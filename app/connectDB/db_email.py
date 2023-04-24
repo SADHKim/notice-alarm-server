@@ -24,4 +24,4 @@ def d_email(conn, user, email, website):
     except Exception as e:
         return e
     
-    return True
+    return 'delete_user success'

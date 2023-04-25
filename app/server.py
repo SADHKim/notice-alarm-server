@@ -1,4 +1,5 @@
-from flask import Flask, session, request, render_template, redirect, url_for, jsonify
+from flask import Flask, session, request, render_template, redirect, url_for, jsonify, abort
+from datetime import datetime
 
 
 import connectDB
@@ -13,10 +14,9 @@ def main():
 @app.route('/profile')
 def profile():
     if 'user' not in session:
-        return render_template('not_login.html')
+        return render_template('login')
     else:
         info = connectDB.get_user_info(session['user'])
-        
         return render_template('profile.html', info=info)
         
 @app.route('/register', methods = ['GET', 'POST'])
@@ -26,31 +26,88 @@ def register():
     
     elif request.method == 'POST':
         info = {}
-        
         info['id'] = request.form['id']
         info['passwd'] = request.form['passwd']
         info['email'] = request.form['email']
         
-        if connectDB.push_user(info):
+        if connectDB.push_user(info) is True:
             return redirect(url_for('main'))
         else:
-            return redirect(url_for('error', code = 500))
+            abort(500)
         
-@app.route('/profile/login')
+@app.route('/profile/login', methods = ['GET', 'POST'])
 def login():
-    return 'login'
+    if request.method == 'GET':
+        return render_template('login.html')
+    
+    elif request.method == 'POST':
+        userid = request.form['id']
+        userpwd = request.form['passwd']
         
-@app.route('/websites')
+        flag = connectDB.login(userid, userpwd)
+        if flag is True:
+            session['user'] = userid
+            return redirect(url_for('main'))
+        elif flag is False:
+            return redirect(url_for('login', notLogin = True))
+        
+@app.route('/websites', methods = ['GET', 'POST'])
 def websites():
-    return 'websites'    
+    if request.method == 'GET':
+        return render_template('websites.html', websites = sites)
+    
+    elif request.method == 'POST':
+        if 'user' not in session:
+            return redirect(url_for('login'))
+        else:
+            site = request.get_json()
+            userInfo = connectDB.get_user_info(session['user'])
+            
+            flag = connectDB.push_email(userInfo['id'], userInfo['email'], site['name'])
+            if flag is True:
+                return redirect(url_for('websites'))
+            elif flag is False:
+                return redirect(url_for('websites', plus = site['name']))
+            else:
+                abort(500)
+        
+        
 
-@app.route('/websites/ask')
+@app.route('/websites/ask', methods = ['GET', 'POST'])
 def ask():
-    return 'ask'
+    if request.method == 'GET':
+        asks = connectDB.get_asks()
+        return render_template('websites.html', asks = asks)
+    
+    elif request.method == 'POST':
+        site = request.get_json()
+        
+        flag = connectDB.push_ask(site['name'], site['url'])
+        if flag is True:
+            return redirect(url_for('ask', plus = site['name']))
+        elif flag is False:
+            return redirect(url_for('aks', plus = 'no'))
+        else:
+            abort(500)
+        
+        
 
-@app.route('/notice')
+@app.route('/notice', methods = ['GET', 'POST'])
 def notice():
-    return 'notice'
+    if request.method == 'GET':
+        notices = connectDB.get_notices()
+        return render_template('notice.html', notices = notices)
+    
+    elif request.method == 'POST':
+        title = request.form['title']
+        content = request.form['content']
+        clock = datetime.now().strftime('%Y-%m-%d')
+        
+        flag = connectDB.push_notice(title, content, clock)
+        if flag is True:
+            return redirect(url_for('notice', plus=title))
+        else:
+            return redirect(url_for('notice', plus='no'))
 
 
 
@@ -67,7 +124,10 @@ def api_email():
         data = request.get_json()
         
         res = connectDB.push_email(data['user'], data['email'], data['website'])
-        return jsonify({'post' : res})
+        if res is True:
+            return jsonify({'msg' : 'ok'})
+        else:
+            return jsonify({'msg' : res})
     
     if request.method == 'DELETE':
         # drop row from email_list #
@@ -75,7 +135,10 @@ def api_email():
         data = request.get_json()
         
         res = connectDB.delete_email(data['user'], data['email'], data['website'])
-        return jsonify({'delete' : res})
+        if res is True:
+            return jsonify({'msg' : 'ok'})
+        else:
+            return jsonify({'msg' : res})
 
 @app.route('/api/websites')
 def api_websites():

@@ -9,7 +9,7 @@ app = Flask(__name__)
 connectDB.connect(DB_ID, DB_PWD, DB_NAME)
 
 @app.route('/')
-def main():
+def main(msg = None):
     return render_template('main.html')
 
 @app.route('/profile')
@@ -32,7 +32,7 @@ def register():
         info['email'] = request.form['email']
         
         if connectDB.push_user(info) is True:
-            return redirect(url_for('main'))
+            return render_template('register.html', msg = "your ID has been added. go to login.")
         else:
             abort(500)
         
@@ -50,7 +50,7 @@ def login():
             session['user'] = userid
             return redirect(url_for('main'))
         elif flag is False:
-            return redirect(url_for('login', notLogin = True))
+            return render_template('login.html', msg='Wrong ID or password.', error=True)
         
 @app.route('/websites', methods = ['GET', 'POST'])
 def websites():
@@ -66,9 +66,9 @@ def websites():
             
             flag = connectDB.push_email(userInfo['id'], userInfo['email'], site['name'])
             if flag is True:
-                return redirect(url_for('websites'))
+                return render_template('websites.html', websites = sites, msg = site['name'] + "has been added your list.")
             elif flag is False:
-                return redirect(url_for('websites', plus = site['name']))
+                return render_template('websites.html', websites=sites, msg="You already have the site.", error=True)
             else:
                 abort(500)
         
@@ -78,16 +78,17 @@ def websites():
 def ask():
     if request.method == 'GET':
         asks = connectDB.get_asks()
-        return render_template('websites.html', asks = asks)
+        return render_template('ask.html', asks = asks)
     
     elif request.method == 'POST':
         site = request.get_json()
         
         flag = connectDB.push_ask(site['name'], site['url'])
+        asks = connectDB.get_asks()
         if flag is True:
-            return redirect(url_for('ask', plus = site['name']))
+            return render_template('ask.html', asks=asks, msg="Your ask has been added.")
         elif flag is False:
-            return redirect(url_for('aks', plus = 'no'))
+            return render_template('ask.html', asks=asks, msg="Your ask has already been added.", error=True)
         else:
             abort(500)
         
@@ -105,10 +106,11 @@ def notice():
         clock = datetime.now().strftime('%Y-%m-%d')
         
         flag = connectDB.push_notice(title, content, clock)
+        notices = connectDB.get_notices()
         if flag is True:
-            return redirect(url_for('notice', plus=title))
+            return render_template('notice.html', notices=notices, msg="Your notice has been added.")
         else:
-            return redirect(url_for('notice', plus='no'))
+            return render_template('notice.html', notices=notices, msg="Your notice cannot be added.", error=True)
 
 
 

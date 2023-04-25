@@ -50,8 +50,8 @@ function register_check(){
         return false;
     }
     if(document.register_form.passwd.value != document.register_form.passwd_1.value){
-        alert('no mat password');
-        document.register_form.passwd.slelct();
+        alert('no match password');
+        document.register_form.passwd.select();
         return false;
     }
     if(!document.register_form.email.value){

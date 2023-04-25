@@ -4,7 +4,7 @@ def g_notices(conn):
     try:
         cursor = conn.cursor(pymysql.cursors.DictCursor)
         
-        sql = "SELECT num, title, writer, time from notices"
+        sql = "SELECT num, title, writer, time from notices ORDER BY num DESC"
         cursor.execute(sql)
         
         row = cursor.fetchall()

@@ -18,13 +18,18 @@ body{
 .mini_layout{
     width: 50%;
     height: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 100px;
-    
+    padding: 0;
+    margin-left: 25%;
+    margin-top: 50px;
     border-width: 1px;
     border-style: solid;
     border-color: black;
+}
+.message{
+    background-color: bisque;
+    border-width: 2px;
+    border-style: solid;
+    border-color: burlywood;
 }
 
 /* base.html*/
@@ -36,15 +41,16 @@ body{
 }
 .nav{
     width: 100%;
-    margin: 0;
-    padding: 0;
+    font-size: 0;
 }
 .nav_col{
     width: 25%;
+    margin: 0;
+    padding: 0;
+    font-size: medium;
     text-align: center;
     background-color: dodgerblue;
     color:black;
-    float: left;
 }
 .main_logo{
     font-family: 'Times New Roman', Times, serif;

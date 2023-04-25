@@ -26,7 +26,7 @@ def g_asks(conn):
     try:
         cursor = conn.cursor(pymysql.cursors.DictCursor)
         
-        sql = "SELECT * FROM websites"
+        sql = "SELECT * FROM websites ORDER BY num DESC"
         cursor.execute(sql)
         cursor.close()
         

@@ -3,19 +3,20 @@ from datetime import datetime
 
 
 import connectDB
-from conf import DB_ID, DB_PWD, DB_NAME, sites
+from conf import DB_ID, DB_PWD, DB_NAME, sites, SECRET_KEY
 
 app = Flask(__name__)
+app.secret_key = SECRET_KEY
 connectDB.connect(DB_ID, DB_PWD, DB_NAME)
 
 @app.route('/')
-def main(msg = None):
+def main():
     return render_template('main.html')
 
 @app.route('/profile')
 def profile():
     if 'user' not in session:
-        return render_template('login')
+        return redirect(url_for('login'))
     else:
         info = connectDB.get_user_info(session['user'])
         return render_template('profile.html', info=info)
@@ -38,6 +39,9 @@ def register():
         
 @app.route('/profile/login', methods = ['GET', 'POST'])
 def login():
+    if 'user' in session:
+        return render_template('main.html', msg='logout first.', error=True)
+    
     if request.method == 'GET':
         return render_template('login.html')
     
@@ -48,9 +52,18 @@ def login():
         flag = connectDB.login(userid, userpwd)
         if flag is True:
             session['user'] = userid
-            return redirect(url_for('main'))
+            return render_template('main.html', msg='logged in')
         elif flag is False:
             return render_template('login.html', msg='Wrong ID or password.', error=True)
+
+@app.route('/profile/logout')
+def logout():
+    if 'user' in session:
+        session.pop('user')
+        return render_template('main.html', msg="logged out")
+    else:
+        return render_template('main.html', msg='error. try again.', error=True)
+    
         
 @app.route('/websites', methods = ['GET', 'POST'])
 def websites():
@@ -66,7 +79,7 @@ def websites():
             
             flag = connectDB.push_email(userInfo['id'], userInfo['email'], site['name'])
             if flag is True:
-                return render_template('websites.html', websites = sites, msg = site['name'] + "has been added your list.")
+                return render_template('websites.html', websites = sites, msg = site['name'] + 'has been added your list.')
             elif flag is False:
                 return render_template('websites.html', websites=sites, msg="You already have the site.", error=True)
             else:

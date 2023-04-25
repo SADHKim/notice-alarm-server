@@ -15,30 +15,36 @@
 
 <body>
   <!-- 헤더 시작 -->
-  <!-- user info -->
   <div class="user_info">
   {% if 'user' in session %}
     <span>Welcome, <span style="color: darkgreen;">{{session['user']}}</span>!</span>
-    <span><a href="{{url_for('logout')}}">logout</a></span>
+    <span><a href="{{url_for('logout')}}">  (logout)</a></span>
   {% else %}
       <span>Welcome, <span style="color: darkgreen;">guest</span>!</span>
-      <span><a href="{{url_for('register')}}">register</a></span>
+      <span><a href="{{url_for('register')}}">  (register </a></span>
       <span> | </span>
-      <span><a href="{{url_for('login')}}">login</a></span>
+      <span><a href="{{url_for('login')}}"> login)</a></span>
   {% endif %}
   </div>
   <a href="{{url_for('main')}}"><img src="{{url_for('static', filename='./image/logo.png')}}" alt="logo" class="main_logo"></a>
-  <!-- user info end -->
-
-  <!-- 서비스 내비게이션 -->
-  <nav class="nav">
+  
+  <div class="nav">
     <span class="nav_col"><a href="{{url_for('profile')}}"><h4>Profile</h4></a></span>
     <span class="nav_col"><a href="{{url_for('websites')}}"><h4>Websites</h4></a></span>
     <span class="nav_col"><a href="{{url_for('ask')}}"><h4>Ask</h4></a></span>
     <span class="nav_col"><a href="{{url_for('notice')}}"><h4>Notice</h4></a></span>
-  </nav>
-  <!-- 서비스 내비게이션 종료 -->
+  </div>
   <!-- 헤더 종료 -->
+
+  {% if msg is defined and error is defined%}
+  <div class="message">
+    <span><img src="{{url_for('static', filename='./image/wrong.png')}}" alt="wrong"></span><span>{{msg}}</span>
+  </div>
+  {% elif msg is defined %}
+  <div class="message">
+    <span><img src="{{url_for('static', filename='./image/checked.png')}}" alt="check"></span><span>{{msg}}</span>
+  </div>
+  {% endif %}
 
   <!-- 본문 시작 -->
   {% block content %}

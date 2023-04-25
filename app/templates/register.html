@@ -2,7 +2,18 @@
 
 {% block style %}
 {{super()}}
-<link rel="stylesheet" href="{{url_for('static', filename='./css/register.css')}}">
+<style>
+.register_li{
+    margin-top: 30px;
+}
+.col{
+    width: 30%;
+}
+
+#id_comment{
+    font-size: small;
+}
+</style>
 {% endblock %}
 
 {% block js %}

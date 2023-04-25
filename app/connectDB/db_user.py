@@ -27,8 +27,11 @@ def c_login(conn, userid, userpwd):
         sql = "SELECT id, passwd FROM users WHERE id = '%s'" % userid
         cursor.execute(sql)
         
-        row = cursor.fetchall()
+        row = cursor.fetchone()
         cursor.close()
+        if not row:
+            return False
+        
         
         if row[0] == userid and row[1] == userpwd:
             return True
@@ -80,16 +83,15 @@ def u_user(conn, info):
 # get user's id and return user's id, passwd, email #
 def g_user_info(conn, user):
     try:
-        cursor = conn.cursor()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
         
         sql = "SELECT id, passwd, email FROM users where id = '%s'" % user
         cursor.execute(sql)
         
-        row = cursor.fetchall()
-        ret = {'id' : row[0], 'passwd' : row[1], 'email' : row[2]}
-        
+        row = cursor.fetchone()
         cursor.close()
-        return ret
+        
+        return row
     except Exception as e:
         cursor.close()
         return e

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block style %}
+{{super()}}
+<style>
+.login_li{
+    margin-top: 30px;
+}
+.col{
+    width: 30%;
+}
+</style>
+{% endblock %}
+
+{% block js %}
+{{super()}}
+<script rel="javascript/text" src="{{url_for('static', filename='./js/login_functions.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="mini_layout">
+    <form action="{{url_for('login')}}", method="post", name="login_form", onSubmit="return login_check()">
+        <ul>
+            <li>
+                <h3>로그인</h3>
+            </li>
+            <li class="login_li">
+                <span class="col">아이디 : </span>
+                <span class="col"><input type="text", name="id"></span>
+            </li>
+            <li class="login_li">
+                <span class="col">비밀번호 : </span>
+                <span class="col"><input type="password", name="passwd"></span>
+            </li>
+            <li class="login_li", style="text-align: end;">
+                <span style="margin-right: 10px;"><a href="{{url_for('register')}}"><button type="button">회원가입</button></a></span>
+                <span style="margin-right: 10px;"><button>로그인</button></span>
+            </li>
+        </ul>
+    </form>
+</div>
+
+{% endblock %}

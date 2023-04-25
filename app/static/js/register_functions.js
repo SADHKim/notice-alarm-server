@@ -22,3 +22,4 @@ function register_check(){
 
     return true;
 }
+

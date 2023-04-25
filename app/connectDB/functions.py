@@ -28,3 +28,6 @@ def update_user(info):
     
 def get_user_info(user):
     return g_user_info(conn, user)
+
+def id_overlap_check(id):
+    return c_id_overlap(conn, id)

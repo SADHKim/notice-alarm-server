@@ -87,6 +87,16 @@ def api_websites():
             
     return jsonify(ret)
 
+@app.route('/api/id_overlap_check', methods = ['POST'])
+def api_id_overlap_check(id):
+    flag = connectDB.id_overlap_check(id)
+    
+    if flag is True:
+        return jsonify({'msg' : 'ok'})
+    elif flag is False:
+        return jsonify({'msg' : 'no'})
+    else:
+        return jsonify({'msg' : flag})
 
 def start():
     app.run()

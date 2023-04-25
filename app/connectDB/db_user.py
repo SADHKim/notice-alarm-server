@@ -1,3 +1,24 @@
+# check if user's id is overlaped #
+def c_id_overlap(conn, userid):
+    cursor = conn.cursor()
+    
+    try:
+        sql = "SELECT id FROM users WHERE id = '%s'" % userid
+        cursor.execute(sql)
+        
+        row = cursor.fetchall()
+        cursor.close()
+        
+        if len(row) >= 1:
+            return False
+        else:
+            return True
+        
+    except Exception as e:
+        return e
+    
+    
+
 
 # get user's information, and push information to databse #
 # return True if successed or return False if failed #

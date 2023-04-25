@@ -1,3 +1,40 @@
+var check_id = false;
+
+window.onload = function () {
+    let id = document.getElementById('user_id');
+
+    id.onchange = function(){
+        check_id = false;
+        document.getElementById('id_comment').textContent = "";
+    };
+}
+
+function id_overlap(){
+    let url = '/api/id_overlap_check';
+
+    let http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.responseType = 'json';
+    http.setRequestHeader("Content-Type", "application/json");
+    http.send(JSON.stringify({'id' : document.register_form.id.value}));
+
+    
+    let response = http.response;
+
+    if(response.msg == 'ok'){
+        check_id = true;
+
+        let element = document.getElementById('id_comment');
+        element.textContent = "the ID can be used";
+        element.style.color = "green";
+    }
+    else{
+        let element = document.getElementById('id_comment');
+        element.textContent = "the ID can't be used";
+        element.style.color = "red";
+    }
+}
+
 function register_check(){
     if(!document.register_form.id.value){
         alert('input id');
@@ -19,7 +56,11 @@ function register_check(){
         document.register_form.email.focus();
         return false;
     }
-
-    return true;
+    
+    if(check_id) return true;
+    else{
+        alert('중복확인을 진행하세요');
+        return false;
+    }
 }
 

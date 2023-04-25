@@ -2,7 +2,7 @@
 
 {% block style %}
 {{super()}}
-<link rel="stylesheet" href="{{url_for('static', filenmae='./css/register.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='./css/register.css')}}">
 {% endblock %}
 
 {% block js %}
@@ -18,19 +18,24 @@
             <h3>회원가입</h3>
         </li>
         <li class="register_li">
+            <span style="color: red;">*</span>
             <span class="col">ID : </span>
-            <span class="col"><input type="text", name="id"></span>
-            <span><button onclick="">중복확인</button></span>
+            <span class="col"><input type="text", name="id" id="user_id"></span>
+            <span><button type="button" onclick="id_overlap()">중복확인</button></span>
+            <br><span id="id_comment"></span>
         </li>
         <li class="register_li">
+            <span style="color: red;">*</span>
             <span class="col">PASSWORD : </span>
             <span class="col"><input type="password", name="passwd"></span>
         </li>
         <li class="register_li">
+            <span style="color: red;">*</span>
             <span class="col">PASSWORD 재입력 : </span>
             <span class="col"><input type="password", name="passwd_1"></span>
         </li>
         <li class="register_li">
+            <span style="color: red;">*</span>
             <span class="col">EMAIL : </span>
             <span class="col"><input type="text", name="email"></span>
         </li>

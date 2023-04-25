@@ -6,6 +6,7 @@ import connectDB
 from conf import DB_ID, DB_PWD, DB_NAME, sites
 
 app = Flask(__name__)
+connectDB.connect(DB_ID, DB_PWD, DB_NAME)
 
 @app.route('/')
 def main():
@@ -115,8 +116,6 @@ def notice():
 ### API server requests post, delete with json file ###
 @app.route('/api/email', methods = ['POST', 'DELETE'])
 def api_email():
-    
-    connectDB.connect(DB_ID, DB_PWD, DB_NAME)
     
     if request.method == 'POST':
         # insert to database user email #

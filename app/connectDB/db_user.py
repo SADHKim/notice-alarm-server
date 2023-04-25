@@ -1,3 +1,5 @@
+import pymysql
+
 # check if user's id is overlaped #
 def c_id_overlap(conn, userid):
     cursor = conn.cursor()
@@ -9,14 +11,32 @@ def c_id_overlap(conn, userid):
         row = cursor.fetchall()
         cursor.close()
         
-        if len(row) >= 1:
+        if not row:
             return False
         else:
             return True
         
     except Exception as e:
+        cursor.close()
         return e
+
+def c_login(conn, userid, userpwd):
+    cursor = conn.cursor()
     
+    try:
+        sql = "SELECT id, passwd FROM users WHERE id = '%s'" % userid
+        cursor.execute(sql)
+        
+        row = cursor.fetchall()
+        cursor.close()
+        
+        if row[0] == userid and row[1] == userpwd:
+            return True
+        else:
+            return False
+    except Exception as e:
+        cursor.close()
+        return e
     
 
 
@@ -31,7 +51,9 @@ def p_user(conn, info):
         
         conn.commit()
         cursor.close()
+        
     except Exception as e:
+        cursor.close()
         return e
     
     return True
@@ -47,7 +69,9 @@ def u_user(conn, info):
         
         conn.commit()
         cursor.close()
+        
     except Exception as e:
+        cursor.close()
         return e
 
     return True
@@ -55,13 +79,17 @@ def u_user(conn, info):
 
 # get user's id and return user's id, passwd, email #
 def g_user_info(conn, user):
-    cursor = conn.cursor()
-    
-    sql = "SELECT id, passwd, email FROM users where id = '%s'" % user
-    cursor.execute(sql)
-    
-    row = cursor.fetchall()
-    ret = {'id' : row[0], 'passwd' : row[1], 'email' : row[2]}
-    
-    cursor.close()
-    return ret
+    try:
+        cursor = conn.cursor()
+        
+        sql = "SELECT id, passwd, email FROM users where id = '%s'" % user
+        cursor.execute(sql)
+        
+        row = cursor.fetchall()
+        ret = {'id' : row[0], 'passwd' : row[1], 'email' : row[2]}
+        
+        cursor.close()
+        return ret
+    except Exception as e:
+        cursor.close()
+        return e

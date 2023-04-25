@@ -12,9 +12,9 @@ def c_id_overlap(conn, userid):
         cursor.close()
         
         if not row:
-            return False
-        else:
             return True
+        else:
+            return False
         
     except Exception as e:
         cursor.close()

@@ -8,17 +8,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-    info = {}
-    
-    if 'user' in session:
-        info['user'] = session['user']
-        info['email'] = session['email']
-        
-    return render_template('main.html', info=info)
+    return render_template('main.html')
 
 @app.route('/profile')
 def profile():
-    if session['user'] is None:
+    if 'user' not in session:
         return render_template('not_login.html')
     else:
         info = connectDB.get_user_info(session['user'])

@@ -1,18 +1,13 @@
 {% extends 'base.html' %}
 
 {% block style %}
-<style>
-    .register_li{
-        margin-top: 30px;
-    }
-    .col{
-        width: 200px;
-    }
-</style>
+{{super()}}
+<link rel="stylesheet" href="{{url_for('static', filenmae='./css/register.css')}}">
 {% endblock %}
 
 {% block js %}
-    <script rel="javascript/text" src="{{url_for('static', filename='./js/register_functions.js')}}"></script>
+{{super()}}
+<script rel="javascript/text" src="{{url_for('static', filename='./js/register_functions.js')}}"></script>
 {% endblock %}
 
 {% block content %}
@@ -45,5 +40,4 @@
     </ul>
     </form>
 </div>
-
 {% endblock %}

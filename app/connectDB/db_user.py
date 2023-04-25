@@ -13,7 +13,7 @@ def p_user(conn, info):
     except Exception as e:
         return e
     
-    return 'push_user success'
+    return True
 
 # update user's passwd or email. !!NOT ID!!  #
 # return True if successed or return False if failed #
@@ -29,7 +29,7 @@ def u_user(conn, info):
     except Exception as e:
         return e
 
-    return 'update_user success'
+    return True
 
 
 # get user's id and return user's id, passwd, email #

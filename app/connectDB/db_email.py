@@ -10,7 +10,7 @@ def p_email(conn, user, email, website):
     except Exception as e:
         return e
     
-    return 'push_email success'
+    return True
 
 def d_email(conn, user, email, website):
     try:
@@ -24,4 +24,4 @@ def d_email(conn, user, email, website):
     except Exception as e:
         return e
     
-    return 'delete_user success'
+    return True

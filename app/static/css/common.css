@@ -1,16 +1,18 @@
 /* 공통 적용 사항 */
-
 ul{
     list-style-type: none;
 }
-
 span{
     display: inline-block;
 }
-
 a{
     text-decoration: none;
     color: inherit;
+}
+body{
+    width:80%;
+    padding: 0;
+    margin-left: 10%;
 }
 
 .mini_layout{
@@ -26,14 +28,31 @@ a{
 }
 
 /* base.html*/
+.user_info{
+    font-size: small;
+    text-align: end;
+    margin: 0;
+    padding: 0;
+}
 .nav{
     width: 100%;
-  }
-
+    margin: 0;
+    padding: 0;
+}
 .nav_col{
     width: 25%;
     text-align: center;
     background-color: dodgerblue;
     color:black;
     float: left;
+}
+.main_logo{
+    font-family: 'Times New Roman', Times, serif;
+    color: blueviolet;
+}
+.main_logo{
+    width: 60%;
+    margin-left: 20%;
+    height: 200px;
+    padding: 0;
 }

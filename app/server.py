@@ -156,13 +156,19 @@ def api_email():
 
 @app.route('/api/websites')
 def api_websites():
-    # get list of providing websites #
+    parameter = request.args.to_dict()
+    
+    if 'user' in parameter:
+        website_list = connectDB.get_user_websites(parameter['user'])
+        return jsonify(website_list)
         
-    ret = {}
-    for site in sites:
-        ret[site['name']] = site['url']
-            
-    return jsonify(ret)
+    else:
+        # get list of providing websites #
+        ret = {}
+        for site in sites:
+            ret[site['name']] = site['url']
+                
+        return jsonify(ret)
 
 @app.route('/api/id_overlap_check', methods = ['POST'])
 def api_id_overlap_check():

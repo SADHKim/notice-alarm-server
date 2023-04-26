@@ -28,11 +28,26 @@ def g_asks(conn):
         
         sql = "SELECT * FROM websites ORDER BY num DESC"
         cursor.execute(sql)
-        cursor.close()
         
         row = cursor.fetchall()
+        cursor.close()
         return row
     except Exception as e:
         cursor.close()
         return e
         
+        
+def g_user_websites(conn, user):
+    try:
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        
+        sql = "SELECT website_name FROM email_list WHERE user_id = '%s' ORDER BY num DESC" % user
+        cursor.execute(sql)
+        
+        rows = cursor.fetchall()
+        cursor.close()
+        
+        return rows
+    except Exception as e:
+        cursor.close()
+        return e

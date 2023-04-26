@@ -9,11 +9,6 @@ a{
     text-decoration: none;
     color: inherit;
 }
-body{
-    width:80%;
-    padding: 0;
-    margin-left: 10%;
-}
 
 .mini_layout{
     width: 50%;
@@ -51,6 +46,11 @@ body{
     text-align: center;
     background-color: dodgerblue;
     color:black;
+}
+.content{
+    width:80%;
+    padding: 0;
+    margin-left: 10%;
 }
 .main_logo{
     font-family: 'Times New Roman', Times, serif;

@@ -20,6 +20,16 @@ a{
     border-style: solid;
     border-color: black;
 }
+.middle_layout{
+    margin-top: 50px;
+    width: 70%;
+    height: fit-content;
+    padding: 0;
+    margin-left: 15%;
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+}
 .message{
     background-color: bisque;
     border-width: 2px;
@@ -28,7 +38,7 @@ a{
 }
 
 /* base.html*/
-.user_info{
+.user_header{
     font-size: small;
     text-align: end;
     margin: 0;

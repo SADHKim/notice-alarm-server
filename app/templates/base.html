@@ -15,7 +15,7 @@
 
 <body>
   <!-- 헤더 시작 -->
-  <div class="user_info">
+  <div class="user_header">
   {% if 'user' in session %}
     <span>Welcome, <span style="color: darkgreen;">{{session['user']}}</span>!</span>
     <span><a href="{{url_for('logout')}}">  (logout)</a></span>

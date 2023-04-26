@@ -1,0 +1,22 @@
+.col{
+    width: 30%;
+}
+.button{
+    width: fit-content;
+    margin-left: 10%;
+    border-radius: 30%;
+    background-color:skyblue;
+    color: black;
+}
+#websites_list{
+    width: 80%;
+    padding: 0;
+    margin-left: 10%;
+}
+
+#websites_list .website{
+    margin-top: 5px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: black;
+}

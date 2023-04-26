@@ -3,53 +3,57 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from conf import name2path, prev_lists
-
 # 크롬 드라이버 경로
 chromedriver_path = '/usr/bin/chromedriver'
 
 # 웹 드라이버 설정
 options = webdriver.ChromeOptions()
-options.add_argument('headless')  # 브라우저 백그라운드 실행
+options.add_argument('--headless')  # 브라우저 백그라운드 실행
 options.add_argument('--disable-blink-features=AutomationControlled')
 driver = webdriver.Chrome(executable_path=chromedriver_path, options=options)
 
-    
-def get_posts(website, url):
+prev_lists = {}
+
+def get_posts(site):
     
     ret = [] # 리턴하는 값 : 새로 추가된 게시글 #
     tmp = [] # 새로 크롤링한 게시글들을 저장하는 리스트 #
     
-    path = name2path[website]
+    name = site['name']
+    url = site['url']
+    className = site['class']
+    tagName = site['tag']
     
     
     driver.get(url)
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, path['class'])))
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, className)))
     
-    posts = driver.find_element(By.CSS_SELECTOR, path['class']).find_elements(By.TAG_NAME, path['tag'])
+    posts = driver.find_element(By.CSS_SELECTOR, className).find_elements(By.TAG_NAME, tagName)
     
     flag = False
-    if len(prev_lists[website]) >= 1:
+    if name in prev_lists:
         flag = True
     
     for post in posts:
         title = post.get_attribute('innerText').strip()
-        
-        if not title in prev_lists[website] and flag:
-            ret.append(title)
-        
         tmp.append(title)
         
-    prev_lists[website] = tmp
+        if flag is False:
+            continue
+        
+        if not title in prev_lists[name]:
+            ret.append(title)
+        
+    prev_lists[name] = tmp
     
     return ret
     
 
 def crawling(site):
     
-    posts = get_posts(site['name'], site['url'])
+    posts = get_posts(site)
     
     if len(posts) >= 1:
-        return (site['name'], site['url'], posts)
+        return ({'name' : site['name'], 'url' : site['url'], 'posts' : posts})
     else:
         return False

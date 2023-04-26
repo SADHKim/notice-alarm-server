@@ -24,6 +24,9 @@ def push_email(user, email, website):
     
 def delete_email(user, email, website):
     return d_email(conn, user, email, website)
+
+def get_recievers(name):
+    return g_recievers(conn, name)
     
     
 ## db_user ##
@@ -57,6 +60,15 @@ def get_user_websites(user):
 
 def delete_user_webiste(user, website):
     return d_user_website(conn, user, website)
+
+def get_websites():
+    return g_websites(conn)
+
+def push_website(info):
+    return p_website(conn, info)
+
+def delete_website(info):
+    return d_website(conn, info)
 
 
 ## db_notice ##

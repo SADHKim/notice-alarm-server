@@ -13,13 +13,17 @@ def search_pages():
         if result is False:
             continue
         
+        # 해당 웹사이트에서 알림을 받는 사람들 추출#
+        recievers = mail.get_recievers(result['name'])
+        # recievers가 없다면 continue #
+        if recievers is False:
+            continue
+        
         # Notice object 생성, 내용 만들기 #
         script = mail.Script()
-        script.make_script(result[2], result[1])
-        script.make_title(result[2], result[0])
+        script.make_script(result['posts'], result['url'])
+        script.make_title(result['posts'], result['name'])
         
-        # 해당 웹사이트에서 알림을 받는 사람들 추출#
-        recievers = mail.get_recievers(result[0])
         # 메일 전송 #
         mail.send_mail(script, recievers)
         
@@ -30,3 +34,6 @@ def start():
     while True:
         schedule.run_pending()
         time.sleep(1)
+        
+if __name__ == '__main__':
+    search_pages()

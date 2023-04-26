@@ -1,17 +1,71 @@
 import pymysql
 
+def g_websites(conn):
+    try:
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        
+        sql = "SELECT name, url, class, tag from websites"
+        cursor.execute(sql)
+        
+        rows = cursor.fetchall()
+        cursor.close()
+        
+        return rows
+    except Exception as e:
+        cursor.close()
+        return e
+    
+def p_website(conn, info):
+    try:
+        cursor = conn.cursor()
+        sql = "INSERT INTO websites (name, url, class, tag) VALUES ('%s', '%s', '%s', '%s')" %(info['name'], info['url'], info['class'], info['tag'])
+        
+        cursor.execute(sql)
+        conn.commit()
+        
+        cursor.close()
+        return True
+    except Exception as e:
+        cursor.close()
+        return e
+    
+def d_website(conn, info):
+    try:
+        cursor = conn.cursor()
+        
+        sql = "SELECT name FROM websites WHERE name='%s' AND url='%s'" %(info['name'], info['url'])
+        cursor.execute(sql)
+        
+        row = cursor.fetchone()
+        if not row:
+            cursor.close()
+            return False
+        
+        
+        sql = "DELETE FROM websites WHERE name='%s' AND url='%s'" %(info['name'], info['url'])
+        cursor.execute(sql)
+        
+        conn.commit()
+        cursor.close()
+        
+        return True
+    except Exception as e:
+        cursor.close()
+        return e
+        
+
 def p_ask(conn, name, url):
     try:
         cursor = conn.cursor()
         
-        sql = "SELECT url FROM websites WHERE url = '%s'" % url
+        sql = "SELECT url FROM asks WHERE url = '%s'" % url
         cursor.execute(sql)
         
         row = cursor.fetchall()
         if not row:
             return False
         
-        sql = "INSERT INTO websites (name, url) VALUES ('%s', '%s')" %(name, url)
+        sql = "INSERT INTO asks (name, url) VALUES ('%s', '%s')" %(name, url)
         cursor.execute(sql)
         conn.commit()
         
@@ -26,7 +80,7 @@ def g_asks(conn):
     try:
         cursor = conn.cursor(pymysql.cursors.DictCursor)
         
-        sql = "SELECT * FROM websites ORDER BY num DESC"
+        sql = "SELECT * FROM asks ORDER BY num DESC"
         cursor.execute(sql)
         
         row = cursor.fetchall()

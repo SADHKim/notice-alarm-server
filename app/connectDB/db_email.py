@@ -38,3 +38,21 @@ def d_email(conn, user, email, website):
         return e
     
     return True
+
+def g_recievers(conn, name):
+    try:
+        cursor = conn.cursor()
+        
+        sql = "SELECT email FROM email_list WHERE website_name = '%s'" % name
+        cursor.execute(sql)
+        
+        rows = cursor.fetchall()
+        cursor.close()
+        if not rows:
+            return False
+        
+        return rows
+    except Exception as e:
+        cursor.close()
+        return e
+        

@@ -39,12 +39,17 @@ function set_elementWebList (){
         let li = document.createElement('li');
         li.className = 'website';
         
+        let a = document.createElement('a');
+        a.setAttribute('href', '#');
+        a.setAttribute('onclick', 'deleteWeb("' + user + '", "' +  websites[siteIndex].website_name + '")');
+
         let spanImg = document.createElement('span');
         let img = document.createElement('img');
         img.setAttribute('src', '/static/image/delete.png');
-        img.setAttribute('onclick', 'deleteWeb("' + user + '", "' +  websites[siteIndex].website_name + '")');
         spanImg.append(img);
-        li.appendChild(spanImg);
+
+        a.append(spanImg)
+        li.appendChild(a);
 
         let spanTitle = document.createElement('span');
         spanTitle.append(websites[siteIndex].website_name);

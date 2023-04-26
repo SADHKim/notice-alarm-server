@@ -5,16 +5,18 @@ from .db_user import *
 from .db_website import *
 from .db_notice import *
 
+from conf import DB_ID as id, DB_PWD as pwd, DB_NAME as db
+
 conn = None
 
-
-def connect(id, pwd, db):
+def connect():
     global conn
     conn = pymysql.connect(host='localhost', user=id, passwd=pwd, db=db, charset='utf8')
 
 def disconnect():
     global conn
     conn = None
+    
 
 ## db_email ##
 def push_email(user, email, website):

@@ -3,11 +3,20 @@ from datetime import datetime
 
 
 import connectDB
-from conf import DB_ID, DB_PWD, DB_NAME, sites, SECRET_KEY
+from conf import sites, SECRET_KEY
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
-connectDB.connect(DB_ID, DB_PWD, DB_NAME)
+
+@app.before_request
+def before_request():
+    connectDB.connect()
+
+@app.after_request
+def after_request(response):
+    connectDB.disconnect()
+    return response
+
 
 @app.route('/')
 def main():

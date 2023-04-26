@@ -28,8 +28,11 @@ def delete_email(user, email, website):
 def push_user(info):
     return p_user(conn, info)
     
-def update_user(info):
-    return u_user(conn, info)
+def update_password(user, curr, new):
+    return u_password(conn, user, curr, new)
+
+def update_email(user, new):
+    return u_email(conn, user, new)
     
 def get_user_info(user):
     return g_user_info(conn, user)
@@ -49,6 +52,9 @@ def push_ask(name, url):
 
 def get_user_websites(user):
     return g_user_websites(conn, user)
+
+def delete_user_webiste(user, website):
+    return d_user_website(conn, user, website)
 
 
 ## db_notice ##

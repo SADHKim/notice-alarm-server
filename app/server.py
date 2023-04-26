@@ -20,6 +20,54 @@ def profile():
     else:
         info = connectDB.get_user_info(session['user'])
         return render_template('profile.html', info=info)
+    
+@app.route('/profile/change/pass', methods=['POST'])
+def change_passwd():
+    userId = request.form['user_id']
+    currPwd = request.form['currPass']
+    newPwd = request.form['newPass']
+    
+    flag = connectDB.update_password(userId, currPwd, newPwd)
+    info = connectDB.get_user_info(session['user'])
+    
+    print(flag)
+    if flag is True:
+        return render_template('profile.html', info=info, msg='Your password has been updated.')
+    elif flag is False:
+        return render_template('profile.html', info=info, msg='Error. check your current password.', error=True)
+    else:
+        return render_template('profile.html', info=info, msg=flag, error=True)
+    
+@app.route('/profile/change/email', methods=['POST'])
+def change_email():
+    userId = request.form['user_id']
+    newEmail = request.form['newEmail']
+    
+    flag = connectDB.update_email(userId, newEmail)
+    info = connectDB.get_user_info(session['user'])
+    
+    if flag is True:
+        return render_template('profile.html', info=info, msg='Your email has been updated.')
+    else:
+        return render_template('profile.html', info=info, msg=flag, error=True)
+
+@app.route('/profile/delete', methods=['GET'])
+def delete_website():
+    parameter = request.args.to_dict()
+    info = connectDB.get_user_info(session['user'])
+    
+    if not 'user' in parameter or not 'website' in parameter:
+        return render_template('profile.html', info=info, msg='Bad request.', error=True)
+    elif info['id'] != parameter['user']:
+        return render_template('profile.html', info=info, msg='Bad request.', error=True)
+    
+    flag = connectDB.delete_user_webiste(parameter['user'], parameter['website'])
+    if flag is True:
+        return render_template('profile.html', info=info, msg='Your website has been deleted')
+    elif flag is False:
+        return render_template('profile.html', info=info, msg='You did not add the website', error=True)
+    else:
+        return render_template('profile.html', info=info, msg = flag, error=True)
         
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
@@ -63,8 +111,7 @@ def logout():
         return render_template('main.html', msg="logged out")
     else:
         return render_template('main.html', msg='error. try again.', error=True)
-    
-        
+      
 @app.route('/websites', methods = ['GET', 'POST'])
 def websites():
     if request.method == 'GET':
@@ -85,8 +132,6 @@ def websites():
             else:
                 abort(500)
         
-        
-
 @app.route('/websites/ask', methods = ['GET', 'POST'])
 def ask():
     if request.method == 'GET':
@@ -105,8 +150,6 @@ def ask():
         else:
             abort(500)
         
-        
-
 @app.route('/notice', methods = ['GET', 'POST'])
 def notice():
     if request.method == 'GET':

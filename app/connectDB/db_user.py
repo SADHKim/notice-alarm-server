@@ -63,21 +63,43 @@ def p_user(conn, info):
 
 # update user's passwd or email. !!NOT ID!!  #
 # return True if successed or return False if failed #
-def u_user(conn, info):
-    cursor = conn.cursor()
-    
+def u_password(conn, user, curr, new):
     try:
-        sql = "UPDATE users SET passwd = '%s', email = '%s' WHERE id = '%s'" %(info['passwd'], info['email'], info['id'])
+        cursor = conn.cursor()
+        
+        sql = "SELECT id FROM users WHERE id = '%s' AND passwd = '%s'" % (user, curr)
+        cursor.execute(sql)
+        
+        row = cursor.fetchone()
+        if not row:
+            return False
+        
+        sql = "UPDATE users SET passwd = '%s' WHERE id = '%s' AND passwd = '%s'" %(new, user, curr)
         cursor.execute(sql)
         
         conn.commit()
         cursor.close()
         
+        return True
     except Exception as e:
         cursor.close()
         return e
+    
 
-    return True
+def u_email(conn, user, new):
+    try:
+        cursor = conn.cursor()
+        
+        sql = "UPDATE users SET email = '%s' WHERE id = '%s'" %(new, user)
+        cursor.execute(sql)
+        
+        conn.commit()
+        cursor.close()
+        
+        return True
+    except Exception as e:
+        cursor.close()
+        return e
 
 
 # get user's id and return user's id, passwd, email #

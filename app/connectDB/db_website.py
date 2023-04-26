@@ -51,3 +51,25 @@ def g_user_websites(conn, user):
     except Exception as e:
         cursor.close()
         return e
+    
+def d_user_website(conn, user, website):
+    try:
+        cursor = conn.cursor()
+        
+        sql = "SELECT website_name FROM email_list WHERE user_id = '%s' AND website_name = '%s'" %(user, website)
+        cursor.execute(sql)
+        
+        row = cursor.fetchone()
+        if not row:
+            return False
+        
+        sql = "DELETE FROM email_list WHERE user_id = '%s' AND website_name = '%s'" %(user, website)
+        cursor.execute(sql)
+        
+        conn.commit()
+        cursor.close()
+        
+        return True
+    except Exception as e:
+        cursor.close()
+        return e

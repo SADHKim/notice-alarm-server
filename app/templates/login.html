@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
-{% block style %}
+{% block head %}
 {{super()}}
+<script rel="javascript/text" src="{{url_for('static', filename='./js/login_functions.js')}}"></script>
 <style>
 .login_li{
     margin-top: 30px;
@@ -10,11 +11,6 @@
     width: 30%;
 }
 </style>
-{% endblock %}
-
-{% block js %}
-{{super()}}
-<script rel="javascript/text" src="{{url_for('static', filename='./js/login_functions.js')}}"></script>
 {% endblock %}
 
 {% block content %}

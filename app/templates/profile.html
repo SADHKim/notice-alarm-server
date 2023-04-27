@@ -1,12 +1,8 @@
 {% extends 'base.html' %}
 
-{% block style %}
+{% block head %}
 {{super()}}
 <link rel="stylesheet" href="{{url_for('static', filename='./css/profile.css')}}">
-{% endblock %}
-
-{% block js %}
-{{super()}}
 <script rel="javascript/text" src="{{url_for('static', filename='./js/profile_functions.js')}}"></script>
 <script>set_user("{{info['id']}}")</script>
 {% endblock %}
@@ -19,14 +15,14 @@
         </li>
         <li>
             <span class="col"><h4>아이디 : </h4></span>
-            <span class="col">{{info['id']}}</span>
+            <span class="col" id="currId">{{info['id']}}</span>
         </li>
         <hr>
         <li>
             <h3>비밀번호 변경</h3>
         </li>
-        <form action="{{url_for('change_passwd')}}", method="POST">
-            <input type="hidden" value="{{info['id']}}" name="user_id">
+        <form name="change_pass_form">
+            <input type="hidden" value="{{info['id']}}" name="user">
             <li>
                 <span class="col"><h4>현재 비밀번호 : </h4></span>
                 <span class="col"><input type="password" name="currPass"></span>
@@ -34,7 +30,7 @@
             <li>
                 <span class="col"><h4>새로운 비밀번호 : </h4></span>
                 <span class="col"><input type="password" name="newPass"></span>
-                <button class="button">변경</button>
+                <button type="button" class="button" onclick="change_password()">변경</button>
             </li>
         </form>
         <hr>
@@ -43,14 +39,14 @@
         </li>
         <li>
             <span class="col"><h4>현재 이메일 : </h4></span>
-            <span class="col">{{info['email']}}</span>
+            <span class="col" id="currEmail">{{info['email']}}</span>
         </li>
-        <form action="{{url_for('change_email')}}", method="POST">
-            <input type="hidden" value="{{info['id']}}" name="user_id">
+        <form name="change_email_form">
+            <input type="hidden" value="{{info['id']}}" name="user">
             <li>
                 <span class="col"><h4>새로운 이메일 : </h4></span>
                 <span class="col"><input type="text" name="newEmail"></span>
-                <button class="button">변경</button>
+                <button type="button" class="button" onclick="change_email()">변경</button>
             </li>
         </form>
     </ul>

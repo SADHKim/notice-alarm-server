@@ -30,11 +30,12 @@ a{
     border-style: solid;
     border-color: black;
 }
-.message{
+#message{
     background-color: bisque;
     border-width: 2px;
     border-style: solid;
     border-color: burlywood;
+    display: none;
 }
 
 /* base.html*/

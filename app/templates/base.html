@@ -3,11 +3,9 @@
 <head>
   <meta charset="utf-8">
 
-  {% block style %}
+  {% block head %}
   <link rel="stylesheet" href="{{url_for('static', filename='./css/common.css')}}">
-  {% endblock %}
-  
-  {% block js %}
+  <script rel="javascript/text" src="{{url_for('static', filename='./js/message.js')}}"></script>
   {% endblock %}
 
   <title>notice-alarm</title>
@@ -36,14 +34,11 @@
   </div>
   <!-- 헤더 종료 -->
 
-  {% if msg is defined and error is defined%}
-  <div class="message">
-    <span><img src="{{url_for('static', filename='./image/wrong.png')}}" alt="wrong"></span><span>{{msg}}</span>
+  <div id="message">
+    <span><img id="msgImg"></span><span id="msgContent"></span>
   </div>
-  {% elif msg is defined %}
-  <div class="message">
-    <span><img src="{{url_for('static', filename='./image/checked.png')}}" alt="check"></span><span>{{msg}}</span>
-  </div>
+  {% if msg is defined %}
+  <script> set_msg("{{msg}}", "{{error}}") </script>
   {% endif %}
 
   <!-- 본문 시작 -->

@@ -1,11 +1,11 @@
 function login_check(){
     if(!document.login_form.id){
-        alert('input id');
+        set_msg('input ID', 1);
         document.login_form.id.focus();
         return false;
     }
     if(!document.login_form.passwd){
-        alert('input password');
+        set_msg('input PASSWORD', 1);
         document.login_form.passwd.focus();
         return false;
     }

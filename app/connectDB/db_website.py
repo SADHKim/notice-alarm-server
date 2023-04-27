@@ -4,7 +4,7 @@ def g_websites(conn):
     try:
         cursor = conn.cursor(pymysql.cursors.DictCursor)
         
-        sql = "SELECT name, url, class, tag from websites"
+        sql = "SELECT name, url, class, tag from websites ORDER BY num DESC"
         cursor.execute(sql)
         
         rows = cursor.fetchall()
@@ -118,6 +118,28 @@ def d_user_website(conn, user, website):
             return False
         
         sql = "DELETE FROM email_list WHERE user_id = '%s' AND website_name = '%s'" %(user, website)
+        cursor.execute(sql)
+        
+        conn.commit()
+        cursor.close()
+        
+        return True
+    except Exception as e:
+        cursor.close()
+        return e
+    
+def p_user_website(conn, user, email, website):
+    try:
+        cursor = conn.cursor()
+        
+        sql = "SELECT FROM email_list WHERE user_id = '%s' AND website_name = '%s'" % (user, website)
+        cursor.execute(sql)
+        row = cursor.fetchone()
+        
+        if row:
+            return False
+        
+        sql = "INSERT INTO email_list (user_id, email, website_name) VALUES ('%s', '%s', '%s')" %(user, email, website)
         cursor.execute(sql)
         
         conn.commit()

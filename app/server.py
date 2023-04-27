@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 import connectDB
-from conf import sites, SECRET_KEY
+from conf import SECRET_KEY
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
@@ -24,60 +24,17 @@ def main():
 
 @app.route('/profile')
 def profile():
+    param = request.args.to_dict()
+    if 'user' in param:
+        info = connectDB.get_user_info(param['user'])
+        return jsonify(info)
+    
     if 'user' not in session:
         return redirect(url_for('login'))
     else:
         info = connectDB.get_user_info(session['user'])
         return render_template('profile.html', info=info)
-    
-@app.route('/profile/change/pass', methods=['POST'])
-def change_passwd():
-    userId = request.form['user_id']
-    currPwd = request.form['currPass']
-    newPwd = request.form['newPass']
-    
-    flag = connectDB.update_password(userId, currPwd, newPwd)
-    info = connectDB.get_user_info(session['user'])
-    
-    print(flag)
-    if flag is True:
-        return render_template('profile.html', info=info, msg='Your password has been updated.')
-    elif flag is False:
-        return render_template('profile.html', info=info, msg='Error. check your current password.', error=True)
-    else:
-        return render_template('profile.html', info=info, msg=flag, error=True)
-    
-@app.route('/profile/change/email', methods=['POST'])
-def change_email():
-    userId = request.form['user_id']
-    newEmail = request.form['newEmail']
-    
-    flag = connectDB.update_email(userId, newEmail)
-    info = connectDB.get_user_info(session['user'])
-    
-    if flag is True:
-        return render_template('profile.html', info=info, msg='Your email has been updated.')
-    else:
-        return render_template('profile.html', info=info, msg=flag, error=True)
-
-@app.route('/profile/delete', methods=['GET'])
-def delete_website():
-    parameter = request.args.to_dict()
-    info = connectDB.get_user_info(session['user'])
-    
-    if not 'user' in parameter or not 'website' in parameter:
-        return render_template('profile.html', info=info, msg='Bad request.', error=True)
-    elif info['id'] != parameter['user']:
-        return render_template('profile.html', info=info, msg='Bad request.', error=True)
-    
-    flag = connectDB.delete_user_webiste(parameter['user'], parameter['website'])
-    if flag is True:
-        return render_template('profile.html', info=info, msg='Your website has been deleted')
-    elif flag is False:
-        return render_template('profile.html', info=info, msg='You did not add the website', error=True)
-    else:
-        return render_template('profile.html', info=info, msg = flag, error=True)
-        
+            
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
     if request.method == 'GET':
@@ -90,14 +47,14 @@ def register():
         info['email'] = request.form['email']
         
         if connectDB.push_user(info) is True:
-            return render_template('register.html', msg = "your ID has been added. go to login.")
+            return render_template('register.html', msg = "your ID has been added. go to login.", error=0)
         else:
-            abort(500)
+            return render_template('register.html', msg='Error. try agian later', error=1)
         
 @app.route('/profile/login', methods = ['GET', 'POST'])
 def login():
     if 'user' in session:
-        return render_template('main.html', msg='logout first.', error=True)
+        return render_template('main.html', msg='Logout first.', error=1)
     
     if request.method == 'GET':
         return render_template('login.html')
@@ -109,21 +66,22 @@ def login():
         flag = connectDB.login(userid, userpwd)
         if flag is True:
             session['user'] = userid
-            return render_template('main.html', msg='logged in')
+            return render_template('main.html', msg='Logged in', error = 0)
         elif flag is False:
-            return render_template('login.html', msg='Wrong ID or password.', error=True)
+            return render_template('login.html', msg='Wrong ID or password.', error = 1)
 
 @app.route('/profile/logout')
 def logout():
     if 'user' in session:
         session.pop('user')
-        return render_template('main.html', msg="logged out")
+        return render_template('main.html', msg="Logged out")
     else:
-        return render_template('main.html', msg='error. try again.', error=True)
+        return render_template('main.html', msg='Login first', error=1)
       
 @app.route('/websites', methods = ['GET', 'POST'])
 def websites():
     if request.method == 'GET':
+        sites = connectDB.get_websites()
         return render_template('websites.html', websites = sites)
     
     elif request.method == 'POST':
@@ -206,34 +164,92 @@ def api_email():
         else:
             return jsonify({'msg' : res})
 
-@app.route('/api/websites')
+@app.route('/api/websites', methods=['GET', 'DELETE', 'POST'])
 def api_websites():
-    parameter = request.args.to_dict()
-    
-    if 'user' in parameter:
-        website_list = connectDB.get_user_websites(parameter['user'])
-        return jsonify(website_list)
+    if request.method == 'GET':
+        parameter = request.args.to_dict()
         
-    else:
-        # get list of providing websites #
-        ret = {}
-        for site in sites:
-            ret[site['name']] = site['url']
+        if 'user' in parameter:
+            website_list = connectDB.get_user_websites(parameter['user'])
+            return jsonify(website_list)
+            
+        else:
+            # get list of providing websites #
+            sites = connectDB.get_websites()
+            ret = []
+            for site in sites:
+                tmp = {}
+                tmp['name'] = site['name']
+                tmp['url'] = site['url']
+                ret.append(tmp)
                 
-        return jsonify(ret)
+            return jsonify(ret)
+        
+    elif request.method == 'DELETE':
+        data = request.get_json()
+        
+        flag = connectDB.delete_user_webiste(data['user'], data['website'])
+        if flag is True:
+            return jsonify({'msg' : 'Your website has been deleted', 'error' : 0})
+        elif flag is False:
+            return jsonify({'msg' : "You don't have the website", 'error' : 1})
+        else:
+            return jsonify({'msg' : flag, 'error' : 1})
+        
+    elif request.method == 'POST':
+        data = request.get_json()
+        
+        flag = connectDB.push_user_website(data['user'], data['email'], data['website'])
+        if flag is True:
+            return jsonify({'msg' : 'The website has been added', 'error' : 0})
+        elif flag is False:
+            return jsonify({'msg' : 'You already has the website', 'error' : 1})
+        else:
+            return jsonify({'msg' : flag, 'error' : 1})
+            
+@app.route('/api/change/password', methods=['POST'])
+def api_change_password():
+    data = request.get_json()
+    
+    userId = data['user']
+    currPwd = data['currPass']
+    newPwd = data['newPass']
+    
+    flag = connectDB.update_password(userId, currPwd, newPwd)
+    
+    if flag is True:
+        return jsonify({'msg' : 'Your password has been change', 'error' : 0})
+    elif flag is False:
+        return jsonify({'msg' : 'Error. Check your current password', 'error' : 1})
+    else:
+        return jsonify({'msg' : flag, 'error' : 1})
+    
+@app.route('/api/change/email', methods=['POST'])
+def api_change_email():
+    data = request.get_json()
+    
+    userId = data['user']
+    newEmail = data['newEmail']
+    
+    flag = connectDB.update_email(userId, newEmail)
+    
+    if flag is True:
+        return jsonify({'msg' : 'Your email has been changed', 'error' : 0})
+    else:
+        return jsonify({'msg' : flag, 'error' : 1})
 
-@app.route('/api/id_overlap_check', methods = ['POST'])
-def api_id_overlap_check():
+@app.route('/api/id_overlap', methods = ['POST'])
+def api_id_overlap():
     json = request.get_json()
     
     flag = connectDB.id_overlap_check(json['id'])
     
     if flag is True:
-        return jsonify({'msg' : 'ok'})
+        return jsonify({'msg' : 'You can use the ID', 'error' : 0})
     elif flag is False:
-        return jsonify({'msg' : 'no'})
+        return jsonify({'msg' : "You can not use the ID", 'error' : 1})
     else:
-        return jsonify({'msg' : flag})
+        return jsonify({'msg' : flag, 'error' : 1})
 
 def start():
     app.run()

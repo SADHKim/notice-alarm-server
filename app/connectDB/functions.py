@@ -61,6 +61,9 @@ def get_user_websites(user):
 def delete_user_webiste(user, website):
     return d_user_website(conn, user, website)
 
+def push_user_website(user, email, name):
+    return p_user_website(conn, user, email, name)
+
 def get_websites():
     return g_websites(conn)
 

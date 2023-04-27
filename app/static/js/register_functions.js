@@ -5,64 +5,71 @@ window.onload = function () {
 
     id.onchange = function(){
         check_id = false;
-        document.getElementById('id_comment').textContent = "";
+        document.getElementById('id_comment').style.display = 'none';
     };
 }
 
-function id_overlap(){
-    let url = '/api/id_overlap_check';
+function check_overlap(){
+    if(!document.register_form.id.value){
+        set_msg('input ID first', 0);
+        return;
+    }
 
     let http = new XMLHttpRequest();
-    http.onreadystatechange = function(){
-        if(http.readyState === http.DONE){
+    let url = '/api/id_overlap';
+    http.onreadystatechange = () => {
+        if (http.readyState === http.DONE) {
             let response = http.response;
-
-            if(response.msg == 'ok'){
+            
+            if(response.error == 0){
                 check_id = true;
-
+        
                 let element = document.getElementById('id_comment');
-                element.textContent = "the ID can be used";
+                element.textContent = response.msg;
                 element.style.color = "green";
+                element.style.display = 'block';
             }
             else{
                 let element = document.getElementById('id_comment');
-                element.textContent = "the ID can't be used";
+                element.textContent = response.msg;
                 element.style.color = "red";
+                element.style.display = 'block';
             }
         }
     };
 
-    http.open("POST", url, true);
-    http.responseType = 'json';
+    http.open('POST', url, true);
+    http.responseType = 'json'
     http.setRequestHeader("Content-Type", "application/json");
+
     http.send(JSON.stringify({'id' : document.register_form.id.value}));
 }
 
 function register_check(){
     if(!document.register_form.id.value){
-        alert('input id');
+        set_msg('input ID', 1);
         document.register_form.id.focus();
         return false;
     }
     if(!document.register_form.passwd.value){
-        alert('input password');
+        set_msg('input PASSWORD', 1);
         document.register_form.passwd.focus();
         return false;
     }
     if(document.register_form.passwd.value != document.register_form.passwd_1.value){
-        alert('no match password');
+        set_msg('no match password', 1);
         document.register_form.passwd.select();
         return false;
     }
     if(!document.register_form.email.value){
-        alert('input email');
+        set_msg('input EMAIL', 1);
         document.register_form.email.focus();
         return false;
     }
     
     if(check_id) return true;
     else{
-        alert('중복확인을 진행하세요');
+        set_msg('check your ID can usable', 1);
         return false;
     }
 }

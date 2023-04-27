@@ -75,6 +75,9 @@ function deleteWeb(website){
                 if(response.error == 0){
                     set_websites();
                 }
+                else{
+                    set_msg(response.msg, response.error);
+                }
             }
         };
 

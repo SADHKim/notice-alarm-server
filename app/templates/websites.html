@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('static', filename='/css/websites.css')}}">
+<script rel="javascript/text" src="{{url_for('static', filename='/js/websites_functions.js')}}"></script>
+<style>
+.input{
+    padding: 0;
+    margin: 15px;
+    resize: none;
+}
+</style>
+
+{% if session['user'] is defined %}
+<script>set_user("{{session['user']}}")</script>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div name="providing_weblit" id="webLayout">
+    <h1>제공 중인 웹사이트</h1>
+    <ul id="websites">
+    </ul>
+    <div id="buttons">
+        <button onclick="get_prev_list()">◀PREV</button>
+        <button onclick="get_next_list()">NEXT▶</button>
+    </div>
+</div>
+
+{% if session['user'] is defined and session['user'] == 'admin' %}
+<div name="admin_add_web" style="text-align:center; margin-top:50px; background-color:cadetblue;">
+    <form action="{{url_for('websites')}}" method="POST">
+        <span><input class="input" type="text" placeholder="name" name="name">
+        <span><input class="input" type="text" placeholder="url" name="url">
+        <span><input class="input" type="text" placeholder="class" name="class">
+        <span><input class="input" type="text" placeholder="tag" name="tag">
+        <span><button>add</button></span>
+    </form>
+</div>
+
+{% endif %}
+{% endblock %}

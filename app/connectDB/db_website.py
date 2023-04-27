@@ -132,7 +132,7 @@ def p_user_website(conn, user, email, website):
     try:
         cursor = conn.cursor()
         
-        sql = "SELECT FROM email_list WHERE user_id = '%s' AND website_name = '%s'" % (user, website)
+        sql = "SELECT user_id FROM email_list WHERE user_id = '%s' AND website_name = '%s'" % (user, website)
         cursor.execute(sql)
         row = cursor.fetchone()
         

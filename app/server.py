@@ -82,22 +82,18 @@ def logout():
 def websites():
     if request.method == 'GET':
         sites = connectDB.get_websites()
-        return render_template('websites.html', websites = sites)
+        return render_template('websites.html')
     
     elif request.method == 'POST':
         if 'user' not in session:
             return redirect(url_for('login'))
         else:
-            site = request.get_json()
-            userInfo = connectDB.get_user_info(session['user'])
+            flag = connectDB.push_website(request.form)
             
-            flag = connectDB.push_email(userInfo['id'], userInfo['email'], site['name'])
             if flag is True:
-                return render_template('websites.html', websites = sites, msg = site['name'] + 'has been added your list.')
-            elif flag is False:
-                return render_template('websites.html', websites=sites, msg="You already have the site.", error=True)
+                return render_template('websites.html', msg = request.form['name'] + 'has been added', error=0)
             else:
-                abort(500)
+                return render_template('websites.html', msg=flag, error=1)
         
 @app.route('/websites/ask', methods = ['GET', 'POST'])
 def ask():

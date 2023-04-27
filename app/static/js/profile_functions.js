@@ -67,12 +67,13 @@ function set_elementWebList (){
 function deleteWeb(website){
     let result = confirm(website + '을(를) 삭제하고, 더 이상 알람을 받지 않겠습니까?');
     if(result){
-        let http = new XMLDocument();
-        let url = '/api/website';
+        let http = new XMLHttpRequest();
+        let url = '/api/websites';
         http.onreadystatechange = () => {
             if (http.readyState === http.DONE) {
                 let response = http.response;
                 if(response.error == 0){
+                    set_msg(response.msg, response.error);
                     set_websites();
                 }
                 else{
@@ -167,12 +168,12 @@ function update_email(){
 }
 
 function get_prev_list(){
-    siteIndex -= 10;
-    if(siteIndex < 0){
+    if(siteIndex  - 10 < 0){
         alert('first page');
         return;
     }
     else{
+        siteIndex -= 10;
         set_elementWebList();
     }
 }

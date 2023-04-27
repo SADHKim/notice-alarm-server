@@ -3,14 +3,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# 크롬 드라이버 경로
-chromedriver_path = '/usr/bin/chromedriver'
+# 드라이버 경로
+path = '/usr/bin/geckodriver'
 
 # 웹 드라이버 설정
-options = webdriver.ChromeOptions()
+options = webdriver.FirefoxOptions()
 options.add_argument('--headless')  # 브라우저 백그라운드 실행
 options.add_argument('--disable-blink-features=AutomationControlled')
-driver = webdriver.Chrome(executable_path=chromedriver_path, options=options)
+driver = webdriver.Firefox(executable_path=path, options=options)
 
 prev_lists = {}
 

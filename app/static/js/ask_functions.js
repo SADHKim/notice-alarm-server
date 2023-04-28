@@ -36,6 +36,15 @@ function set_asks(){
 }
 
 function set_elementAsks(){
+    elementAsks.innerHTML = '';
+
+    if(asksCnt == 0){
+        let li = document.createElement('li');
+        li.append('There are no asks.');
+        elementAsks.appendChild(li);
+        return;
+    }
+
     for(let i = 0; i < 10 && index < asksCnt; i++, index++){
         let li = document.createElement('li');
         li.className = 'ask';
@@ -51,13 +60,14 @@ function set_elementAsks(){
             img.setAttribute('src', '/static/image/delete.png');
             
             button.append(img);
-            span.appendChild(button);
+            span.append(button);
+            li.append(span)
         }
 
         let name = document.createElement('span');
         name.append(asks[index].name);
         name.append('(url : ' + asks[index].url + ')');
-        li.appendChild(name);
+        li.append(name);
 
         elementAsks.appendChild(li);
     }
@@ -65,7 +75,7 @@ function set_elementAsks(){
 
 function delete_ask(url){
     let http = new XMLHttpRequest();
-    let url = '/api/asks';
+    let api_url = '/api/asks';
     http.onreadystatechange = () => {
         if(http.readyState === http.DONE){
             if(http.response.error == 0){
@@ -78,7 +88,7 @@ function delete_ask(url){
         }
     };
 
-    http.open('DELETE', url, true);
+    http.open('DELETE', api_url, true);
     http.responseType = 'json';
     http.setRequestHeader('Content-type', 'application/json');
     http.send(JSON.stringify({'url' : url}));

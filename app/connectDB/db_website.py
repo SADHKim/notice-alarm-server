@@ -72,7 +72,7 @@ def p_ask(conn, name, url):
         cursor.execute(sql)
         
         row = cursor.fetchone()
-        if not row:
+        if row:
             return False
         
         sql = "INSERT INTO asks (name, url) VALUES ('%s', '%s')" %(name, url)
@@ -109,7 +109,7 @@ def d_ask(conn, url):
         cursor.execute(sql)
         
         row = cursor.fetchone()
-        if row:
+        if not row:
             return False
         
         sql = "DELETE FROM asks WHERE url = '%s'" %url

@@ -8,9 +8,10 @@
     display: none;
 }
 
-#asks .aks{
+#asks .ask{
     margin-top: 5px;
     border-bottom-style: solid;
     border-bottom-width: 1px;
     border-bottom-color: black;
+    font-size: large;
 }

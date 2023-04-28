@@ -40,6 +40,14 @@ function set_elementWebList (){
     title.appendChild(strong);
     elementWebList.appendChild(title);
 
+    if(siteIndex == 0){
+        let li = document.createElement('li');
+        li.append('There are no websites.');
+        elementAsks.appendChild(li);
+        return;
+    }
+
+
     for(let i = 0; i < 10 && siteIndex < websitesCnt; siteIndex++, i++){
         let li = document.createElement('li');
         li.className = 'website';

@@ -21,7 +21,7 @@ def g_notices(conn):
 def p_notice(conn, title, content, time):
     try:
         cursor = conn.cursor()
-        sql = "INSERT INTO notice (title, content, writer, time) VALUES ('%s', '%s', 'admin', '%s')" %(title, content, time)
+        sql = "INSERT INTO notices (title, content, writer, time) VALUES ('%s', '%s', 'admin', '%s')" %(title, content, time)
         
         cursor.execute(sql)
         conn.commit()

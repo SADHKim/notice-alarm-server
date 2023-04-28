@@ -1,0 +1,16 @@
+#ask_form{
+    width: 70%;
+    padding: 0;
+    margin-left: 15%;
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+    display: none;
+}
+
+#asks .aks{
+    margin-top: 5px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: black;
+}

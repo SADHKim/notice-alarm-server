@@ -99,20 +99,17 @@ def websites():
 @app.route('/websites/ask', methods = ['GET', 'POST'])
 def ask():
     if request.method == 'GET':
-        asks = connectDB.get_asks()
-        return render_template('ask.html', asks = asks)
+        return render_template('ask.html')
     
     elif request.method == 'POST':
-        site = request.get_json()
         
-        flag = connectDB.push_ask(site['name'], site['url'])
-        asks = connectDB.get_asks()
+        flag = connectDB.push_ask(request.form['name'], request.form['url'])
         if flag is True:
-            return render_template('ask.html', asks=asks, msg="Your ask has been added.")
+            return render_template('ask.html', msg="Your ask has been added.", error=0)
         elif flag is False:
-            return render_template('ask.html', asks=asks, msg="Your ask has already been added.", error=True)
+            return render_template('ask.html', msg="Your ask has already been added.", error=1)
         else:
-            abort(500)
+            return render_template('ask.html', msg=flag, error=1)
         
 @app.route('/notice', methods = ['GET', 'POST'])
 def notice():
@@ -209,6 +206,22 @@ def api_change_email():
         return jsonify({'msg' : 'Your email has been changed', 'error' : 0})
     else:
         return jsonify({'msg' : flag, 'error' : 1})
+    
+@app.route('/api/asks', methods=['GET', 'DELETE'])
+def api_asks():
+    if request.method == 'GET':    
+        ret = connectDB.get_asks()
+        return jsonify(ret)
+    elif request.method == 'DELETE':
+        data = request.get_json()
+        
+        flag = connectDB.delete_ask(data['url'])
+        if flag is True:
+            return jsonify({'msg' : 'The ask has been deleted', 'error' : 0})
+        elif flag is False:
+            return jsonify({'msg' : 'The url of ask is not eixist', 'error' : 1})
+        else:
+            return jsonify({'msg' : flag, 'error' : 1})
 
 @app.route('/api/id_overlap', methods = ['POST'])
 def api_id_overlap():

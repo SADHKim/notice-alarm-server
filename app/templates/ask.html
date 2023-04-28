@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('static', filename='/css/ask.css')}}">
+<script src="{{url_for('static', filename='/js/ask_functions.js')}}"></script>
+
+{% if session['user'] is defined and session['user'] == 'admin' %}
+set_user("admin")
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div name="asks_list" class="large_layout">
+    <h1>요청된 웹사이트</h1>
+    <ul id="asks">
+
+    </ul>
+    <ul name="ask_footer">
+       <li style="text-align: center;">
+            <button class="button" onclick="get_prev_list()">◀이전</button>
+            <button class="button" onclick="get_next_list()">다음▶</button>
+       </li> 
+       <li style="text-align: end;">
+            <button onclick="open_form()">웹사이트 요청</button>
+       </li>
+    </ul>
+</div>
+
+<div id="ask_form">
+    <form action="{{url_for(ask)}}" method="POST">
+        <ul>
+            <li>
+                <span style="color: red;">*</span>
+                <span><h3>웹사이트 이름 : </h3></span>
+                <span><input type="text" name="name" required></span>
+            </li>
+            <li>
+                <span style="color: red;">*</span>
+                <span><h3>사이트 url : </h3></span>
+                <span><input type="text" name="url" required></span>
+            </li>
+            <li style="text-align: end; margin-right: 20px;">
+                <button class="button">제출</button>
+            </li>
+        </ul>
+    </form>
+</div>
+{% endblock %}

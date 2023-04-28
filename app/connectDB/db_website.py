@@ -71,7 +71,7 @@ def p_ask(conn, name, url):
         sql = "SELECT url FROM asks WHERE url = '%s'" % url
         cursor.execute(sql)
         
-        row = cursor.fetchall()
+        row = cursor.fetchone()
         if not row:
             return False
         
@@ -90,12 +90,34 @@ def g_asks(conn):
     try:
         cursor = conn.cursor(pymysql.cursors.DictCursor)
         
-        sql = "SELECT * FROM asks ORDER BY num DESC"
+        sql = "SELECT name, url FROM asks ORDER BY num DESC"
         cursor.execute(sql)
         
         row = cursor.fetchall()
         cursor.close()
+        
         return row
+    except Exception as e:
+        cursor.close()
+        return e
+    
+def d_ask(conn, url):
+    try:
+        cursor = conn.cursor()
+        
+        sql = "SELECT name FROM asks WHERE url = '%s'" %url
+        cursor.execute(sql)
+        
+        row = cursor.fetchone()
+        if row:
+            return False
+        
+        sql = "DELETE FROM asks WHERE url = '%s'" %url
+        cursor.execute(sql)
+        
+        conn.commit()
+        cursor.close()
+        return True
     except Exception as e:
         cursor.close()
         return e

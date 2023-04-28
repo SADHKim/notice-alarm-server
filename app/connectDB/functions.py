@@ -55,6 +55,9 @@ def get_asks():
 def push_ask(name, url):
     return p_ask(conn, name, url)
 
+def delete_ask(url):
+    return d_ask(conn, url)
+
 def get_user_websites(user):
     return g_user_websites(conn, user)
 

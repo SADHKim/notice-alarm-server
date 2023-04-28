@@ -30,6 +30,21 @@ a{
     border-style: solid;
     border-color: black;
 }
+.large_layout{
+    width: 90%;
+    padding: 0;
+    margin-left: 5%;
+    height: fit-content;
+}
+
+.button{
+    width: fit-content;
+    margin-left: 10%;
+    border-radius: 30%;
+    background-color:skyblue;
+    color: black;
+}
+
 #message{
     background-color: bisque;
     border-width: 2px;

@@ -1,13 +1,6 @@
 .col{
     width: 30%;
 }
-.button{
-    width: fit-content;
-    margin-left: 10%;
-    border-radius: 30%;
-    background-color:skyblue;
-    color: black;
-}
 #websites_list{
     width: 80%;
     padding: 0;

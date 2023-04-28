@@ -136,31 +136,6 @@ def notice():
 
 
 ### API server requests post, delete with json file ###
-@app.route('/api/email', methods = ['POST', 'DELETE'])
-def api_email():
-    
-    if request.method == 'POST':
-        # insert to database user email #
-        
-        data = request.get_json()
-        
-        res = connectDB.push_email(data['user'], data['email'], data['website'])
-        if res is True:
-            return jsonify({'msg' : 'ok'})
-        else:
-            return jsonify({'msg' : res})
-    
-    if request.method == 'DELETE':
-        # drop row from email_list #
-        
-        data = request.get_json()
-        
-        res = connectDB.delete_email(data['user'], data['email'], data['website'])
-        if res is True:
-            return jsonify({'msg' : 'ok'})
-        else:
-            return jsonify({'msg' : res})
-
 @app.route('/api/websites', methods=['GET', 'DELETE', 'POST'])
 def api_websites():
     if request.method == 'GET':

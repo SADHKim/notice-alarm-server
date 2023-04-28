@@ -81,7 +81,6 @@ def logout():
 @app.route('/websites', methods = ['GET', 'POST'])
 def websites():
     if request.method == 'GET':
-        sites = connectDB.get_websites()
         return render_template('websites.html')
     
     elif request.method == 'POST':

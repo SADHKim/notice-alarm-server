@@ -12,10 +12,45 @@ def g_notices(conn):
         
         if not row:
             return False
-        else:
-            return row
+        
+        return row
     except Exception as e:
         cursor.close()
+        return e
+    
+def g_num_notice(conn, num):
+    try:
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        sql = "SELECT title, content, time FROM notices WHERE num = '%s'" %num
+        cursor.execute(sql)
+        
+        row = cursor.fetchone()
+        cursor.close()
+        return row
+    except Exception as e:
+        cursor.close()
+        return e
+
+def d_notice(conn, num):
+    try:
+        cursor = conn.cursor()
+        
+        sql = "SELECT num FROM notices WHERE num = '%s'" %num
+        cursor.execute(sql)
+        
+        row = cursor.fetchone()
+        
+        if not row:
+            return False
+        
+        sql = "DELETE FROM notices WHERE num = '%s'" %num
+        cursor.execute(sql)
+        
+        conn.commit()
+        cursor.close()
+        
+        return True
+    except Exception as e:
         return e
     
 def p_notice(conn, title, content, time):

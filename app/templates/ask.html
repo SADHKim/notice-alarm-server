@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-<div name="asks_list" class="large_layout">
+<div name="asks_list" class="large_layout" style="margin-top: 50px;">
     <h1>요청된 웹사이트</h1>
     <ul id="asks">
 
@@ -20,10 +20,12 @@
        <li style="text-align: center;">
             <button class="button" onclick="get_prev_list()">◀이전</button>
             <button class="button" onclick="get_next_list()">다음▶</button>
-       </li> 
+       </li>
+       {% if session['user'] is defined %}
        <li style="text-align: end;">
             <button class="button" onclick="open_form()">웹사이트 요청</button>
        </li>
+       {% endif %}
     </ul>
 </div>
 

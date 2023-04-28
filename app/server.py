@@ -111,11 +111,10 @@ def ask():
         else:
             return render_template('ask.html', msg=flag, error=1)
         
-@app.route('/notice', methods = ['GET', 'POST'])
+@app.route('/notice', methods = ['GET', 'POST', 'DELETE'])
 def notice():
     if request.method == 'GET':
-        notices = connectDB.get_notices()
-        return render_template('notice.html', notices = notices)
+        return render_template('notice.html')
     
     elif request.method == 'POST':
         title = request.form['title']
@@ -123,12 +122,21 @@ def notice():
         clock = datetime.now().strftime('%Y-%m-%d')
         
         flag = connectDB.push_notice(title, content, clock)
-        notices = connectDB.get_notices()
         if flag is True:
-            return render_template('notice.html', notices=notices, msg="Your notice has been added.")
+            return render_template('notice.html', msg="Your notice has been added.", error=0)
         else:
-            return render_template('notice.html', notices=notices, msg="Your notice cannot be added.", error=True)
-
+            return render_template('notice.html', msg="Your notice cannot be added.", error=1)
+        
+    elif request.method == 'DELETE':
+        data = request.get_json()
+        
+        flag = connectDB.delete_notice(data['num'])
+        if flag is True:
+            return jsonify({'msg' : 'The notice has been deleted', 'error' : 0})
+        elif flag is False:
+            return jsonify({'msg' : 'The notice is not exists', 'error' : 1})
+        else:
+            return jsonify({'msg' : flag, 'error' : 1})
 
 
 
@@ -222,6 +230,19 @@ def api_asks():
             return jsonify({'msg' : 'The url of ask is not eixist', 'error' : 1})
         else:
             return jsonify({'msg' : flag, 'error' : 1})
+        
+@app.route('/api/notices', methods=['GET'])
+def api_notices():
+    param = request.args.to_dict()
+    if 'num' in param:
+        ret = connectDB.get_num_notice(param['num'])
+        return jsonify(ret)
+    else:
+        ret = connectDB.get_notices()
+        if ret is False:
+            return jsonify({})
+        else:
+            return jsonify(ret)
 
 @app.route('/api/id_overlap', methods = ['POST'])
 def api_id_overlap():

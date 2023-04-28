@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('static', filename='css/notice.css')}}">
+<script rel="javascript/text" src="{{url_for('static', filename='js/notice_functions.js')}}"></script>
+{% if session['user'] is defined and session['user'] == 'admin' %}
+<style>
+#notice_form{
+    width: 70%;
+    margin-left: 15%;
+    margin-top: 10%;
+    padding: 0;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+}
+#notice_form textarea{
+    margin-top: 30px;
+    resize: none;
+}
+</style>
+<script>
+    function delete_notice(){
+        let http = new XMLHttpRequest();
+        let url = '/notice';
+        http.onreadystatechange = () => {
+            if(http.readyState === http.DONE){
+                if (http.response.error == 0){
+                    set_msg(http.response.msg, 0);
+                    set_notices();
+                }
+                else{
+                    set_msg(http.response.msg, 1);
+                }
+                close_view();
+            }
+        }
+
+        http.responseType = 'json';
+        http.open('DELETE', url, true);
+        http.setRequestHeader('Content-type', 'application/json');
+        http.send(JSON.stringify({'num' : currNotice}));
+    }
+</script>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div id="view">
+        <ul>
+            <li>
+                <span><h4>제목 : </h4></span>
+                <span id="notice_title"></span>
+            </li>
+            <li>
+                <span><h4>날짜 : </h4></span>
+                <span id="notice_date"></span>
+            </li>
+            <li>
+                <span id="notice_content"></span>
+            </li>
+            <li style="text-align: end;">
+                {% if session['user'] is defined and session['user'] == 'admin' %}
+                <button class="button" style="margin-right: 20px;" onclick="delete_notice()">삭제</button>
+                {% endif %}
+                <button class="button" style="margin-right: 20px;" onclick="close_view()">닫기</button>
+            </li>
+        </ul>
+    </div>
+
+    <div id="notice_table">
+        <table style="width: 100%;">
+            <colgroup>
+                <col width="5%"/>
+                <col width="70%"/>
+                <col width="10%"/>
+                <col width="15%"/>
+            </colgroup>
+            <thead>
+                <td>번호</td>
+                <td>제목</td>
+                <td>작성자</td>
+                <td>날짜</td>
+            </thead>
+            <tbody id="notices">
+            </tbody>
+        </table>
+        <div style="text-align: center; margin-top: 5%;">
+            <button class="button" onclick="get_prev_list()">◀prev</button>
+            <button class="button" onclick="get_next_list()">next▶</button>
+        </div>
+    </div>
+
+{% if session['user'] is defined and session['user'] == 'admin' %}
+    <div id="notice_form">
+        <form action="{{url_for('notice')}}" method="POST">
+            <h3>공지 작성</h3>
+            <ul>
+                <li>
+                    <textarea name="title" cols="70" rows="2" placeholder="TITLE"></textarea>
+                </li>
+                <li>
+                    <textarea name="content" cols="70" rows="10" placeholder="CONTENT"></textarea>
+                </li>
+                <li style="text-align: end;">
+                    <button class="button" style="margin-right:5%; width: 50px; height: 50px;">추가</button>
+                </li>
+            </ul>
+        </form>
+    </div>
+{% endif %}
+{% endblock %}

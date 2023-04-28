@@ -81,5 +81,11 @@ def delete_website(info):
 def get_notices():
     return g_notices(conn)
 
+def get_num_notice(num):
+    return g_num_notice(conn, num)
+
 def push_notice(title, content, time):
     return p_notice(conn, title, content, time)
+
+def delete_notice(num):
+    return d_notice(conn, num)

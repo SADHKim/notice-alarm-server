@@ -95,12 +95,12 @@ function delete_ask(url){
 }
 
 function get_prev_list(){
-    if(index - 10 < 0){
+    if(index <= 10){
         set_msg('First page', 1);
         return;
     }
     else{
-        index -= 10;
+        index = index - 10 - (index % 10);
         set_elementAsks();
     }
 }

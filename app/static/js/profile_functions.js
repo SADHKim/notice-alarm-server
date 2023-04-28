@@ -176,12 +176,12 @@ function update_email(){
 }
 
 function get_prev_list(){
-    if(siteIndex  - 10 < 0){
+    if(siteIndex <= 10){
         alert('first page');
         return;
     }
     else{
-        siteIndex -= 10;
+        siteIndex = siteIndex - 10 - (siteIndex % 10);
         set_elementWebList();
     }
 }

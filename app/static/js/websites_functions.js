@@ -58,13 +58,13 @@ function set_elementWebsites(){
 }
 
 function get_prev_list(){
-    if(index - 10 < 0){
+    if(index <= 10){
         set_msg('First page', 1);
         return;
     }
     else{
-        index -= 10;
-        set_elementWebList();
+        index = index - 10 - (index % 10);
+        set_elementWebsites();
     }
 }
 
@@ -74,7 +74,7 @@ function get_next_list(){
         return;
     }
     else{
-        set_elementWebList();
+        set_elementWebsites();
     }
 }
 

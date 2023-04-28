@@ -20,7 +20,7 @@ def p_website(conn, info):
         cursor = conn.cursor()
         
         sql = "SELECT name FROM websites where name = '%s'" % info['name']
-        cursor.execute(cursor)
+        cursor.execute(sql)
         row = cursor.fetchone()
         
         if row:

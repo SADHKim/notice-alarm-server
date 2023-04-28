@@ -18,8 +18,16 @@ def g_websites(conn):
 def p_website(conn, info):
     try:
         cursor = conn.cursor()
-        sql = "INSERT INTO websites (name, url, class, tag) VALUES ('%s', '%s', '%s', '%s')" %(info['name'], info['url'], info['class'], info['tag'])
         
+        sql = "SELECT name FROM websites where name = '%s'" % info['name']
+        cursor.execute(cursor)
+        row = cursor.fetchone()
+        
+        if row:
+            cursor.close()
+            return False
+        
+        sql = "INSERT INTO websites (name, url, class, tag) VALUES ('%s', '%s', '%s', '%s')" %(info['name'], info['url'], info['class'], info['tag'])
         cursor.execute(sql)
         conn.commit()
         
@@ -43,6 +51,8 @@ def d_website(conn, info):
         
         
         sql = "DELETE FROM websites WHERE name='%s' AND url='%s'" %(info['name'], info['url'])
+        cursor.execute(sql)
+        sql = "DELETE FROM email_list WHERE website_name='%s'" %(info['name'])
         cursor.execute(sql)
         
         conn.commit()

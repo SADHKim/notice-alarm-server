@@ -91,7 +91,9 @@ def websites():
             flag = connectDB.push_website(request.form)
             
             if flag is True:
-                return render_template('websites.html', msg = request.form['name'] + 'has been added', error=0)
+                return render_template('websites.html', msg = request.form['name'] + ' has been added', error=0)
+            elif flag is False:
+                return render_template('websites.html', msg="The name of website already exists" error=1)
             else:
                 return render_template('websites.html', msg=flag, error=1)
         

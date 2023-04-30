@@ -57,3 +57,6 @@ def crawling(site):
         return ({'name' : site['name'], 'url' : site['url'], 'posts' : posts})
     else:
         return False
+    
+def pop_website(name):
+    prev_lists.pop(name)

@@ -62,6 +62,39 @@ def d_website(conn, info):
     except Exception as e:
         cursor.close()
         return e
+    
+def g_keyword_websites(conn, keyword):
+    try:
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        
+        sql = "SELECT name, url FROM websites WHERE name LIKE '%" + keyword + "%' OR url LIKE '%" + keyword + "%' ORDER BY num DESC"
+        cursor.execute(sql)
+        
+        rows = cursor.fetchall()
+        if not rows:
+            cursor.close()
+            return False
+        
+        cursor.close()
+        return rows
+    except Exception as e:
+        cursor.close()
+        return e
+
+def g_keyword_asks(conn, keyword):
+    try:
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        
+        sql = "SELECT name, url FROM asks WHERE name LIKE '%" + keyword + "%' OR url like '%" + keyword + "%' ORDER BY num DESC"
+        cursor.execute(sql)
+        
+        rows = cursor.fetchall()
+        if not rows:
+            return False
+        
+        return rows
+    except Exception as e:
+        return e
         
 
 def p_ask(conn, name, url):

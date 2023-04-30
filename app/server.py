@@ -157,8 +157,11 @@ def api_websites():
     if request.method == 'GET':
         parameter = request.args.to_dict()
         
-        if 'user' in parameter:
+        if 'user' in parameter and 'keyword' not in parameter:
             website_list = connectDB.get_user_websites(parameter['user'])
+            return jsonify(website_list)
+        elif 'user' not in parameter and 'keyword' in parameter:
+            website_list = connectDB.get_keyword_websites(parameter['keyword'])
             return jsonify(website_list)
             
         else:
@@ -228,9 +231,14 @@ def api_change_email():
     
 @app.route('/api/asks', methods=['GET', 'DELETE'])
 def api_asks():
-    if request.method == 'GET':    
-        ret = connectDB.get_asks()
-        return jsonify(ret)
+    if request.method == 'GET':   
+        parameter = request.args.to_dict()
+        if 'keyword' in parameter:
+            ret = connectDB.get_keyword_asks(parameter['keyword'])
+            return jsonify(ret)
+        else:
+            ret = connectDB.get_asks()
+            return jsonify(ret)
     elif request.method == 'DELETE':
         data = request.get_json()
         

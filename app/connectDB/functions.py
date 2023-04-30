@@ -61,6 +61,12 @@ def delete_ask(url):
 def get_user_websites(user):
     return g_user_websites(conn, user)
 
+def get_keyword_websites(keyword):
+    return g_keyword_websites(conn, keyword)
+
+def get_keyword_asks(keyword):
+    return g_keyword_asks(conn, keyword)
+
 def delete_user_webiste(user, website):
     return d_user_website(conn, user, website)
 

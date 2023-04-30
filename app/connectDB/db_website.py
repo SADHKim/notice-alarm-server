@@ -1,4 +1,5 @@
 import pymysql
+from crawling import pop_website
 
 def g_websites(conn):
     try:
@@ -58,9 +59,39 @@ def d_website(conn, info):
         conn.commit()
         cursor.close()
         
+        pop_website(info['name'])
+        
         return True
     except Exception as e:
         cursor.close()
+        return e
+    
+def g_keyword_websites(conn, keyword):
+    try:
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        
+        sql = "SELECT name, url FROM websites WHERE name LIKE '%" + keyword + "%' OR url LIKE '%" + keyword + "%' ORDER BY num DESC"
+        cursor.execute(sql)
+        
+        rows = cursor.fetchall()
+        
+        cursor.close()
+        return rows
+    except Exception as e:
+        cursor.close()
+        return e
+
+def g_keyword_asks(conn, keyword):
+    try:
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        
+        sql = "SELECT name, url FROM asks WHERE name LIKE '%" + keyword + "%' OR url like '%" + keyword + "%' ORDER BY num DESC"
+        cursor.execute(sql)
+        
+        rows = cursor.fetchall()
+        
+        return rows
+    except Exception as e:
         return e
         
 

@@ -8144,7 +8144,7 @@ a {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
   transition: .3s all ease;
-  color: #1089ff; }
+  color: #5671d7; }
   a:hover, a:focus {
     text-decoration: none !important;
     outline: none !important;
@@ -8159,7 +8159,7 @@ h1, h2, h3, h4, h5,
   color: #000; }
 
 .bg-primary {
-  background: #1089ff !important; }
+  background: #5671d7 !important; }
 
 .ftco-section {
   padding: 3em 0; }
@@ -8191,7 +8191,7 @@ h1, h2, h3, h4, h5,
   .login-wrap .icon {
     width: 80px;
     height: 80px;
-    background: #1089ff;
+    background: #5671d7;
     border-radius: 50%;
     font-size: 30px;
     margin: 0 auto;
@@ -8212,7 +8212,7 @@ h1, h2, h3, h4, h5,
     outline: none !important;
     -webkit-box-shadow: none;
     box-shadow: none;
-    border: 1px solid #1089ff; }
+    border: 1px solid #5671d7; }
 
 textarea.form-control {
   height: inherit !important; }
@@ -8270,9 +8270,9 @@ textarea.form-control {
 
 /* Style the checkmark/indicator */
 .checkbox-primary {
-  color: #1089ff; }
+  color: #5671d7; }
   .checkbox-primary input:checked ~ .checkmark:after {
-    color: #1089ff; }
+    color: #5671d7; }
 
 .btn {
   cursor: pointer;
@@ -8283,18 +8283,18 @@ textarea.form-control {
   .btn:hover, .btn:active, .btn:focus {
     outline: none; }
   .btn.btn-primary {
-    background: #1089ff !important;
-    border: 1px solid #1089ff !important;
+    background: #5671d7 !important;
+    border: 1px solid #5671d7 !important;
     color: #fff !important; }
     .btn.btn-primary:hover {
-      border: 1px solid #1089ff;
+      border: 1px solid #5671d7;
       background: transparent;
-      color: #1089ff; }
+      color: #5671d7; }
     .btn.btn-primary.btn-outline-primary {
-      border: 1px solid #1089ff;
+      border: 1px solid #5671d7;
       background: transparent;
-      color: #1089ff; }
+      color: #5671d7; }
       .btn.btn-primary.btn-outline-primary:hover {
         border: 1px solid transparent;
-        background: #1089ff;
+        background: #5671d7;
         color: #fff; }

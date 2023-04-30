@@ -4,16 +4,17 @@
 {{super()}}
 <link rel="stylesheet" href="{{url_for('static', filename='/css/websites.css')}}">
 <script rel="javascript/text" src="{{url_for('static', filename='/js/websites_functions.js')}}"></script>
+
 {% if session['user'] is defined and session['user'] == 'admin' %}
 <script rel="javascript/text" src="{{url_for('static', filename='js/websites_admin.js')}}"></script>
-{% endif %}
 <style>
-.input{
-    padding: 0;
-    margin: 15px;
-    resize: none;
-}
-</style>
+    .input{
+        padding: 0;
+        margin: 15px;
+        resize: none;
+    }
+    </style>
+{% endif %}
 
 {% if session['user'] is defined %}
 <script>set_user("{{session['user']}}")</script>
@@ -22,8 +23,8 @@
 
 {% block content %}
 <div name="providing_weblit" id="webLayout">
-    <h1>제공 중인 웹사이트</h1>
-    <ul id="websites">
+    <h2>Providing Websites</h2>
+    <ul id="websites" class="list-groupt">
     </ul>
     <div id="buttons">
         <button class="button" onclick="get_prev_list()">◀PREV</button>

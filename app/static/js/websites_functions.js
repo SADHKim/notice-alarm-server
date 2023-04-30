@@ -34,28 +34,43 @@ function set_elementWebsites(){
 
     for(let i = 0; i < 10 && index < websitesCnt; i++, index++){
         let li = document.createElement('li');
-        li.className = 'website';
+        li.className = 'd-flex no-block card-body website';
+        let div = document.createElement('div');
 
         if (typeof(append_delete) == 'function') {li = append_delete(li);}
         else{
             let mark = document.createElement('span');
+            mark.style.height = 'max-content'
 
-            let a = document.createElement('a');
-            a.setAttribute('href', '#');
-            a.setAttribute('onclick', 'add_website("' + user + '", "' + websites[index].name + '")');
+            let button = document.createElement('button');
+            button.className = 'btn btn-light mx-auto';
+            button.style.marginBottom = "3px";
+            button.setAttribute('onclick', 'add_website("' + user + '", "' + websites[index].name + '")');
 
             let img = document.createElement('img');
-            img.setAttribute('src', '/static/image/add.svg');
+            img.setAttribute('src', '../static/image/add.svg');
 
-            a.append(img);
-            mark.append(a);
-            li.appendChild(mark);
+            button.append(img);
+            mark.append(button);
+            div.appendChild(mark);
         }
+        let row = document.createElement('span');
+        let name = document.createElement('a');
+        name.style.textDecoration = "none";
+        name.style.color = "#673AB7";
 
-        let name = document.createElement('span');
-        name.append(websites[index].name + ' (url : ' + websites[index].url + ')');
+        name.append(websites[index].name);
+        let url = document.createElement('a')
+        url.className = "text-muted"
+        url.setAttribute("href", websites[index].url)
+        url.append(websites[index].url)
+        row.appendChild(name)
+        row.append(document.createElement('br'))
+        row.appendChild(url)
 
-        li.appendChild(name);
+        div.appendChild(row)
+
+        li.appendChild(div);
         elementWebsites.appendChild(li);
     }
 }

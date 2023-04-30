@@ -11,7 +11,7 @@ window.onload = function () {
 
 function check_overlap(){
     if(!document.register_form.id.value){
-        set_msg('input ID first', 0);
+        alert('input ID first', 0);
         return;
     }
 
@@ -47,29 +47,29 @@ function check_overlap(){
 
 function register_check(){
     if(!document.register_form.id.value){
-        set_msg('input ID', 1);
+        alert('input ID', 1);
         document.register_form.id.focus();
         return false;
     }
     if(!document.register_form.passwd.value){
-        set_msg('input PASSWORD', 1);
+        alert('input PASSWORD', 1);
         document.register_form.passwd.focus();
         return false;
     }
     if(document.register_form.passwd.value != document.register_form.passwd_1.value){
-        set_msg('no match password', 1);
+        alert('no match password', 1);
         document.register_form.passwd.select();
         return false;
     }
     if(!document.register_form.email.value){
-        set_msg('input EMAIL', 1);
+        alert('input EMAIL', 1);
         document.register_form.email.focus();
         return false;
     }
     
     if(check_id) return true;
     else{
-        set_msg('check your ID can usable', 1);
+        alert('check your ID can usable', 1);
         return false;
     }
 }

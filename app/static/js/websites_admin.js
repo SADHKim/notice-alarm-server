@@ -1,15 +1,15 @@
 const append_delete = (li) =>{
     let mark = document.createElement('span');
 
-    let a = document.createElement('a');
-    a.setAttribute('href', '#');
-    a.setAttribute('onclick', 'delete_website("' + websites[index].name + '", "' + websites[index].url + '")');
+    let button = document.createElement('button');
+    button.className = 'btn btn-secondary';
+    button.setAttribute('onclick', 'delete_website("' + websites[index].name + '", "' + websites[index].url + '")');
 
     let img = document.createElement('img');
-    img.setAttribute('src', '/static/image/trach.svg');
+    img.setAttribute('src', '../static/image/trash.svg');
 
-    a.append(img);
-    mark.append(a);
+    button.append(img);
+    mark.append(button);
     li.appendChild(mark);
 
     return li;

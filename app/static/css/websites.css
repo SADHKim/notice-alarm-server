@@ -1,5 +1,9 @@
+#websites{
+    margin-top: 5%;
+}
+
 #websites .website{
-    margin-top: 5px;
+    margin-top: 8px;
     border-bottom-style: solid;
     border-bottom-width: 1px;
     border-bottom-color: black;
@@ -9,10 +13,11 @@
     width: 90%;
     padding: 0;
     margin-left: 5%;
-    height: fit-content;
+    height: 100%;
 }
 
 #buttons{
     text-align: center;
-    margin-top: 20px;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }

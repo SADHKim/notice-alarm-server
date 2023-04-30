@@ -57,7 +57,7 @@ def login():
         return render_template('main.html', msg='Logout first.', error=1)
     
     if request.method == 'GET':
-        return render_template('login.html')
+        return render_template('index.html')
     
     elif request.method == 'POST':
         userid = request.form['id']
@@ -68,7 +68,7 @@ def login():
             session['user'] = userid
             return render_template('main.html', msg='Logged in', error = 0)
         elif flag is False:
-            return render_template('login.html', msg='Wrong ID or password.', error = 1)
+            return render_template('index.html', msg='Wrong ID or password.', error = 1)
 
 @app.route('/profile/logout')
 def logout():

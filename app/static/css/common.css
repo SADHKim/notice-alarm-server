@@ -10,15 +10,19 @@ a{
     color: inherit;
 }
 
+.hover:hover {
+    background-color: #3e4042;
+}
+.btn-secondary {
+    background-color: #6c757d;
+}
+
 .mini_layout{
     width: 50%;
     height: fit-content;
     padding: 0;
     margin-left: 25%;
     margin-top: 50px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: black;
 }
 .middle_layout{
     margin-top: 50px;
@@ -26,9 +30,6 @@ a{
     height: fit-content;
     padding: 0;
     margin-left: 15%;
-    border-width: 2px;
-    border-style: solid;
-    border-color: black;
 }
 .large_layout{
     width: 90%;
@@ -69,7 +70,7 @@ a{
     padding: 0;
     font-size: medium;
     text-align: center;
-    background-color: dodgerblue;
+    background-color: rgba(114, 133, 151, 0.71);
     color:black;
 }
 .content{

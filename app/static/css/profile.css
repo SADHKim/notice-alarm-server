@@ -5,8 +5,11 @@
     width: 80%;
     padding: 0;
     margin-left: 10%;
+    margin-top: 5%;
 }
-
+.middle_layout h2{
+    margin-left: 5%;
+}
 #websites_list .website{
     margin-top: 5px;
     border-bottom-style: solid;

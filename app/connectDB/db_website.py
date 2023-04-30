@@ -74,9 +74,6 @@ def g_keyword_websites(conn, keyword):
         cursor.execute(sql)
         
         rows = cursor.fetchall()
-        if not rows:
-            cursor.close()
-            return False
         
         cursor.close()
         return rows
@@ -92,8 +89,6 @@ def g_keyword_asks(conn, keyword):
         cursor.execute(sql)
         
         rows = cursor.fetchall()
-        if not rows:
-            return False
         
         return rows
     except Exception as e:

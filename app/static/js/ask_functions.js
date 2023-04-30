@@ -3,10 +3,6 @@ var asksCnt;
 var asks;
 var index;
 
-var user = 'guest';
-function set_user(id){
-    user = id;
-}
 
 function open_form(){
     document.getElementById('ask_form').style.display = 'block';
@@ -49,20 +45,7 @@ function set_elementAsks(){
         let li = document.createElement('li');
         li.className = 'ask';
 
-        if(user == 'admin'){
-            let span = document.createElement('span');
-
-            let button = document.createElement('a');
-            button.setAttribute('href', '#');
-            button.setAttribute('onclick', 'delete_ask("' + asks[index].url + '")');
-
-            let img = document.createElement('img');
-            img.setAttribute('src', '/static/image/delete.png');
-            
-            button.append(img);
-            span.append(button);
-            li.append(span)
-        }
+        if(typeof(append_delete) == 'function') li = append_delete(li);
 
         let name = document.createElement('span');
         name.append(asks[index].name);
@@ -71,27 +54,6 @@ function set_elementAsks(){
 
         elementAsks.appendChild(li);
     }
-}
-
-function delete_ask(url){
-    let http = new XMLHttpRequest();
-    let api_url = '/api/asks';
-    http.onreadystatechange = () => {
-        if(http.readyState === http.DONE){
-            if(http.response.error == 0){
-                set_msg(http.response.msg, 0);
-                set_asks();
-            }
-            else{
-                set_msg(http.response.msg, 1);
-            }
-        }
-    };
-
-    http.open('DELETE', api_url, true);
-    http.responseType = 'json';
-    http.setRequestHeader('Content-type', 'application/json');
-    http.send(JSON.stringify({'url' : url}));
 }
 
 function get_prev_list(){

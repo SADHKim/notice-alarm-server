@@ -34,12 +34,6 @@ function set_user(userID){
 function set_elementWebList (){
     elementWebList.innerHTML = '';
 
-    let title = document.createElement('li');
-    let strong = document.createElement('h1');
-    strong.append('알림받는 웹사이트');
-    title.appendChild(strong);
-    elementWebList.appendChild(title);
-
     if(websitesCnt == 0){
         let li = document.createElement('li');
         li.append('There are no websites.');
@@ -52,20 +46,18 @@ function set_elementWebList (){
         let li = document.createElement('li');
         li.className = 'website';
         
-        let a = document.createElement('a');
-        a.setAttribute('href', '#');
-        a.setAttribute('onclick', 'deleteWeb("' + websites[siteIndex].website_name + '")');
+        let button = document.createElement('button');
+        button.className = 'btn btn-secondary hover';
+        button.setAttribute('onclick', 'deleteWeb("' + websites[siteIndex].website_name + '")');
 
-        let spanImg = document.createElement('span');
         let img = document.createElement('img');
-        img.setAttribute('src', '/static/image/delete.png');
-        spanImg.append(img);
+        img.setAttribute('src', '/static/image/trash.svg');
 
-        a.append(spanImg)
-        li.appendChild(a);
+        button.append(img)
+        li.appendChild(button);
 
         let spanTitle = document.createElement('span');
-        spanTitle.append(websites[siteIndex].website_name);
+        spanTitle.append("  " + websites[siteIndex].website_name);
         li.append(spanTitle)
 
         elementWebList.appendChild(li);

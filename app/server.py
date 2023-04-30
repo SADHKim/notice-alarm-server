@@ -78,7 +78,7 @@ def logout():
     else:
         return render_template('main.html', msg='Login first', error=1)
       
-@app.route('/websites', methods = ['GET', 'POST'])
+@app.route('/websites', methods = ['GET', 'POST', 'DELETE'])
 def websites():
     if request.method == 'GET':
         return render_template('websites.html')
@@ -95,6 +95,17 @@ def websites():
                 return render_template('websites.html', msg="The name of website already exists", error=1)
             else:
                 return render_template('websites.html', msg=flag, error=1)
+    
+    elif request.method == 'DELETE':
+        info = request.get_json()
+        flag = connectDB.delete_website(info)
+        
+        if flag is True:
+            return jsonify({'msg' : 'The webiste has been deleted', 'error' : 0})
+        elif flag is False:
+            return jsonify({'msg' : 'The website does not exists', 'error' : 1})
+        else:
+            return jsonify({'msg' : flag, 'error' : 1})
         
 @app.route('/websites/ask', methods = ['GET', 'POST'])
 def ask():

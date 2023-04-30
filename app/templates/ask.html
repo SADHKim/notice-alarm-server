@@ -3,11 +3,10 @@
 {% block head %}
 {{super()}}
 <link rel="stylesheet" href="{{url_for('static', filename='./css/ask.css')}}">
-<script src="{{url_for('static', filename='./js/ask_functions.js')}}"></script>
-
 {% if session['user'] is defined and session['user'] == 'admin' %}
-<script>set_user("admin")</script>
+<script src="{{url_for('static', filename='js/ask_admin.js')}}"></script>
 {% endif %}
+<script src="{{url_for('static', filename='./js/ask_functions.js')}}"></script>
 {% endblock %}
 
 {% block content %}

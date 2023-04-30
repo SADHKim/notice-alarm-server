@@ -4,6 +4,9 @@
 {{super()}}
 <link rel="stylesheet" href="{{url_for('static', filename='/css/websites.css')}}">
 <script rel="javascript/text" src="{{url_for('static', filename='/js/websites_functions.js')}}"></script>
+{% if session['user'] is defined and session['user'] == 'admin' %}
+<script rel="javascript/text" src="{{url_for('static', filename='js/websites_admin.js')}}"></script>
+{% endif %}
 <style>
 .input{
     padding: 0;
@@ -35,7 +38,7 @@
         <span><input class="input" type="text" placeholder="url" name="url">
         <span><input class="input" type="text" placeholder="class" name="class">
         <span><input class="input" type="text" placeholder="tag" name="tag">
-        <span class="button"><button>add</button></span>
+        <button class="button">add</button>
     </form>
 </div>
 

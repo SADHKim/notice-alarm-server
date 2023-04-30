@@ -36,18 +36,21 @@ function set_elementWebsites(){
         let li = document.createElement('li');
         li.className = 'website';
 
-        let mark = document.createElement('span');
+        if (typeof(append_delete) == 'function') {li = append_delete(li);}
+        else{
+            let mark = document.createElement('span');
 
-        let a = document.createElement('a');
-        a.setAttribute('href', '#');
-        a.setAttribute('onclick', 'add_website("' + user + '", "' + websites[index].name + '")');
+            let a = document.createElement('a');
+            a.setAttribute('href', '#');
+            a.setAttribute('onclick', 'add_website("' + user + '", "' + websites[index].name + '")');
 
-        let img = document.createElement('img');
-        img.setAttribute('src', '/static/image/add.png');
+            let img = document.createElement('img');
+            img.setAttribute('src', '/static/image/add.svg');
 
-        a.append(img);
-        mark.append(a);
-        li.appendChild(mark);
+            a.append(img);
+            mark.append(a);
+            li.appendChild(mark);
+        }
 
         let name = document.createElement('span');
         name.append(websites[index].name + ' (url : ' + websites[index].url + ')');

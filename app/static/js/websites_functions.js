@@ -60,6 +60,24 @@ function set_elementWebsites(){
     }
 }
 
+function search(){
+    let keyword = document.search.value;
+    let http = new XMLHttpRequest();
+    let url = '/api/websites?keyword=' + keyword;
+    http.onreadystatechange = () => {
+        if(http.readyState === http.DONE){
+            websites = http.response;
+            index = 0;
+            websitesCnt = Object.keys(websites).length;
+
+            set_elementWebsites();
+        }
+    }
+    http.responseType = 'json'
+    http.open('GET', url, true)
+    http.send()
+}
+
 function get_prev_list(){
     if(index <= 10){
         set_msg('First page', 1);

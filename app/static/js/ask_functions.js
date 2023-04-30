@@ -56,6 +56,24 @@ function set_elementAsks(){
     }
 }
 
+function search(){
+    let keyword = document.search.value;
+    let http = new XMLHttpRequest();
+    let url = '/api/asks?keyword=' + keyword;
+    http.onreadystatechange = () => {
+        if(http.readyState === http.DONE){
+            asks = http.response;
+            index = 0;
+            asksCnt = Object.keys(asks).length;
+
+            set_elementAsks();
+        }
+    }
+    http.responseType = 'json'
+    http.open('GET', url, true)
+    http.send()
+}
+
 function get_prev_list(){
     if(index <= 10){
         set_msg('First page', 1);

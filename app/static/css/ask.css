@@ -1,17 +1,15 @@
-#ask_form{
-    width: 70%;
+#ask-form span{
+    display: inline-block;
+    width: 10%;
     padding: 0;
-    margin-left: 15%;
-    border-width: 2px;
-    border-color: black;
-    border-style: solid;
-    display: none;
+    margin-left: 3%;
 }
-
-#asks .ask{
-    margin-top: 5px;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-bottom-color: black;
-    font-size: large;
+#ask-form input{
+    padding: 0;
+    margin-left: 5%;
+    margin-top: 3%;
+    width: 40%;
+}
+#ask-form button{
+    margin-left: 5%;
 }

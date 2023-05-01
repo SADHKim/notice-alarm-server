@@ -74,7 +74,7 @@ def login():
                 session['admin'] = 'true'
             return redirect(url_for('main'))
         elif flag is False:
-            return render_template('index.html', msg='Wrong ID or password.', error = 1)
+            return render_template('index.html', msg='Wrong ID or PASSWORD')
 
 @app.route('/profile/logout')
 def logout():
@@ -130,17 +130,19 @@ def websites():
 @app.route('/websites/ask', methods = ['GET', 'POST'])
 def ask():
     if request.method == 'GET':
-        return render_template('ask.html')
+        asks = connectDB.get_asks()
+        return render_template('ask.html', asks=asks)
     
     elif request.method == 'POST':
         
         flag = connectDB.push_ask(request.form['name'], request.form['url'])
+        asks = connectDB.get_asks()
         if flag is True:
-            return render_template('ask.html', msg="Your ask has been added.", error=0)
+            return render_template('ask.html', asks=asks)
         elif flag is False:
-            return render_template('ask.html', msg="Your ask has already been added.", error=1)
+            return render_template('ask.html', asks=asks)
         else:
-            return render_template('ask.html', msg=flag, error=1)
+            return render_template('ask.html', asks=asks)
         
 @app.route('/notice', methods = ['GET', 'POST', 'DELETE'])
 def notice():
@@ -265,11 +267,11 @@ def api_asks():
         
         flag = connectDB.delete_ask(data['url'])
         if flag is True:
-            return jsonify({'msg' : 'The ask has been deleted', 'error' : 0})
+            return jsonify({'error' : 0})
         elif flag is False:
-            return jsonify({'msg' : 'The url of ask is not eixist', 'error' : 1})
+            return jsonify({'error' : 1})
         else:
-            return jsonify({'msg' : flag, 'error' : 1})
+            return jsonify({'msg' : flag, 'error' : -1})
         
 @app.route('/api/notices', methods=['GET'])
 def api_notices():

@@ -24,6 +24,9 @@
 								<span class="fa fa-user-o"></span>
 							</div>
 							<h3 class="text-center mb-4">Sign Up</h3>
+							{% if msg is defined %}
+							<p class="text-center" style="color: #5671d7;">{{msg}}</p>
+							{% endif %}
 							<form action="{{url_for('register')}}" , method="post" , name="register_form" ,
 								onSubmit="return register_check()" class="login-form">
 								<div class="form-group">

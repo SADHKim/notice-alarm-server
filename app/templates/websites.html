@@ -16,22 +16,10 @@
 
 {% block content %}
 <h1 class="h3 mb-2 text-gray-800">Providing Websites</h1>
-{% if session['admin'] is defined and session['admin'] == 'true' %}
-<p class="mb-4">
-    <h4>Add Website (for admin)</h4>
-    <form action="{{url_for('websites')}}" method="POST">
-        <input type="text" name="name" placeholder="name" required>
-        <input type="text" name="url" placeholder="url" required>
-        <input type="text" name="class" placeholder="class" required>
-        <input type="text" name="path" placeholder="path" required>
-        <button>Push</button>
-    </form>
-</p>
-{% endif %}
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Notice pages</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Provide: Select websites you want to know latest news!</h6>
     </div>
 
     <div class="card-body">
@@ -61,7 +49,7 @@
                     <tr>
                         {% if session['user'] is defined %}
                             {% if session['admin'] is defined and session['admin'] == 'true' %}
-                            <td class="text-center"><button class="rounded border-0" onclick='delete_website("{{site['name']}}")'>Delete</button></td>
+                            <td class="text-center"><button class="rounded border-0 text-primary" onclick='delete_website("{{site['name']}}")'>Del</button></td>
                             {% else %}
                         
                                 {% if site['name'] in user_websites %}
@@ -82,6 +70,30 @@
             </table>
         </div>
     </div>
+</div>
+
+{% if session['admin'] is defined and session['admin'] == 'true' %}
+
+<div class="card shadow mb-4">
+    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample">
+        <h6 class="m-0 font-weight-bold text-primary">Add Website (for admin) : open form</h6>
+    </a>
+
+    <div class="collapse" id="collapseCardExample">
+        <div class="card-body">
+            <form action="{{url_for('websites')}}" method="POST">
+                <input type="text" name="name" placeholder="name" required>
+                <input type="text" name="url" placeholder="url" required>
+                <input type="text" name="class" placeholder="class" required>
+                <input type="text" name="path" placeholder="path" required>
+                <button class="rounded border-0" style="color: rgb(69, 72, 109);">Push</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
 {% endblock %}
 
 {% block script %}

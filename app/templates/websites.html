@@ -1,47 +1,110 @@
 {% extends 'base.html' %}
 
 {% block head %}
-{{super()}}
-<link rel="stylesheet" href="{{url_for('static', filename='/css/websites.css')}}">
-<script rel="javascript/text" src="{{url_for('static', filename='/js/websites_functions.js')}}"></script>
+<!-- Custom fonts for this template -->
+<link href="../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
 
-{% if session['user'] is defined and session['user'] == 'admin' %}
-<script rel="javascript/text" src="{{url_for('static', filename='js/websites_admin.js')}}"></script>
-<style>
-    .input{
-        padding: 0;
-        margin: 15px;
-        resize: none;
-    }
-    </style>
-{% endif %}
+<!-- Custom styles for this template -->
+<link href="../static/css/sb-admin-2.min.css" rel="stylesheet">
 
-{% if session['user'] is defined %}
-<script>set_user("{{session['user']}}")</script>
-{% endif %}
+<!-- Custom styles for this page -->
+<link href="../static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-<div name="providing_weblit" id="webLayout">
-    <h2>Providing Websites</h2>
-    <ul id="websites" class="list-groupt">
-    </ul>
-    <div id="buttons">
-        <button class="button" onclick="get_prev_list()">◀PREV</button>
-        <button class="button" onclick="get_next_list()">NEXT▶</button>
-    </div>
-</div>
-
-{% if session['user'] is defined and session['user'] == 'admin' %}
-<div name="admin_add_web" style="text-align:center; margin-top:50px; background-color:cadetblue;">
+<h1 class="h3 mb-2 text-gray-800">Providing Websites</h1>
+{% if session['admin'] is defined and session['admin'] == 'true' %}
+<p class="mb-4">
+    <h4>Add Website (for admin)</h4>
     <form action="{{url_for('websites')}}" method="POST">
-        <span><input class="input" type="text" placeholder="name" name="name">
-        <span><input class="input" type="text" placeholder="url" name="url">
-        <span><input class="input" type="text" placeholder="class" name="class">
-        <span><input class="input" type="text" placeholder="tag" name="tag">
-        <button class="button">add</button>
+        <input type="text" name="name" placeholder="name" required>
+        <input type="text" name="url" placeholder="url" required>
+        <input type="text" name="class" placeholder="class" required>
+        <input type="text" name="path" placeholder="path" required>
+        <button>Push</button>
     </form>
-</div>
+</p>
+{% endif %}
 
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Notice pages</h6>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <colgroup>
+                    <col width="10%" text-align="center"/>
+                    <col width="30%"/>
+                    <col width="60%"/>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Add</th>
+                        <th>Name</th>
+                        <th>Url</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Add</th>
+                        <th>Name</th>
+                        <th>Url</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for site in sites %}
+                    <tr>
+                        {% if session['user'] is defined %}
+                            {% if session['admin'] is defined and session['admin'] == 'true' %}
+                            <td class="text-center"><button class="rounded border-0" onclick='delete_website("{{site['name']}}")'>Delete</button></td>
+                            {% else %}
+                        
+                                {% if site['name'] in user_websites %}
+                                <td></td>
+                                {% else %}
+                                <td class="text-center"><button class="rounded border-0" onclick='add_website("{{session['user']}}", "{{site['name']}}")'><img src="../static/image/add.svg" alt="add"></button></td>
+                                {% endif %}
+                            {% endif %}
+                        {% else %}
+                        <td class="text-center"><button class="rounded border-0" onclick="javascript:location.href='/profile/login'"><img src="../static/image/add.svg" alt="add"></button></td>
+                        {% endif %}
+
+                        <td>{{site['name']}}</td>
+                        <td><a href="{{site['url']}}" target="_blank">{{site['url']}}</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+<!-- Bootstrap core JavaScript-->
+<script src="../static/vendor/jquery/jquery.min.js"></script>
+<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../static/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="../static/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../static/js/demo/datatables-demo.js"></script>
+
+<!-- Javascript for websites -->
+<script src="../static/js/websites_functions.js"></script>
+{% if session['admin'] is defined and session['admin'] == 'true' %}
+<script src="../static/js/websites_admin.js"></script>
 {% endif %}
 {% endblock %}

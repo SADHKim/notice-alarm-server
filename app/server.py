@@ -54,7 +54,7 @@ def register():
 @app.route('/profile/login', methods = ['GET', 'POST'])
 def login():
     if 'user' in session:
-        return render_template('main.html', msg='Logout first.', error=1)
+        return redirect(url_for('main'))
     
     if request.method == 'GET':
         return render_template('index.html')
@@ -65,8 +65,14 @@ def login():
         
         flag = connectDB.login(userid, userpwd)
         if flag is True:
+            email = connectDB.get_user_info(userid)['email']
+            
             session['user'] = userid
-            return render_template('main.html', msg='Logged in', error = 0)
+            session['email'] = email
+            
+            if userid == 'admin':
+                session['admin'] = 'true'
+            return redirect(url_for('main'))
         elif flag is False:
             return render_template('index.html', msg='Wrong ID or password.', error = 1)
 
@@ -74,14 +80,28 @@ def login():
 def logout():
     if 'user' in session:
         session.pop('user')
-        return render_template('main.html', msg="Logged out")
+        session.pop('email')
+        if 'admin' in session:
+            session.pop('admin')
+        return redirect(url_for('main'))
     else:
-        return render_template('main.html', msg='Login first', error=1)
+        return redirect(url_for('main'))
       
 @app.route('/websites', methods = ['GET', 'POST', 'DELETE'])
 def websites():
     if request.method == 'GET':
-        return render_template('websites.html')
+        if 'user' in session:
+            info = connectDB.get_user_websites(session['user'])
+            user_websites = []
+            for website in info:
+                user_websites.append(website['website_name'])
+            
+            sites = connectDB.get_websites()
+            
+            return render_template('websites.html', sites=sites, user_websites=user_websites)
+        else:
+            sites = connectDB.get_websites()
+            return render_template('websites.html', sites=sites)
     
     elif request.method == 'POST':
         if 'user' not in session:
@@ -189,14 +209,15 @@ def api_websites():
         
     elif request.method == 'POST':
         data = request.get_json()
+        email = connectDB.get_user_info(data['user'])['email']
         
-        flag = connectDB.push_user_website(data['user'], data['email'], data['website'])
+        flag = connectDB.push_user_website(data['user'], email, data['website'])
         if flag is True:
-            return jsonify({'msg' : 'The website has been added', 'error' : 0})
+            return jsonify({'error' : 0})
         elif flag is False:
-            return jsonify({'msg' : 'You already has the website', 'error' : 1})
+            return jsonify({'error' : 1})
         else:
-            return jsonify({'msg' : flag, 'error' : 1})
+            return jsonify({'error' : flag})
             
 @app.route('/api/change/password', methods=['POST'])
 def api_change_password():

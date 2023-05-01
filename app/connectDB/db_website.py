@@ -5,7 +5,7 @@ def g_websites(conn):
     try:
         cursor = conn.cursor(pymysql.cursors.DictCursor)
         
-        sql = "SELECT name, url, class, tag from websites ORDER BY num DESC"
+        sql = "SELECT name, url, class, path from websites ORDER BY num DESC"
         cursor.execute(sql)
         
         rows = cursor.fetchall()
@@ -28,7 +28,7 @@ def p_website(conn, info):
             cursor.close()
             return False
         
-        sql = "INSERT INTO websites (name, url, class, tag) VALUES ('%s', '%s', '%s', '%s')" %(info['name'], info['url'], info['class'], info['tag'])
+        sql = "INSERT INTO websites (name, url, class, path) VALUES ('%s', '%s', '%s', '%s')" %(info['name'], info['url'], info['class'], info['path'])
         cursor.execute(sql)
         conn.commit()
         
@@ -38,11 +38,11 @@ def p_website(conn, info):
         cursor.close()
         return e
     
-def d_website(conn, info):
+def d_website(conn, name):
     try:
         cursor = conn.cursor()
         
-        sql = "SELECT name FROM websites WHERE name='%s' AND url='%s'" %(info['name'], info['url'])
+        sql = "SELECT name FROM websites WHERE name='%s'" %name
         cursor.execute(sql)
         
         row = cursor.fetchone()
@@ -51,15 +51,15 @@ def d_website(conn, info):
             return False
         
         
-        sql = "DELETE FROM websites WHERE name='%s' AND url='%s'" %(info['name'], info['url'])
+        sql = "DELETE FROM websites WHERE name='%s'" % name
         cursor.execute(sql)
-        sql = "DELETE FROM email_list WHERE website_name='%s'" %(info['name'])
+        sql = "DELETE FROM email_list WHERE website_name='%s'" %name
         cursor.execute(sql)
         
         conn.commit()
         cursor.close()
         
-        pop_website(info['name'])
+        pop_website(name)
         
         return True
     except Exception as e:

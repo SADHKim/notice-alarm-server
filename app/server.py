@@ -172,40 +172,18 @@ def notice():
 
 
 ### API server requests post, delete with json file ###
-@app.route('/api/websites', methods=['GET', 'DELETE', 'POST'])
+@app.route('/api/websites', methods=['DELETE', 'POST'])
 def api_websites():
-    if request.method == 'GET':
-        parameter = request.args.to_dict()
-        
-        if 'user' in parameter and 'keyword' not in parameter:
-            website_list = connectDB.get_user_websites(parameter['user'])
-            return jsonify(website_list)
-        elif 'user' not in parameter and 'keyword' in parameter:
-            website_list = connectDB.get_keyword_websites(parameter['keyword'])
-            return jsonify(website_list)
-            
-        else:
-            # get list of providing websites #
-            sites = connectDB.get_websites()
-            ret = []
-            for site in sites:
-                tmp = {}
-                tmp['name'] = site['name']
-                tmp['url'] = site['url']
-                ret.append(tmp)
-                
-            return jsonify(ret)
-        
-    elif request.method == 'DELETE':
+    if request.method == 'DELETE':
         data = request.get_json()
         
         flag = connectDB.delete_user_webiste(data['user'], data['website'])
         if flag is True:
-            return jsonify({'msg' : 'Your website has been deleted', 'error' : 0})
+            return jsonify({'error' : 0})
         elif flag is False:
-            return jsonify({'msg' : "You don't have the website", 'error' : 1})
+            return jsonify({'error' : 1})
         else:
-            return jsonify({'msg' : flag, 'error' : 1})
+            return jsonify({'msg' : flag, 'error' : -1})
         
     elif request.method == 'POST':
         data = request.get_json()

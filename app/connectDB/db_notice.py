@@ -10,9 +10,6 @@ def g_notices(conn):
         row = cursor.fetchall()
         cursor.close()
         
-        if not row:
-            return False
-        
         return row
     except Exception as e:
         cursor.close()

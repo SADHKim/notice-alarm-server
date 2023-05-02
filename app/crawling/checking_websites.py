@@ -12,6 +12,7 @@ options.add_argument('--headless')  # 브라우저 백그라운드 실행
 options.add_argument('--disable-blink-features=AutomationControlled')
 driver = webdriver.Firefox(executable_path=path, options=options)
 
+
 prev_lists = {}
 
 def get_posts(site):
@@ -22,13 +23,13 @@ def get_posts(site):
     name = site['name']
     url = site['url']
     className = site['class']
-    tagName = site['tag']
+    path = site['path']
     
     
     driver.get(url)
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, className)))
     
-    posts = driver.find_element(By.CSS_SELECTOR, className).find_elements(By.TAG_NAME, tagName)
+    posts = driver.find_elements(By.XPATH, path)
     
     flag = False
     if name in prev_lists:

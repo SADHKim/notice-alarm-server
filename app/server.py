@@ -25,15 +25,14 @@ def main():
 @app.route('/profile')
 def profile():
     param = request.args.to_dict()
-    if 'user' in param:
-        info = connectDB.get_user_info(param['user'])
-        return jsonify(info)
+    if 'error' in param and param['error'] == '1':
+        return render_template('profile.html', msg='Check your password')
     
     if 'user' not in session:
         return redirect(url_for('login'))
     else:
-        info = connectDB.get_user_info(session['user'])
-        return render_template('profile.html', info=info)
+        user_websites = connectDB.get_user_websites(session['user'])
+        return render_template('profile.html', websites=user_websites)
             
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
@@ -222,34 +221,43 @@ def api_websites():
             
 @app.route('/api/change/password', methods=['POST'])
 def api_change_password():
-    data = request.get_json()
     
-    userId = data['user']
-    currPwd = data['currPass']
-    newPwd = data['newPass']
+    userId = request.form['user']
+    currPwd = request.form['currPass']
+    newPwd = request.form['newPass']
     
     flag = connectDB.update_password(userId, currPwd, newPwd)
     
     if flag is True:
-        return jsonify({'msg' : 'Your password has been change', 'error' : 0})
+        session.pop('user')
+        session.pop('email')
+        if 'admin' in session:
+            session.pop('admin')
+        
+        return redirect(url_for('login'))
     elif flag is False:
-        return jsonify({'msg' : 'Error. Check your current password', 'error' : 1})
+        return redirect(url_for('profile', error=1))
     else:
-        return jsonify({'msg' : flag, 'error' : 1})
+        return
+        
     
 @app.route('/api/change/email', methods=['POST'])
 def api_change_email():
-    data = request.get_json()
     
-    userId = data['user']
-    newEmail = data['newEmail']
+    userId = request.form['user']
+    newEmail = request.form['newEmail']
     
     flag = connectDB.update_email(userId, newEmail)
     
     if flag is True:
-        return jsonify({'msg' : 'Your email has been changed', 'error' : 0})
+        session.pop('user')
+        session.pop('email')
+        if 'admin' in session:
+            session.pop('admin')
+        
+        return redirect(url_for('login'))
     else:
-        return jsonify({'msg' : flag, 'error' : 1})
+        return redirect(url_for('profile', error=-1))
     
 @app.route('/api/asks', methods=['GET', 'DELETE'])
 def api_asks():

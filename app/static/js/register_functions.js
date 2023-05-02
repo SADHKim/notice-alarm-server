@@ -47,29 +47,29 @@ function check_overlap(){
 
 function register_check(){
     if(!document.register_form.id.value){
-        alert('input ID', 1);
+        alert('input ID');
         document.register_form.id.focus();
         return false;
     }
     if(!document.register_form.passwd.value){
-        alert('input PASSWORD', 1);
+        alert('input PASSWORD');
         document.register_form.passwd.focus();
         return false;
     }
     if(document.register_form.passwd.value != document.register_form.passwd_1.value){
-        alert('no match password', 1);
+        alert('no match password');
         document.register_form.passwd.select();
         return false;
     }
     if(!document.register_form.email.value){
-        alert('input EMAIL', 1);
+        alert('input EMAIL');
         document.register_form.email.focus();
         return false;
     }
     
     if(check_id) return true;
     else{
-        alert('check your ID can usable', 1);
+        alert('check your ID can usable');
         return false;
     }
 }

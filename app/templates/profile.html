@@ -1,79 +1,155 @@
 {% extends 'base.html' %}
-
 {% block head %}
-{{super()}}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
-<script rel="javascript/text" src="{{ url_for('static', filename='js/profile_functions.js') }}"></script>
-<script>set_user("{{ info['id'] }}")</script>
+<!-- Custom fonts for this template -->
+<link href="../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="../static/css/sb-admin-2.min.css" rel="stylesheet">
+
+<!-- Custom styles for this page -->
+<link href="../static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+<link href="../static/css/sb-admin-2.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../static/css/profile.css">
 {% endblock %}
 
 {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-12 col-md-6">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">회원 정보</h3>
+<div class="card shadow mb-4" id="profile">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Profile</h6>
+    </div>
+    <div class="card-body">
+        <div id="profile-image">
+            <img class="img-profile rounded circle" src="../static/image/undraw_profile.svg" alt="profile">
         </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <span class="col-4 font-weight-bold">아이디 :</span>
-            <span class="col-8">{{ info['id'] }}</span>
-          </li>
-        </ul>
-      </div>
-      <div class="card mt-4">
-        <div class="card-header">
-          <h3 class="card-title">비밀번호 변경</h3>
+        {% if msg is defined %}
+        <span class="bg-gradient-danger rounded border-0" style="margin-bottom:3%; margin-left:20%; color:white">{{msg}}</span>
+        {% endif %}
+        
+        <!-- profile card -->
+        <div class="card mb-4 py-3 border-left-info"  id="profile-info">
+            <div class="card-body">
+                <div>
+                    <p>
+                        <span class="text-gray-800 col">ID : </span>
+                        <span>{{session['user']}}</span>
+                    </p>
+                    <p>
+                        <span class="text-gray-800 col">EMAIL : </span>
+                        <span>{{session['email']}}</span>
+                    </p>
+                </div>
+                
+                <!-- change form-->
+                <div id="change-form">
+
+                    <!-- PASSWORD chagne -->
+                    <div class="card mb-4">
+                        <a href="#multicollapseCardExample1" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="multicollapseCardExample1">
+                            <h6 class="m-0 font-weight-bold text-secondary">Change PASSWORD</h6>
+                        </a>
+                    
+                        <div class="collapse" id="multicollapseCardExample1">
+                            <div class="card-body">
+                                <form action="{{url_for('api_change_password')}}" method="POST">
+                                    <p>
+                                        <span class="col text-greay-800">ID : </span>
+                                        <span class="text-primary">{{session['user']}}</span>
+                                        <input type="hidden" value="{{session['user']}}" name="user" readonly>
+                                        <br><br>
+                                        <span class="col text-gray-800">Current PASSWORD : </span>
+                                        <span><input type="password" name="currPass" required></span>
+                                        <br><br>
+                                        <span class="col text-gray-800">New PASSWORD : </span>
+                                        <span><input type="password" name="newPass" required></span>
+                                    </p>
+                                    <div style="text-align: end;"><button class="btn btn-success btn-circle"><i class="fas fa-check"></i></button></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EMAIL change -->
+                    <div class="card mb-4">
+                        <a href="#multicollapseCardExample2" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="multicollapseCardExample2">
+                            <h6 class="m-0 font-weight-bold text-secondary">Change EMAIL address</h6>
+                        </a>
+                    
+                        <div class="collapse" id="multicollapseCardExample2">
+                            <div class="card-body">
+                                <form action="{{url_for('api_change_email')}}" method="POST">
+                                    <p>
+                                        <span class="col text-greay-800">ID : </span>
+                                        <span class="text-primary">{{session['user']}}</span>
+                                        <input type="hidden" value="{{session['user']}}" name="user" readonly>
+                                        <br><br>
+                                        <span class="col text-gray-800">New EMAIL : </span>
+                                        <span><input type="text" name="newEmail" required></span>
+                                    </p>
+                                </p>
+                                <div style="text-align: end;"><button class="btn btn-success btn-circle"><i class="fas fa-check"></i></button></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- change form -->
+
+            </div>
         </div>
-        <form name="change_pass_form">
-          <input type="hidden" value="{{ info['id'] }}" name="user">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <span class="col-4 font-weight-bold">현재 비밀번호 :</span>
-              <input type="password" class="form-control col-8" name="currPass">
-            </li>
-            <li class="list-group-item">
-              <span class="col-4 font-weight-bold">새로운 비밀번호 :</span>
-              <input type="password" class="form-control col-8" name="newPass">
-              <button type="button" class="btn btn-primary mt-3" onclick="change_password()">변경</button>
-            </li>
-          </ul>
-        </form>
-      </div>
-      <div class="card mt-4">
-        <div class="card-header">
-          <h3 class="card-title">이메일 변경</h3>
+        <!-- profile card -->
+
+        <!-- website table-->
+        <div class="card shadow mb-4" id="websites-info">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Websites</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <colgroup>
+                            <col width="25%">
+                            <col width="75%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <td></td>
+                                <td>Name</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for website in websites %}
+                            
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <span class="col-4 font-weight-bold">현재 이메일 :</span>
-            <span class="col-8">{{ info['email'] }}</span>
-          </li>
-        </ul>
-        <form name="change_email_form">
-          <input type="hidden" value="{{ info['id'] }}" name="user">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <span class="col-4 font-weight-bold">새로운 이메일 :</span>
-              <input type="text" class="form-control col-8" name="newEmail">
-              <button type="button" class="btn btn-primary mt-3" onclick="change_email()">변경</button>
-            </li>
-          </ul>
-        </form>
-      </div>
+        <!-- website table-->
     </div>
 </div>
-<div class="middle_layout">
-    <div class="list-group">
-        <h2 class="mb-4 list-group-item">알림받는 웹사이트</h2>
-        <ul id="websites_list" class="list-group-item">
-            <div id="user_websites"></div>
-            <li class="list-group-item d-flex justify-content-center">
-            <button class="btn btn-primary me-2" onclick="get_prev_list()">◀이전</button>
-            <button class="btn btn-primary" onclick="get_next_list()">다음▶</button>
-            </li>
-        </ul>
-    </div>
-</div>
+
+{% endblock %}
+
+{% block script %}
+<!-- Bootstrap core JavaScript-->
+<script src="../static/vendor/jquery/jquery.min.js"></script>
+<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../static/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="../static/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../static/js/demo/datatables-demo.js"></script>
+<script src="../static/js/profile_functions.js"></script>
 {% endblock %}

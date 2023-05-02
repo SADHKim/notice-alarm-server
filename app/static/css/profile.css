@@ -1,18 +1,37 @@
-.col{
-    width: 30%;
+#profile-image{
+    display: block;
+    width: 25%;
+    padding: 0;
+    margin-left: 37.5%;
+    margin-bottom: 5%;
 }
-#websites_list{
+
+#profile span{
+    display: inline-block;
+}
+
+#profile-info{
+    display: block;
+    width: 60%;
+    padding: 0;
+    margin-left: 20%;
+}
+.col{
+    width: 35%;
+    padding: 0;
+    margin: 0;
+}
+
+#change-form{
     width: 80%;
     padding: 0;
-    margin-left: 10%;
-    margin-top: 5%;
-}
-.middle_layout h2{
     margin-left: 5%;
+    margin-top: 10%;
 }
-#websites_list .website{
-    margin-top: 5px;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-bottom-color: black;
+
+#websites-info{
+    display: block;
+    width: 60%;
+    padding: 0;
+    margin-left: 20%;
 }

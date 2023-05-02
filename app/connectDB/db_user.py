@@ -90,14 +90,10 @@ def u_email(conn, user, new):
     try:
         cursor = conn.cursor()
         
-        sql = "SELECT email FROM users WHERE id = '%s'" % user
-        cursor.execute(sql)
-        currEmail = cursor.fetchone() # get current email
-        
         sql = "UPDATE users SET email = '%s' WHERE id = '%s'" %(new, user)
         cursor.execute(sql) # change email in users table
         
-        sql = "UPDATE email_list SET email = '%s' WHERE email = '%s'" %(new, currEmail)
+        sql = "UPDATE email_list SET email = '%s' WHERE user_id = '%s'" %(new, user)
         cursor.execute(sql) # change email in email_list table
         
         conn.commit()

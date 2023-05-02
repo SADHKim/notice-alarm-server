@@ -50,7 +50,6 @@ def d_website(conn, name):
             cursor.close()
             return False
         
-        
         sql = "DELETE FROM websites WHERE name='%s'" % name
         cursor.execute(sql)
         sql = "DELETE FROM email_list WHERE website_name='%s'" %name
@@ -58,9 +57,7 @@ def d_website(conn, name):
         
         conn.commit()
         cursor.close()
-        
         pop_website(name)
-        
         return True
     except Exception as e:
         cursor.close()

@@ -5,10 +5,10 @@ function delete_website(website){
     http.onreadystatechange = () => {
         if(http.readyState === http.DONE){
             if(http.response.error == 0){
-                set_msg(http.response.msg, 0);
+                location.reload(true);
             }
-            else{
-                set_msg(http.response.msg, 1);
+            else if (http.response.error == -1){
+                alert(http.response.msg);
             }
         }
     }

@@ -29,7 +29,8 @@ def search_pages():
         
         
 def start():
-    schedule.every(2).hours.do(search_pages())
+    search_pages()
+    schedule.every(2).hours.do(search_pages)
     
     while True:
         schedule.run_pending()

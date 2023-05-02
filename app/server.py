@@ -107,24 +107,24 @@ def websites():
             return redirect(url_for('login'))
         else:
             flag = connectDB.push_website(request.form)
-            
+            websites=connectDB.get_websites()
             if flag is True:
-                return render_template('websites.html', msg = request.form['name'] + ' has been added', error=0)
+                return render_template('websites.html', sites=websites)
             elif flag is False:
-                return render_template('websites.html', msg="The name of website already exists", error=1)
+                return render_template('websites.html', sites=websites)
             else:
                 return render_template('websites.html', msg=flag, error=1)
     
     elif request.method == 'DELETE':
         info = request.get_json()
-        flag = connectDB.delete_website(info)
+        flag = connectDB.delete_website(info['name'])
         
         if flag is True:
-            return jsonify({'msg' : 'The webiste has been deleted', 'error' : 0})
+            return jsonify({'error' : 0})
         elif flag is False:
-            return jsonify({'msg' : 'The website does not exists', 'error' : 1})
+            return jsonify({'error' : 1})
         else:
-            return jsonify({'msg' : flag, 'error' : 1})
+            return jsonify({'msg' : str(flag), 'error' : -1})
         
 @app.route('/websites/ask', methods = ['GET', 'POST'])
 def ask():

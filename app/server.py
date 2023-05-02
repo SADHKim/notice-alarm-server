@@ -147,7 +147,8 @@ def ask():
 @app.route('/notice', methods = ['GET', 'POST', 'DELETE'])
 def notice():
     if request.method == 'GET':
-        return render_template('notice.html')
+        notices = connectDB.get_notices()
+        return render_template('notice.html', notices=notices)
     
     elif request.method == 'POST':
         title = request.form['title']
@@ -155,21 +156,19 @@ def notice():
         clock = datetime.now().strftime('%Y-%m-%d')
         
         flag = connectDB.push_notice(title, content, clock)
-        if flag is True:
-            return render_template('notice.html', msg="Your notice has been added.", error=0)
-        else:
-            return render_template('notice.html', msg="Your notice cannot be added.", error=1)
+        notices = connectDB.get_notices()
+        return render_template('notice.html', notices=notices)
         
     elif request.method == 'DELETE':
         data = request.get_json()
         
         flag = connectDB.delete_notice(data['num'])
         if flag is True:
-            return jsonify({'msg' : 'The notice has been deleted', 'error' : 0})
+            return jsonify({'error' : 0})
         elif flag is False:
-            return jsonify({'msg' : 'The notice is not exists', 'error' : 1})
+            return jsonify({'error' : 1})
         else:
-            return jsonify({'msg' : flag, 'error' : 1})
+            return jsonify({'msg' : flag, 'error' : -1})
 
 
 

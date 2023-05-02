@@ -1,47 +1,20 @@
-#view{
-    width: 80%;
-    height: fit-content;
-    padding: 0;
-    margin-left: 10%;
-    margin-top: 5%;
-    border-width: 3px;
-    border-color: black;
-    border-style: solid;
+#dataTable thead{
+    text-align: center;
+}
+#dataTable tfoot{
+    text-align: center;
+}
+#dataTable tbody{
+    text-align: center;
+}
+#dataTable tbody .title{
+    text-align: left;
+}
+
+#notice-view{
     display: none;
 }
-#notice_content{
-    width: max-content;
-    height: fit-content;
-}
 
-#notice_table{
-    width: 80%;
-    height: fit-content;
-    padding: 0;
-    margin-left: 10%;
-    margin-top: 5%;
-}
-#notice_table thead{
-    text-align: center;
-    background-color: #CCD5AE;
-    color: black;
-
-    border-color: #FEFAE0;
-    border-width: 2px;
-    border-bottom: solid;
-}
-#notices{
-    background-color: #E9EDC9;
-    color: black;
-}
-#notices tr{
-    font-size: large;
-    text-align: center;
-    height: 40px;
-    border-bottom: solid;
-    border-width: 1px;
-    border-color: black;
-}
-.notice{
-    text-align: left;
+#notice-form textarea{
+    resize: none;
 }

@@ -1,0 +1,14 @@
+span{
+    display: inline-block;
+}
+
+#tutorial{
+    width: 70%;
+    padding: 0;
+    margin-left: 15%;
+}
+#cards{
+    width: 80%;
+    padding: 0;
+    margin-left: 10%;
+}

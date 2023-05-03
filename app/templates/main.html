@@ -9,40 +9,164 @@
 <!-- Custom styles for this template-->
 <link href="../static/css/sb-admin-2.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="../static/css/main.css">
 
 {% endblock %}
 
 {% block content %}
 
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">The contributors of this service are</h1>
-    <p class="mb-4">설명 블라블라</p>
+    <!-- Page section -->
+    <h1 class="h3 mb-2 text-gray-800">Notice Alarm</h1>
+    <div>
+        <p class="mb-4" id="intro">
+            Notice Alarm이라는 이름으로 서비스를 출시했습니다! <br>
+            우리 서비스는 사용자에게 궁금한 공지사항을 조금이라도 <strong>편리하게 제공하고 싶은</strong> 생각에서 출발했습니다.. <br>
+            <br>
+            알림을 받고 싶은 사이트를 등록하면, 사용자의 <span class="text-primary">E-mail</span>을 통해 새로운 공지사항을 알려드립니다! <br>
+            <br>
+            서비스 이용방법은 다음을 참고해주세요! <br><br>
+            버그 문의 : <span class="text-primary">notice-alarm@gmail.com</span>
+        </p>
+        <button id="intro-btn" class="rounded border-0" onclick="interpre_intro()">English</button>
+        <br><br>
+        <a href="#tutorial" id="go2Tutorial">서비스 이용방법 보러가기<i class="bi bi-link-45deg"></i></a>
+    </div>
 
     <!-- Team members section-->
-    <section class="py-5 bg-light">
-        <div class="container px-5 my-5">
-            <div class="text-center">
-                <h2 class="fw-bolder">Our team</h2>
-                <p class="lead fw-normal text-muted mb-5">Dedicated to quality and your success</p>
+    <div id="contributors">
+        <section class="py-5 bg-light">
+            <div class="container px-5 my-5">
+                <div class="text-center">
+                    <h2 class="fw-bolder">개발자 소개</h2>
+                    <p class="lead fw-normal text-muted mb-5">Introduce contributors</p>
+                </div>
+                <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
+                    <div class="col2 mb-5 mb-5 mb-xl-0 mr-5">
+                        <div class="text-center">
+                            <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
+                            <h5 class="fw-bolder">김동하<br>Kim Dong Ha</h5>
+                            <div class="fst-italic text-muted">
+                                한양대학교 컴퓨터소프트웨어학부<br>
+                                HYU CSE 20<br><br>
+                                Github : <a href="https://github.com/DHki" target="_blank">DHki</a><br>
+                                Contact : <span class="text-primary">kdh101800@gmail.com</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col2 mb-5 mb-5 mb-xl-0 ml-5">
+                        <div class="text-center">
+                            <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
+                            <h5 class="fw-bolder">김성아<br>Kim Seong Ah</h5>
+                            <div class="fst-italic text-muted">
+                                한양대학교 컴퓨터소프트웨어학부<br>
+                                HYU CSE 20<br><br>
+                                Github : <a href="https://github.com/kimseongah" target="_blank">kimseongah</a><br>
+                                Contact : <span class="text-primary">kimsa0322@gmail.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
-                <div class="col mb-5 mb-5 mb-xl-0">
-                    <div class="text-center">
-                        <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
-                        <h5 class="fw-bolder">김동하</h5>
-                        <div class="fst-italic text-muted">CSE 20</div>
+        </section>
+    </div>
+
+    <div id="tutorial">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary" id="tutorial-title">서비스 이용방법</h6>
+            </div>
+            <div class="card-body">
+                <!-- intro of tutorial -->
+                <p style="text-align: end;"><button id="tutorial-btn" class="rounded border-0" onclick="interpre_tuto()">English</button><br></p>
+                <div id="tutorial-script">
+                    우리 서비스는 총 <span style="color: rgb(62, 133, 75);">4가지 섹션</span>으로 구분할 수 있습니다. <br>
+                    <ul>
+                        <li style="color: rgb(27, 161, 143);">Profile</li>
+                        <li style="color: rgb(27, 161, 143);">Websites</li>
+                        <li style="color: rgb(27, 161, 143);">Ask</li>
+                        <li style="color: rgb(27, 161, 143);">Notice</li>
+                    </ul>
+                    각각의 섹션에 대한 설명은 아래 카드를 열어보세요
+                </div>
+
+                <div id="cards" class="mt-5">
+                    <!-- Profile card -->
+                    <div class="card mb-4">
+                        <a href="#multicollapseCardExample1" class="d-block card-header py-3 collapsed collapsed" data-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="multicollapseCardExample1">
+                            <h6 class="m-0 font-weight-bold text-primary">Profile</h6>
+                        </a>
+                        <div class="collapse" id="multicollapseCardExample1">
+                            <div class="card-body" id="tutorial-profile">
+                                유저 정보를 보여주는 페이지입니다<br>
+                                비밀번호 변경, 알림받는 E-mail 변경 기능이 있으며<br>
+                                알림받는 사이트를 확인하고 관리할 수 있습니다<br>
+                                <br>
+                                <a href="/profile" class="text-primary">Profile 바로가기<i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Websites card -->
+                    <div class="card mb-4">
+                        <a href="#multicollapseCardExample2" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="multicollapseCardExample2">
+                            <h6 class="m-0 font-weight-bold text-primary">Websites</h6>
+                        </a>
+                        <div class="collapse" id="multicollapseCardExample2">
+                            <div class="card-body" id="tutorial-websites">
+                                우리 서비스에서 제공하는 웹사이트를 보여주는 페이지입니다<br>
+                                Websites 페이지에서 공지사항을 알고 싶은 사이트를 추가하고<br>
+                                E-mail을 통해 알림을 받을 수 있습니다<br>
+                                <br>
+                                <a href="/websites" class="text-primary">Websites 바로가기<i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ask card -->
+                    <div class="card mb-4">
+                        <a href="#multicollapseCardExample3" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="multicollapseCardExample3">
+                            <h6 class="m-0 font-weight-bold text-primary">Ask</h6>
+                        </a>
+                        <div class="collapse" id="multicollapseCardExample3">
+                            <div class="card-body" id="tutorial-ask">
+                                사용자들이 새로운 웹사이트를 요청하는 페이지입니다<br>
+                                Websites 페이지에서 제공하지 않는 사이트를 해당 페이지에 요청하면<br>
+                                관리자가 확인 후 Websites 페이지에 추가합니다<br>
+                                <br>
+                                웹사이트를 요청하기 전에, Ask 페이지에 본인이 요청할 페이지의 url이 존재하는지 먼저 확인하세요! <br>
+                                <br>
+                                <a href="/websites/ask" class="text-primary">Ask 바로가기<i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notice card -->
+                    <div class="card mb-4">
+                        <a href="#multicollapseCardExample4" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="multicollapseCardExample4">
+                            <h6 class="m-0 font-weight-bold text-primary">Notice</h6>
+                        </a>
+                        <div class="collapse" id="multicollapseCardExample4">
+                            <div class="card-body" id="tutorial-notice">
+                                Notice Alarm의 공지 페이지입니다<br>
+                                해당 페이지에서 우리 서비스의 공지사항을 제공합니다<br>
+                                <br>
+                                Websties 추가, Ask 답변 등을 게시할 예정입니다<br>
+                                우리 서비스의 공지사항도 알림으로 받아볼 수 있습니다<br>
+                                <br>
+                                <a href="/notice" class="text-primary">Notice 바로가기<i class="bi bi-link-45deg"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col mb-5 mb-5 mb-xl-0">
-                    <div class="text-center">
-                        <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
-                        <h5 class="fw-bolder">김성아</h5>
-                        <div class="fst-italic text-muted">CSE 20</div>
-                    </div>
-                </div>
+                
             </div>
         </div>
-      </section>
+    </div>
+    
 {% endblock %}
 
 {% block script %}
@@ -55,4 +179,5 @@
 
 <!-- Custom scripts for all pages-->
 <script src="../static/js/sb-admin-2.min.js"></script>
+<script src="../static/js/main.js"></script>
 {% endblock %}

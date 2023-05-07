@@ -1,9 +1,17 @@
+import re
 from flask import Flask, session, request, render_template, redirect, url_for, jsonify, abort
 from datetime import datetime
 
-
 import connectDB
 from conf import SECRET_KEY
+
+regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+def check_email(email):
+    if(re.fullmatch(regex, email)):
+        return True
+ 
+    else:
+        return False
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
@@ -24,14 +32,18 @@ def main():
 
 @app.route('/profile')
 def profile():
-    param = request.args.to_dict()
-    if 'error' in param and param['error'] == '1':
-        return render_template('profile.html', msg='Check your password')
-    
     if 'user' not in session:
         return redirect(url_for('login'))
+    
+    user_websites = connectDB.get_user_websites(session['user'])
+    param = request.args.to_dict()
+    if 'error' in param and param['error'] == '1':
+        return render_template('profile.html', msg='Check your password', websites=user_websites)
+    elif 'error' in param and param['error'] == '2':
+        return render_template('profile.html', msg='Invalid E-mail format. try again', websites=user_websites)
+    elif 'error' in param and param['error'] == '-1':
+        return render_template('profile.html', msg='Error try again later', websites=user_websites)
     else:
-        user_websites = connectDB.get_user_websites(session['user'])
         return render_template('profile.html', websites=user_websites)
             
 @app.route('/register', methods = ['GET', 'POST'])
@@ -45,10 +57,14 @@ def register():
         info['passwd'] = request.form['passwd']
         info['email'] = request.form['email']
         
-        if connectDB.push_user(info) is True:
-            return render_template('register.html', msg = "your ID has been added. go to login.", error=0)
+        email_flag = check_email(info['email'])
+        if email_flag == False:
+            return render_template('register.html', msg="Check your E-mail format")
+        
+        if connectDB.push_user(info):
+            return render_template('register.html', msg = "your ID has been added. go to login.")
         else:
-            return render_template('register.html', msg='Error. try agian later', error=1)
+            return render_template('register.html', msg='Error. try agian later')
         
 @app.route('/profile/login', methods = ['GET', 'POST'])
 def login():
@@ -62,12 +78,16 @@ def login():
         userid = request.form['id']
         userpwd = request.form['passwd']
         
+        if not userid.isalnum():
+            return render_template('index.html', msg='Do not try hacking')
+        
         flag = connectDB.login(userid, userpwd)
         if flag is True:
             email = connectDB.get_user_info(userid)['email']
             
             session['user'] = userid
             session['email'] = email
+            session['key'] = hash(userpwd)
             
             if userid == 'admin':
                 session['admin'] = 'true'
@@ -80,6 +100,7 @@ def logout():
     if 'user' in session:
         session.pop('user')
         session.pop('email')
+        session.pop('key')
         if 'admin' in session:
             session.pop('admin')
         return redirect(url_for('main'))
@@ -105,6 +126,11 @@ def websites():
     elif request.method == 'POST':
         if 'user' not in session:
             return redirect(url_for('login'))
+        elif 'admin' not in session or session['admin'] != 'true':
+            return redirect(url_for('main'))
+        elif session['key'] != hash(connectDB.get_user_info(session['user'])['passwd']):
+            return redirect(url_for('main'))
+        
         else:
             flag = connectDB.push_website(request.form)
             websites=connectDB.get_websites()
@@ -116,6 +142,13 @@ def websites():
                 return render_template('websites.html', msg=flag, error=1)
     
     elif request.method == 'DELETE':
+        if 'user' not in session:
+            return redirect(url_for('login'))
+        elif 'admin' not in session or session['admin'] != 'true':
+            return redirect(url_for('main'))
+        elif session['key'] != hash(connectDB.get_user_info(session['user'])['passwd']):
+            return redirect(url_for('main'))
+        
         info = request.get_json()
         flag = connectDB.delete_website(info['name'])
         
@@ -133,15 +166,13 @@ def ask():
         return render_template('ask.html', asks=asks)
     
     elif request.method == 'POST':
+        if 'user' not in session:
+            return redirect(url_for('login'))
         
         flag = connectDB.push_ask(request.form['name'], request.form['url'])
         asks = connectDB.get_asks()
-        if flag is True:
-            return render_template('ask.html', asks=asks)
-        elif flag is False:
-            return render_template('ask.html', asks=asks)
-        else:
-            return render_template('ask.html', asks=asks)
+        
+        return render_template('ask.html', asks=asks)
         
 @app.route('/notice', methods = ['GET', 'POST', 'DELETE'])
 def notice():
@@ -150,6 +181,13 @@ def notice():
         return render_template('notice.html', notices=notices)
     
     elif request.method == 'POST':
+        if 'user' not in session:
+            return redirect(url_for('login'))
+        elif 'admin' not in session or session['admin'] != 'true':
+            return redirect(url_for('main'))
+        elif session['key'] != hash(connectDB.get_user_info(session['user'])['passwd']):
+            return redirect(url_for('main'))
+        
         title = request.form['title']
         content = request.form['content']
         clock = datetime.now().strftime('%Y-%m-%d')
@@ -159,6 +197,13 @@ def notice():
         return render_template('notice.html', notices=notices)
         
     elif request.method == 'DELETE':
+        if 'user' not in session:
+            return redirect(url_for('login'))
+        elif 'admin' not in session or session['admin'] != 'true':
+            return redirect(url_for('main'))
+        elif session['key'] != hash(connectDB.get_user_info(session['user'])['passwd']):
+            return redirect(url_for('main'))
+        
         data = request.get_json()
         
         flag = connectDB.delete_notice(data['num'])
@@ -177,6 +222,9 @@ def api_websites():
     if request.method == 'DELETE':
         data = request.get_json()
         
+        if session['key'] != hash(connectDB.get_user_info(data['user'])['passwd']):
+            return jsonify({'msg' : 'Bad request', 'error' : -1})
+        
         flag = connectDB.delete_user_webiste(data['user'], data['website'])
         if flag is True:
             return jsonify({'error' : 0})
@@ -187,6 +235,11 @@ def api_websites():
         
     elif request.method == 'POST':
         data = request.get_json()
+        
+        if session['key'] != hash(connectDB.get_user_info(data['user'])['passwd']):
+            return jsonify({'msg' : 'Bad request', 'error' : -1})
+        
+        
         email = connectDB.get_user_info(data['user'])['email']
         
         flag = connectDB.push_user_website(data['user'], email, data['website'])
@@ -204,11 +257,15 @@ def api_change_password():
     currPwd = request.form['currPass']
     newPwd = request.form['newPass']
     
+    if session['key'] != hash(connectDB.get_user_info(userId)['passwd']):
+        return redirect(url_for('profile'))
+    
     flag = connectDB.update_password(userId, currPwd, newPwd)
     
     if flag is True:
         session.pop('user')
         session.pop('email')
+        session.pop('key')
         if 'admin' in session:
             session.pop('admin')
         
@@ -216,7 +273,7 @@ def api_change_password():
     elif flag is False:
         return redirect(url_for('profile', error=1))
     else:
-        return
+        return redirect(url_for('profile', error=-1))
         
     
 @app.route('/api/change/email', methods=['POST'])
@@ -224,6 +281,13 @@ def api_change_email():
     
     userId = request.form['user']
     newEmail = request.form['newEmail']
+    
+    if session['key'] != hash(connectDB.get_user_info(userId)['passwd']):
+        return redirect(url_for('profile'))
+    
+    email_flag = check_email(newEmail)
+    if email_flag == False:
+        return redirect(url_for('profile', error=2))
     
     flag = connectDB.update_email(userId, newEmail)
     
@@ -236,44 +300,13 @@ def api_change_email():
         return redirect(url_for('login'))
     else:
         return redirect(url_for('profile', error=-1))
-    
-@app.route('/api/asks', methods=['GET', 'DELETE'])
-def api_asks():
-    if request.method == 'GET':   
-        parameter = request.args.to_dict()
-        if 'keyword' in parameter:
-            ret = connectDB.get_keyword_asks(parameter['keyword'])
-            return jsonify(ret)
-        else:
-            ret = connectDB.get_asks()
-            return jsonify(ret)
-    elif request.method == 'DELETE':
-        data = request.get_json()
-        
-        flag = connectDB.delete_ask(data['url'])
-        if flag is True:
-            return jsonify({'error' : 0})
-        elif flag is False:
-            return jsonify({'error' : 1})
-        else:
-            return jsonify({'msg' : flag, 'error' : -1})
-        
-@app.route('/api/notices', methods=['GET'])
-def api_notices():
-    param = request.args.to_dict()
-    if 'num' in param:
-        ret = connectDB.get_num_notice(param['num'])
-        return jsonify(ret)
-    else:
-        ret = connectDB.get_notices()
-        if ret is False:
-            return jsonify({})
-        else:
-            return jsonify(ret)
 
 @app.route('/api/id_overlap', methods = ['POST'])
 def api_id_overlap():
     json = request.get_json()
+    
+    if not json['id'].isalnum():
+        return jsonify({'msg' : 'Invalid ID', 'error' : 1})
     
     flag = connectDB.id_overlap_check(json['id'])
     

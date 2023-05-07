@@ -11,7 +11,6 @@ options = webdriver.FirefoxOptions()
 options.add_argument('--headless')  # 브라우저 백그라운드 실행
 options.add_argument('--disable-blink-features=AutomationControlled')
 driver = webdriver.Firefox(executable_path=path, options=options)
-
 prev_lists = {}
 
 def get_posts(site):

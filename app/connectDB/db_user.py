@@ -110,7 +110,7 @@ def g_user_info(conn, user):
     try:
         cursor = conn.cursor(pymysql.cursors.DictCursor)
         
-        sql = "SELECT id, email FROM users where id = '%s'" % user
+        sql = "SELECT id, email, passwd FROM users where id = '%s'" % user
         cursor.execute(sql)
         
         row = cursor.fetchone()

@@ -318,7 +318,7 @@ def api_id_overlap():
         return jsonify({'msg' : flag, 'error' : 1})
 
 def start():
-    app.run()
+    app.run(host='0.0.0.0')
     
 if __name__ == '__main__':
     start()

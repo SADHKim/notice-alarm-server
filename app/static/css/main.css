@@ -3,12 +3,12 @@ span{
 }
 
 #tutorial{
-    width: 70%;
+    width: 90%;
     padding: 0;
-    margin-left: 15%;
+    margin-left: 5%;
 }
 #cards{
-    width: 80%;
+    width: 90%;
     padding: 0;
-    margin-left: 10%;
+    /* margin-left: 10%; */
 }

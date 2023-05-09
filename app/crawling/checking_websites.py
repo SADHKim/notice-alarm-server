@@ -8,14 +8,14 @@ prev_lists = {}
 
 def make_driver():
     # 드라이버 경로
-    
+    path = '/usr/bin/geckodriver'
 
     # 웹 드라이버 설정
     options = webdriver.FirefoxOptions()
     options.add_argument('--headless')  # 브라우저 백그라운드 실행
     options.add_argument('--disable-blink-features=AutomationControlled')
     global driver
-    driver = webdriver.Firefox(options=options)
+    driver = webdriver.Firefox(executable_path=path, options=options)
     
 def return_driver():
     global driver

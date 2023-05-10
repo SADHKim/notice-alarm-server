@@ -43,4 +43,4 @@ def start():
         time.sleep(1)
         
 if __name__ == '__main__':
-    search_pages()
+    start()

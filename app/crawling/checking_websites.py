@@ -58,8 +58,10 @@ def get_posts(site):
                 ret.append(title)
             
         prev_lists[name] = tmp
+        print('not errer at', site['name'])
         return ret
     except:
+        print('!!!!! errer at', site['name'], '!!!!!')
         smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
         smtpObj.starttls()
         
@@ -77,6 +79,7 @@ def get_posts(site):
         msg['Subject'] = '크롤링 중에 오류가 발생했습니다'
         
         smtpObj.sendmail(MAIL_ID, ['kdh101800@gmail.com', 'kimsa0322@gmail.com'], msg.as_string())
+        print('!!!!! sending mail completed !!!!!')
         
         return []
     

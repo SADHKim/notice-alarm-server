@@ -66,7 +66,7 @@ def get_posts(site):
         smtpObj.login(MAIL_ID, MAIL_PWD)
         
         mailContent = '''<p>
-        사이트 [" + %s + "] 크롤링 중에 오류가 발생했습니다.<br>
+        사이트 [%s] 크롤링 중에 오류가 발생했습니다.<br>
         <br>
         url : <a href="%s" target="_blank">%s</a><br>
         className : %s<br>

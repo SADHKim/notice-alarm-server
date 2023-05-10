@@ -20,4 +20,4 @@ def send_mail(classObj, recievers):
     msg['Subject'] = classObj.subject
     
     ### recievers, second parameter, can send more than one if recievers is the list of string ###
-    smtpObj.sendmail('kdh101800@gmail.com', recievers, msg.as_string())
+    smtpObj.sendmail(MAIL_ID, recievers, msg.as_string())

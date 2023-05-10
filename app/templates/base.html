@@ -42,7 +42,7 @@
 
           <!-- Nav Item - Websites -->
           <li class="nav-item active">
-              <a class="nav-link" href="/#contributors">
+              <a class="nav-link" href="{{url_for('main')}}#contributors">
                   <i class="bi bi-people-fill"></i>
                   <span>Contributors</span></a>
           </li>
@@ -91,7 +91,7 @@
                       <i class="fa fa-bars"></i>
                   </button>
                   <!-- Topbar Navbar -->
-                  <ul class="navbar-nav ml-auto">
+                  <ul class="navbar-nav ml-auto align-top">
                       <!-- Nav Item - User Information -->
                       <li class="nav-item dropdown no-arrow user_header">
                           {% if session['user'] is defined %}

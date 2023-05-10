@@ -316,6 +316,14 @@ def api_id_overlap():
         return jsonify({'msg' : "You can not use the ID", 'error' : 1})
     else:
         return jsonify({'msg' : flag, 'error' : 1})
+    
+@app.route('/api/notice', methods= ['GET'])
+def api_notice():
+    param = request.args.to_dict()
+    if 'num' in param:
+        ret = connectDB.get_num_notice(param['num'])
+        return jsonify(ret)
+    
 
 def start():
     app.run(host='0.0.0.0', port="9999")

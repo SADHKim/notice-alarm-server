@@ -3,9 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-import smtplib
-from email.mime.text import MIMEText
-from conf import MAIL_ID, MAIL_PWD
+from mail import send_error_mail
 
 drive = None
 prev_lists = {}
@@ -62,23 +60,7 @@ def get_posts(site):
         return ret
     except:
         print('!!!!! errer at', site['name'], '!!!!!')
-        smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
-        smtpObj.starttls()
-        
-        smtpObj.login(MAIL_ID, MAIL_PWD)
-        
-        mailContent = '''<p>
-        사이트 [%s] 크롤링 중에 오류가 발생했습니다.<br>
-        <br>
-        url : <a href="%s" target="_blank">%s</a><br>
-        className : %s<br>
-        path : %s<br>
-        </p>''' % (site['name'], site['url'], site['url'], site['class'], site['path'])
-        
-        msg = MIMEText(mailContent, 'html')
-        msg['Subject'] = '크롤링 중에 오류가 발생했습니다'
-        
-        smtpObj.sendmail(MAIL_ID, ['kdh101800@gmail.com', 'kimsa0322@gmail.com'], msg.as_string())
+        send_error_mail(site)
         print('!!!!! sending mail completed !!!!!')
         
         return []

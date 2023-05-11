@@ -193,8 +193,11 @@ def notice():
         clock = datetime.now().strftime('%Y-%m-%d')
         
         flag = connectDB.push_notice(title, content, clock)
-        notices = connectDB.get_notices()
-        return render_template('notice.html', notices=notices)
+        if flag is True:    
+            notices = connectDB.get_notices()
+            return render_template('notice.html', notices=notices)
+        else:
+            return redirect(url_for('notice'))
         
     elif request.method == 'DELETE':
         if 'user' not in session:

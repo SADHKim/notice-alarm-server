@@ -7,9 +7,6 @@ function delete_ask(url){
                 location.reload(true)
             }
             else if (http.response.error == 1){
-                alert(1)
-            }
-            else{
                 alert(http.response.msg)
             }
         }

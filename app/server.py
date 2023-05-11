@@ -143,11 +143,11 @@ def websites():
     
     elif request.method == 'DELETE':
         if 'user' not in session:
-            return redirect(url_for('login'))
+            return jsonify({'error' : 1})
         elif 'admin' not in session or session['admin'] != 'true':
-            return redirect(url_for('main'))
+            return jsonify({'error' : 1})
         elif session['key'] != hash(connectDB.get_user_info(session['user'])['passwd']):
-            return redirect(url_for('main'))
+            return jsonify({'error' : 1})
         
         info = request.get_json()
         flag = connectDB.delete_website(info['name'])
@@ -323,6 +323,23 @@ def api_notice():
     if 'num' in param:
         ret = connectDB.get_num_notice(param['num'])
         return jsonify(ret)
+    
+@app.route('api/asks', methods = ['DELETE'])
+def api_asks():
+    if 'admin' not in session or session['admin'] != 'true':
+        return jsonify({'error' : 1})
+    elif session['key'] != hash(connectDB.get_user_info(session['user'])['passwd']):
+        return jsonify({'error' : 1})
+    
+    url = request.get_json()['url']
+    flag = connectDB.delete_ask(url)
+    
+    if flag is True:
+        return jsonify({'error' : 0})
+    elif flag is False:
+        return jsonify({'error' : 1, 'msg' : 'no match ask'})
+    else:
+        return jsonify({'error' : 1, 'msg' : flag})
     
 
 def start():

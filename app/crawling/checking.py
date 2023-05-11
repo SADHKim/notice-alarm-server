@@ -1,6 +1,6 @@
 import connectDB
 from .checking_websites import crawling, make_driver, return_driver
-from mail import send_start_mail
+import mail
 
 
 def checking():
@@ -9,7 +9,7 @@ def checking():
     connectDB.connect()
     sites = connectDB.get_websites()
     make_driver()
-    send_start_mail(sites)
+    mail.send_start_mail(sites)
     
     for site in sites:
         result.append(crawling(site))

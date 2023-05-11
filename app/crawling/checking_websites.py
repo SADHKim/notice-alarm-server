@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from mail import send_error_mail
+import mail
 
 drive = None
 prev_lists = {}
@@ -60,7 +60,7 @@ def get_posts(site):
         return ret
     except:
         print('!!!!! errer at', site['name'], '!!!!!')
-        send_error_mail(site)
+        mail.send_error_mail(site)
         print('!!!!! sending mail completed !!!!!')
         
         return []

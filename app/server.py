@@ -317,7 +317,7 @@ def api_id_overlap():
     else:
         return jsonify({'msg' : flag, 'error' : 1})
     
-@app.route('/api/notice', methods= ['GET'])
+@app.route('/api/notices', methods= ['GET'])
 def api_notice():
     param = request.args.to_dict()
     if 'num' in param:

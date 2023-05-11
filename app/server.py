@@ -2,6 +2,7 @@ import re
 from flask import Flask, session, request, render_template, redirect, url_for, jsonify, abort
 from datetime import datetime
 
+import htmlcoder
 import connectDB
 from conf import SECRET_KEY
 
@@ -83,11 +84,11 @@ def login():
         
         flag = connectDB.login(userid, userpwd)
         if flag is True:
-            email = connectDB.get_user_info(userid)['email']
+            info = connectDB.get_user_info(userid)
             
             session['user'] = userid
-            session['email'] = email
-            session['key'] = hash(userpwd)
+            session['email'] = info['email']
+            session['key'] = hash(info['passwd'])
             
             if userid == 'admin':
                 session['admin'] = 'true'
@@ -181,9 +182,9 @@ def notice():
         return render_template('notice.html', notices=notices)
     
     elif request.method == 'POST':
-        if 'user' not in session:
+        if not 'user' in session:
             return redirect(url_for('login'))
-        elif 'admin' not in session or session['admin'] != 'true':
+        elif not 'admin' in session or session['admin'] != 'true':
             return redirect(url_for('main'))
         elif session['key'] != hash(connectDB.get_user_info(session['user'])['passwd']):
             return redirect(url_for('main'))
@@ -191,6 +192,8 @@ def notice():
         title = request.form['title']
         content = request.form['content']
         clock = datetime.now().strftime('%Y-%m-%d')
+        
+        content = htmlcoder.html_encode(content)
         
         flag = connectDB.push_notice(title, content, clock)
         if flag is True:    
@@ -325,6 +328,8 @@ def api_notice():
     param = request.args.to_dict()
     if 'num' in param:
         ret = connectDB.get_num_notice(param['num'])
+        ret['content'] = htmlcoder.html_decode(ret['content'])
+        
         return jsonify(ret)
     
 @app.route('/api/asks', methods = ['DELETE'])

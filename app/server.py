@@ -324,7 +324,7 @@ def api_notice():
         ret = connectDB.get_num_notice(param['num'])
         return jsonify(ret)
     
-@app.route('api/asks', methods = ['DELETE'])
+@app.route('/api/asks', methods = ['DELETE'])
 def api_asks():
     if 'admin' not in session or session['admin'] != 'true':
         return jsonify({'error' : 1})

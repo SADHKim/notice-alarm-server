@@ -1,7 +1,7 @@
 import schedule
 import time
 
-import mail
+from mail import get_recievers, send_mail, Script as mail_Script
 import crawling
 
 
@@ -15,18 +15,18 @@ def search_pages():
                 continue
             
             # 해당 웹사이트에서 알림을 받는 사람들 추출#
-            recievers = mail.get_recievers(result['name'])
+            recievers = get_recievers(result['name'])
             # recievers가 없다면 continue #
             if recievers is False:
                 continue
             
             # Notice object 생성, 내용 만들기 #
-            script = mail.Script()
+            script = mail_Script()
             script.make_script(result['posts'], result['url'])
             script.make_title(result['posts'], result['name'])
             
             # 메일 전송 #
-            mail.send_mail(script, recievers)
+            send_mail(script, recievers)
     except:
         return
         

@@ -316,6 +316,24 @@ def api_id_overlap():
         return jsonify({'msg' : "You can not use the ID", 'error' : 1})
     else:
         return jsonify({'msg' : flag, 'error' : 1})
+    
+@app.route('/api/get/websites', methods = ['GET'])
+def api_get_websites():
+    websites = connectDB.get_websites()
+    
+    return jsonify(websites)
+
+@app.route('/api/get/recievers')
+def api_get_recievers():
+    param = request.args.to_dict()
+    
+    if not 'key' in param or param['key'] != SECRET_KEY:
+        return jsonify({})
+    elif not 'website' in param:
+        return jsonify({})
+    
+    recievers = connectDB.get_recievers(param['website'])
+    return recievers
 
 def start():
     app.run()

@@ -1,5 +1,4 @@
 import pymysql
-from crawling import pop_website
 
 def g_websites(conn):
     try:
@@ -57,7 +56,7 @@ def d_website(conn, name):
         
         conn.commit()
         cursor.close()
-        pop_website(name)
+
         return True
     except Exception as e:
         cursor.close()

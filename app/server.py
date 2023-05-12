@@ -323,7 +323,7 @@ def api_get_recievers():
         return jsonify({})
     
     recievers = connectDB.get_recievers(param['website'])
-    return recievers
+    return jsonify({'list' : recievers})
 
 @app.route('/api/notices', methods= ['GET'])
 def api_notice():

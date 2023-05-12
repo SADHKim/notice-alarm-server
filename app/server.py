@@ -313,7 +313,7 @@ def api_get_websites():
     
     return jsonify(websites)
 
-@app.route('/api/get/recievers' methods = ['GET'])
+@app.route('/api/get/recievers', methods = ['GET'])
 def api_get_recievers():
     param = request.args.to_dict()
     

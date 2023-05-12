@@ -2,6 +2,7 @@ import re
 from flask import Flask, session, request, render_template, redirect, url_for, jsonify, abort
 from datetime import datetime
 
+import htmlcoder
 import connectDB
 from conf import SECRET_KEY
 
@@ -83,11 +84,11 @@ def login():
         
         flag = connectDB.login(userid, userpwd)
         if flag is True:
-            email = connectDB.get_user_info(userid)['email']
+            info = connectDB.get_user_info(userid)
             
             session['user'] = userid
-            session['email'] = email
-            session['key'] = hash(userpwd)
+            session['email'] = info['email']
+            session['key'] = hash(info['passwd'])
             
             if userid == 'admin':
                 session['admin'] = 'true'
@@ -143,11 +144,11 @@ def websites():
     
     elif request.method == 'DELETE':
         if 'user' not in session:
-            return redirect(url_for('login'))
+            return jsonify({'error' : 1})
         elif 'admin' not in session or session['admin'] != 'true':
-            return redirect(url_for('main'))
+            return jsonify({'error' : 1})
         elif session['key'] != hash(connectDB.get_user_info(session['user'])['passwd']):
-            return redirect(url_for('main'))
+            return jsonify({'error' : 1})
         
         info = request.get_json()
         flag = connectDB.delete_website(info['name'])
@@ -181,9 +182,9 @@ def notice():
         return render_template('notice.html', notices=notices)
     
     elif request.method == 'POST':
-        if 'user' not in session:
+        if not 'user' in session:
             return redirect(url_for('login'))
-        elif 'admin' not in session or session['admin'] != 'true':
+        elif not 'admin' in session or session['admin'] != 'true':
             return redirect(url_for('main'))
         elif session['key'] != hash(connectDB.get_user_info(session['user'])['passwd']):
             return redirect(url_for('main'))
@@ -192,9 +193,14 @@ def notice():
         content = request.form['content']
         clock = datetime.now().strftime('%Y-%m-%d')
         
+        content = htmlcoder.html_encode(content)
+        
         flag = connectDB.push_notice(title, content, clock)
-        notices = connectDB.get_notices()
-        return render_template('notice.html', notices=notices)
+        if flag is True:    
+            notices = connectDB.get_notices()
+            return render_template('notice.html', notices=notices)
+        else:
+            return redirect(url_for('notice'))
         
     elif request.method == 'DELETE':
         if 'user' not in session:
@@ -300,22 +306,6 @@ def api_change_email():
         return redirect(url_for('login'))
     else:
         return redirect(url_for('profile', error=-1))
-
-@app.route('/api/id_overlap', methods = ['POST'])
-def api_id_overlap():
-    json = request.get_json()
-    
-    if not json['id'].isalnum():
-        return jsonify({'msg' : 'Invalid ID', 'error' : 1})
-    
-    flag = connectDB.id_overlap_check(json['id'])
-    
-    if flag is True:
-        return jsonify({'msg' : 'You can use the ID', 'error' : 0})
-    elif flag is False:
-        return jsonify({'msg' : "You can not use the ID", 'error' : 1})
-    else:
-        return jsonify({'msg' : flag, 'error' : 1})
     
 @app.route('/api/get/websites', methods = ['GET'])
 def api_get_websites():
@@ -335,8 +325,51 @@ def api_get_recievers():
     recievers = connectDB.get_recievers(param['website'])
     return recievers
 
+@app.route('/api/notices', methods= ['GET'])
+def api_notice():
+    param = request.args.to_dict()
+    if 'num' in param:
+        ret = connectDB.get_num_notice(param['num'])
+        ret['content'] = htmlcoder.html_decode(ret['content'])
+        
+        return jsonify(ret)
+    
+@app.route('/api/asks', methods = ['DELETE'])
+def api_asks():
+    if 'admin' not in session or session['admin'] != 'true':
+        return jsonify({'error' : 1})
+    elif session['key'] != hash(connectDB.get_user_info(session['user'])['passwd']):
+        return jsonify({'error' : 1})
+    
+    url = request.get_json()['url']
+    flag = connectDB.delete_ask(url)
+    
+    if flag is True:
+        return jsonify({'error' : 0})
+    elif flag is False:
+        return jsonify({'error' : 1, 'msg' : 'no match ask'})
+    else:
+        return jsonify({'error' : 1, 'msg' : flag})
+    
+@app.route('/api/id_overlap', methods = ['POST'])
+def api_id_overlap():
+    json = request.get_json()
+    
+    if not json['id'].isalnum():
+        return jsonify({'msg' : 'Invalid ID', 'error' : 1})
+    
+    flag = connectDB.id_overlap_check(json['id'])
+    
+    if flag is True:
+        return jsonify({'msg' : 'You can use the ID', 'error' : 0})
+    elif flag is False:
+        return jsonify({'msg' : "You can not use the ID", 'error' : 1})
+    else:
+        return jsonify({'msg' : flag, 'error' : 1})
+    
+
 def start():
-    app.run(host='0.0.0.0', port='9999')
+    app.run(host='0.0.0.0', port="9999")
     
 if __name__ == '__main__':
     start()

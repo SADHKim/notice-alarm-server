@@ -336,7 +336,7 @@ def api_get_recievers():
     return recievers
 
 def start():
-    app.run()
+    app.run(host='0.0.0.0', port='9999')
     
 if __name__ == '__main__':
     start()

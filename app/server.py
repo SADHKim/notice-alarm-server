@@ -58,7 +58,7 @@ def register():
         info['passwd'] = request.form['passwd']
         info['email'] = request.form['email']
         
-        email_flag = check_email(info['email'])
+        email_flag = check_email(info['email']) and info['email'] != 'notice.alarm.hanyang@gmail.com'
         if email_flag == False:
             return render_template('register.html', msg="Check your E-mail format")
         
@@ -291,7 +291,7 @@ def api_change_email():
     if session['key'] != hash(connectDB.get_user_info(userId)['passwd']):
         return redirect(url_for('profile'))
     
-    email_flag = check_email(newEmail)
+    email_flag = check_email(newEmail) and newEmail != 'notice.alarm.hanyang@gmail.com'
     if email_flag == False:
         return redirect(url_for('profile', error=2))
     

@@ -29,7 +29,7 @@
 							<p class="text-center" style="color: #5671d7;">{{msg}}</p>
 							{% endif %}
 							<form action="{{url_for('register')}}" , method="post" , name="register_form" ,
-								onSubmit="return register_check()" class="login-form">
+								onSubmit="return register_check()" class="login-form" autocomplete="off">
 								<div class="form-group">
 									<input type="text" class="form-control rounded-left" placeholder="Username" name="id" id="user_id">
                                     <button type="button" class="form-control btn btn-primary rounded submit px-3" onclick="check_overlap()">중복확인</button>

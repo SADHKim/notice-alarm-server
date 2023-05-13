@@ -28,7 +28,7 @@
 							<p class="text-center" style="color: #5671d7;">{{msg}}</p>
 							{% endif %}
 							<form action="{{url_for('login')}}" , method="post" , name="login_form" ,
-								onSubmit="return login_check()" class="login-form">
+								onSubmit="return login_check()" class="login-form", autocomplete="off">
 								<div class="form-group">
 									<input type="text" class="form-control rounded-left" placeholder="Username" name="id">
 								</div>

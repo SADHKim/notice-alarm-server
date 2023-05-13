@@ -53,7 +53,7 @@
                     
                         <div class="collapse" id="multicollapseCardExample1">
                             <div class="card-body">
-                                <form action="{{url_for('api_change_password')}}" method="POST">
+                                <form action="{{url_for('api_change_password')}}" method="POST" autocomplete="off">
                                     <p>
                                         <span class="col text-greay-800">ID : </span>
                                         <span class="text-primary">{{session['user']}}</span>
@@ -79,7 +79,7 @@
                     
                         <div class="collapse" id="multicollapseCardExample2">
                             <div class="card-body">
-                                <form action="{{url_for('api_change_email')}}" method="POST">
+                                <form action="{{url_for('api_change_email')}}" method="POST" autocomplete="off">
                                     <p>
                                         <span class="col text-greay-800">ID : </span>
                                         <span class="text-primary">{{session['user']}}</span>

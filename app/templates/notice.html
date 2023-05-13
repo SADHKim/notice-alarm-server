@@ -86,7 +86,7 @@
         <h6 class="m-0 font-weight-bold text-secondary">Write notice (for admin)</h6>
     </div>
     <div class="card-body">
-        <form action="{{url_for('notice')}}" method="POST">
+        <form action="{{url_for('notice')}}" method="POST" autocomplete="off">
             <p>
                 <textarea name="title" cols="70" rows="3" placeholder="Title" required></textarea>
                 <br><br>

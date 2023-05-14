@@ -39,6 +39,10 @@
         <h6 class="m-0 font-weight-bold text-primary">Notices: Get news about our website!</h6>
     </div>
     <div class="card-body">
+        <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-VTMcKHpkjAUNQdwP" data-ad-width="728"
+            data-ad-height="90"></ins>
+        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <colgroup>
@@ -68,7 +72,8 @@
                     {% for notice in notices %}
                     <tr>
                         <td>{{num|length + 1}}</td>
-                        <td class="title"><a href="#notice-view" onclick='open_view("{{notice['num']}}")'>{{notice['title']}}</a></td>
+                        <td class="title"><a href="#notice-view" onclick='open_view("{{notice['
+                                num']}}")'>{{notice['title']}}</a></td>
                         <td>{{notice['writer']}}</td>
                         <td>{{notice['time']}}</td>
                     </tr>

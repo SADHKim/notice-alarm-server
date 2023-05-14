@@ -23,12 +23,16 @@
     </div>
 
     <div class="card-body">
+        <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-VTMcKHpkjAUNQdwP" data-ad-width="728"
+            data-ad-height="90"></ins>
+        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <colgroup>
-                    <col width="10%" text-align="center"/>
-                    <col width="30%"/>
-                    <col width="60%"/>
+                    <col width="10%" text-align="center" />
+                    <col width="30%" />
+                    <col width="60%" />
                 </colgroup>
                 <thead>
                     <tr>
@@ -48,18 +52,23 @@
                     {% for site in sites %}
                     <tr>
                         {% if session['user'] is defined %}
-                            {% if session['admin'] is defined and session['admin'] == 'true' %}
-                            <td class="text-center"><button class="btn btn-sm btn-danger btn-circle" onclick='delete_website("{{site['name']}}")'><i class="fas fa-trash"></i></button></td>
-                            {% else %}
-                        
-                                {% if site['name'] in user_websites %}
-                                <td></td>
-                                {% else %}
-                                <td class="text-center"><button class="rounded border-0" onclick='add_website("{{session['user']}}", "{{site['name']}}")'><img src="../static/image/add.svg" alt="add"></button></td>
-                                {% endif %}
-                            {% endif %}
+                        {% if session['admin'] is defined and session['admin'] == 'true' %}
+                        <td class="text-center"><button class="btn btn-sm btn-danger btn-circle"
+                                onclick='delete_website("{{site[' name']}}")'><i class="fas fa-trash"></i></button></td>
                         {% else %}
-                        <td class="text-center"><button class="rounded border-0" onclick="javascript:location.href='/profile/login'"><img src="../static/image/add.svg" alt="add"></button></td>
+
+                        {% if site['name'] in user_websites %}
+                        <td></td>
+                        {% else %}
+                        <td class="text-center"><button class="rounded border-0" onclick='add_website("{{session['
+                                user']}}", "{{site['name']}}" )'><img src="../static/image/add.svg" alt="add"></button>
+                        </td>
+                        {% endif %}
+                        {% endif %}
+                        {% else %}
+                        <td class="text-center"><button class="rounded border-0"
+                                onclick="javascript:location.href='/profile/login'"><img src="../static/image/add.svg"
+                                    alt="add"></button></td>
                         {% endif %}
 
                         <td>{{site['name']}}</td>
@@ -75,7 +84,8 @@
 {% if session['admin'] is defined and session['admin'] == 'true' %}
 
 <div class="card shadow mb-4">
-    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample">
+    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
+        aria-expanded="false" aria-controls="collapseCardExample">
         <h6 class="m-0 font-weight-bold text-primary">Add Website (for admin) : open form</h6>
     </a>
 

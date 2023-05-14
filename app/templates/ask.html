@@ -24,16 +24,19 @@
         <h6 class="m-0 font-weight-bold text-primary">Ask: Give us website information to provide!</h6>
     </div>
     <div class="card-body">
+        <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-VTMcKHpkjAUNQdwP" data-ad-width="728"
+            data-ad-height="90"></ins>
+        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <colgroup>
                     {% if session['admin'] is defined and session['admin'] == 'true' %}
-                    <col width="10%"/>
-                    <col width="20%"/>
-                    <col width="70%"/>
+                    <col width="10%" />
+                    <col width="20%" />
+                    <col width="70%" />
                     {% else %}
-                    <col width="20%"/>
-                    <col width="80%"/>
+                    <col width="20%" />
+                    <col width="80%" />
                     {% endif %}
                 </colgroup>
                 <thead>
@@ -62,18 +65,19 @@
                 </tfoot>
                 <tbody>
                     {% for ask in asks %}
-                        {% if session['admin'] is defined and session['admin'] == 'true' %}
-                        <tr>
-                            <td class="text-center"><button class="rounded border-0 text-primary" onclick='delete_ask("{{ask['url']}}")'>Del</button></td>
-                            <td>{{ask['name']}}</td>
-                            <td>{{ask['url']}}</td>
-                        </tr>
-                        {% else %}
-                        <tr>
-                            <td>{{ask['name']}}</td>
-                            <td>{{ask['url']}}</td>
-                        </tr>
-                        {% endif %}
+                    {% if session['admin'] is defined and session['admin'] == 'true' %}
+                    <tr>
+                        <td class="text-center"><button class="rounded border-0 text-primary"
+                                onclick='delete_ask("{{ask[' url']}}")'>Del</button></td>
+                        <td>{{ask['name']}}</td>
+                        <td>{{ask['url']}}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td>{{ask['name']}}</td>
+                        <td>{{ask['url']}}</td>
+                    </tr>
+                    {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
@@ -83,14 +87,16 @@
 
 {% if session['user'] is defined %}
 <div class="card shadow mb-4">
-    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample">
+    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
+        aria-expanded="false" aria-controls="collapseCardExample">
         <h6 class="m-0 font-weight-bold text-secondary">Ask new website: Open ask form</h6>
     </a>
 
     <div class="collapse" id="collapseCardExample">
         <div class="card-body">
             <form action="{{url_for('ask')}}" method="POST" id="ask-form" autocomplete="off">
-                <span>Website Name : </span><input id="website-name" type="text" placeholder="Name" name="name" required>
+                <span>Website Name : </span><input id="website-name" type="text" placeholder="Name" name="name"
+                    required>
                 <br>
                 <span>Website Url : </span><input id="website-url" type="text" placeholder="Url" name="url" required>
                 <button class="rounded border-0 text-secondary">Submit</button>

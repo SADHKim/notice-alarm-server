@@ -25,11 +25,12 @@
             <img class="img-profile rounded circle" src="../static/image/undraw_profile.svg" alt="profile">
         </div>
         {% if msg is defined %}
-        <span class="bg-gradient-danger rounded border-0" style="margin-bottom:3%; margin-left:20%; color:white">{{msg}}</span>
+        <span class="bg-gradient-danger rounded border-0"
+            style="margin-bottom:3%; margin-left:20%; color:white">{{msg}}</span>
         {% endif %}
-        
+
         <!-- profile card -->
-        <div class="card mb-4 py-3 border-left-info"  id="profile-info">
+        <div class="card mb-4 py-3 border-left-info" id="profile-info">
             <div class="card-body">
                 <div>
                     <p>
@@ -41,16 +42,17 @@
                         <span>{{session['email']}}</span>
                     </p>
                 </div>
-                
+
                 <!-- change form-->
                 <div id="change-form">
 
                     <!-- PASSWORD chagne -->
                     <div class="card mb-4">
-                        <a href="#multicollapseCardExample1" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="multicollapseCardExample1">
+                        <a href="#multicollapseCardExample1" class="d-block card-header py-3" data-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="multicollapseCardExample1">
                             <h6 class="m-0 font-weight-bold text-secondary">Change PASSWORD</h6>
                         </a>
-                    
+
                         <div class="collapse" id="multicollapseCardExample1">
                             <div class="card-body">
                                 <form action="{{url_for('api_change_password')}}" method="POST" autocomplete="off">
@@ -65,7 +67,8 @@
                                         <span class="col text-gray-800">New PASSWORD : </span>
                                         <span><input type="password" name="newPass" required></span>
                                     </p>
-                                    <div style="text-align: end;"><button class="btn btn-success btn-circle"><i class="fas fa-check"></i></button></div>
+                                    <div style="text-align: end;"><button class="btn btn-success btn-circle"><i
+                                                class="fas fa-check"></i></button></div>
                                 </form>
                             </div>
                         </div>
@@ -73,10 +76,11 @@
 
                     <!-- EMAIL change -->
                     <div class="card mb-4">
-                        <a href="#multicollapseCardExample2" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="multicollapseCardExample2">
+                        <a href="#multicollapseCardExample2" class="d-block card-header py-3" data-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="multicollapseCardExample2">
                             <h6 class="m-0 font-weight-bold text-secondary">Change EMAIL address</h6>
                         </a>
-                    
+
                         <div class="collapse" id="multicollapseCardExample2">
                             <div class="card-body">
                                 <form action="{{url_for('api_change_email')}}" method="POST" autocomplete="off">
@@ -88,8 +92,9 @@
                                         <span class="col text-gray-800">New EMAIL : </span>
                                         <span><input type="text" name="newEmail" required></span>
                                     </p>
-                                </p>
-                                <div style="text-align: end;"><button class="btn btn-success btn-circle"><i class="fas fa-check"></i></button></div>
+                                    </p>
+                                    <div style="text-align: end;"><button class="btn btn-success btn-circle"><i
+                                                class="fas fa-check"></i></button></div>
                                 </form>
                             </div>
                         </div>
@@ -100,6 +105,10 @@
             </div>
         </div>
         <!-- profile card -->
+
+        <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-VTMcKHpkjAUNQdwP" data-ad-width="728"
+            data-ad-height="90"></ins>
+        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
 
         <!-- website table-->
         <div class="card shadow mb-4" id="websites-info">
@@ -122,7 +131,10 @@
                         <tbody>
                             {% for website in websites %}
                             <tr>
-                                <td class="text-center"><button class="btn btn-sm btn-danger btn-circle" onclick='delete_user_website("{{session['user']}}", "{{website['website_name']}}")'><i class="fas fa-trash"></i></button></td>
+                                <td class="text-center"><button class="btn btn-sm btn-danger btn-circle"
+                                        onclick='delete_user_website("{{session['
+                                        user']}}", "{{website['website_name']}}" )'><i
+                                            class="fas fa-trash"></i></button></td>
                                 <td>{{website['website_name']}}</td>
                             </tr>
                             {% endfor %}

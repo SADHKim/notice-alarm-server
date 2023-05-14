@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ko">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,154 +16,161 @@
 
     <title>Notice Alarm</title>
     <link rel="icon" href="../static/image/icon_logo.png" type="image/icon type">
-    
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6210220189158880"
-     crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
     {% block head %}
     {% endblock %}
 </head>
 
 <body id="page-top">
 
-  <!-- Page Wrapper -->
-  <div id="wrapper">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
-      <!-- Sidebar -->
-      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-          <!-- Sidebar - Brand -->
-          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{url_for('main')}}">
-              <div class="sidebar-brand-icon rotate-n-15">
-                  <i class="bi bi-bookmark-star-fill"></i>
-              </div>
-              <div class="sidebar-brand-text mx-2">Notice Alarm</div>
-          </a>
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{url_for('main')}}">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="bi bi-bookmark-star-fill"></i>
+                </div>
+                <div class="sidebar-brand-text mx-2">Notice Alarm</div>
+            </a>
 
-          <!-- Divider -->
-          <hr class="sidebar-divider my-0">
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
 
-          <!-- Nav Item - Websites -->
-          <li class="nav-item active">
-              <a class="nav-link" href="{{url_for('main')}}">
-                  <i class="bi bi-people-fill"></i>
-                  <span>Contributors</span></a>
-          </li>
-          <!-- Divider -->
-          <hr class="sidebar-divider">
-          <!-- Nav Item - Tables -->
-          <li class="nav-item">
-              <a class="nav-link" href="{{url_for('websites')}}">
-                  <i class="fas fa-fw fa-table"></i>
-                  <span>Websites</span></a>
-          </li>
-          <!-- Nav Item - Tables -->
-          <li class="nav-item">
-              <a class="nav-link" href="{{url_for('ask')}}">
-                  <i class="bi bi-cloud-plus-fill"></i>
-                  <span>Ask</span></a>
-          </li>
-          <!-- Nav Item - Tables -->
-          <li class="nav-item">
-              <a class="nav-link" href="{{url_for('notice')}}">
-                  <i class="bi bi-megaphone-fill"></i>
-                  <span>Notice</span></a>
-          </li>
-          <!-- Divider -->
-          <hr class="sidebar-divider d-none d-md-block">
+            <!-- Nav Item - Websites -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('main')}}">
+                    <i class="bi bi-people-fill"></i>
+                    <span>Contributors</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('websites')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Websites</span></a>
+            </li>
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('ask')}}">
+                    <i class="bi bi-cloud-plus-fill"></i>
+                    <span>Ask</span></a>
+            </li>
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('notice')}}">
+                    <i class="bi bi-megaphone-fill"></i>
+                    <span>Notice</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
 
-          <!-- Sidebar Toggler (Sidebar) -->
-          <div class="text-center d-none d-md-inline">
-              <button class="rounded-circle border-0" id="sidebarToggle"></button>
-          </div>
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
 
-      </ul>
-      <!-- End of Sidebar -->
+        </ul>
+        <!-- End of Sidebar -->
 
-      <!-- Content Wrapper -->
-      <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
 
-          <!-- Main Content -->
-          <div id="content">
+            <!-- Main Content -->
+            <div id="content">
 
-              <!-- Topbar -->
-              <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                  <!-- Sidebar Toggle (Topbar) -->
-                  <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                      <i class="fa fa-bars"></i>
-                  </button>
-                  <!-- Topbar Navbar -->
-                  <ul class="navbar-nav ml-auto align-top">
-                      <!-- Nav Item - User Information -->
-                      <li class="nav-item dropdown no-arrow user_header">
-                          {% if session['user'] is defined %}
-                              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{session['user']}}</span>
-                                  <img class="img-profile rounded-circle"
-                                      src="../static/image/undraw_profile.svg">
-                              </a>
-                              <!-- Dropdown - User Information -->
-                          <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                          aria-labelledby="userDropdown">
-                          <a class="dropdown-item" href="{{url_for('profile')}}">
-                              <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                              Profile
-                          </a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="{{url_for('logout')}}">
-                              <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                              Logout
-                          </a>
-                        </div>
-                          {% else %}
-                                  <a href="{{url_for('register')}}" class="mr-2 d-lg-inline">register</a>
-                                  <a href="{{url_for('login')}}" class="mr-2 d-lg-inline">login</a>
-                          {% endif %}
-                      
-                      </li>
-                      
-                  </ul>
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto align-top">
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow user_header">
+                            {% if session['user'] is defined %}
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{session['user']}}</span>
+                                <img class="img-profile rounded-circle" src="../static/image/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="{{url_for('profile')}}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{url_for('logout')}}">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                            {% else %}
+                            <a href="{{url_for('register')}}" class="mr-2 d-lg-inline">register</a>
+                            <a href="{{url_for('login')}}" class="mr-2 d-lg-inline">login</a>
+                            {% endif %}
 
-              </nav>
-              <!-- End of Topbar -->
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-VTMcKHpkjAUNQdwP"
+                        data-ad-width="728" data-ad-height="90"></ins>
+                    <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+
+                    <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-1teJRde1O7eIqRtv"
+                        data-ad-width="320" data-ad-height="50"></ins>
+                    <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+                    
                     {% block content %}
                     {% endblock %}
                 </div>
                 <!-- /.container-fluid -->
 
-          </div>
-          <!-- End of Main Content -->
+            </div>
+            <!-- End of Main Content -->
 
-          
-          <!-- Footer -->
-          <footer class="sticky-footer bg-white">
-              <div class="container my-auto">
-                  <div class="copyright text-center my-auto">
-                      <span>&copy; 2023. 김성아, 김동하. All rights reserved.</span>
-                  </div>
-              </div>
-          </footer>
-          <!-- End of Footer -->
 
-      </div>
-      <!-- End of Content Wrapper -->
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>&copy; 2023. 김성아, 김동하. All rights reserved.</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
 
-  </div>
-  <!-- End of Page Wrapper -->
+        </div>
+        <!-- End of Content Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fas fa-angle-up"></i>
-  </a>
+    </div>
+    <!-- End of Page Wrapper -->
 
-  {% block script %}
-  {% endblock %}
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    {% block script %}
+    {% endblock %}
 
 </body>
 

@@ -1,5 +1,5 @@
 import re
-from flask import Flask, session, request, render_template, redirect, url_for, jsonify, abort
+from flask import Flask, session, request, render_template, redirect, url_for, jsonify, send_from_directory
 from datetime import datetime
 
 import htmlcoder
@@ -25,6 +25,11 @@ def before_request():
 def after_request(response):
     connectDB.disconnect()
     return response
+
+@app.route('/ads.txt')
+@app.route('/naverba7c3957d92769149c54900291ec31fe.html')
+def index():
+    return send_from_directory(app.root_path, request.path[1:])
 
 
 @app.route('/')

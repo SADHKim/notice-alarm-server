@@ -10,7 +10,7 @@ function interpre_intro() {
 
     if (lang_intro == 'korean'){
     let script = "Hello, we launched the service under the name of Notice Alarm! <br>";
-    script += "Our service started with the idea of <strong>providing more convenient</strong> announcements to users.. <br><br>";
+    script += "Our service started with the idea of <strong>providing more convenient</strong> announcements to users.<br><br>";
     script += "When you register a site where you want to receive notifications, we will notify you of new announcements through your <span class=\"text-primary\">email!</span> <br><br>";
     script += "Please refer to the tutorial below for how to use the service!<br><br>";
     script += "Error Contact : <span class=\"text-primary\">notice.alarm.hanyang@gmail.com</span>"
@@ -22,7 +22,7 @@ function interpre_intro() {
     }
     else if(lang_intro == 'english'){
         let script = "Notice Alarm이라는 이름으로 서비스를 출시했습니다! <br>"
-        script += "우리 서비스는 사용자에게 궁금한 공지사항을 조금이라도 <strong>편리하게 제공하고 싶은</strong> 생각에서 출발했습니다.. <br><br>"
+        script += "우리 서비스는 사용자에게 궁금한 공지사항을 조금이라도 <strong>편리하게 제공하고 싶은</strong> 생각에서 출발했습니다.<br><br>"
         script += "알림을 받고 싶은 사이트를 등록하면, 사용자의 <span class=\"text-primary\">E-mail</span>을 통해 새로운 공지사항을 알려드립니다! <br><br>"
         script += "서비스 이용방법은 다음을 참고해주세요! <br><br>"
         script += "버그 문의 : <span class=\"text-primary\">notice.alarm.hanyang@gmail.com</span>"

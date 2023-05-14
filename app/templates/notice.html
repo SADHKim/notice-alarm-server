@@ -72,8 +72,7 @@
                     {% for notice in notices %}
                     <tr>
                         <td>{{num|length + 1}}</td>
-                        <td class="title"><a href="#notice-view" onclick='open_view("{{notice['
-                                num']}}")'>{{notice['title']}}</a></td>
+                        <td class="title"><a href="#notice-view" onclick='open_view("{{notice['num']}}")'>{{notice['title']}}</a></td>
                         <td>{{notice['writer']}}</td>
                         <td>{{notice['time']}}</td>
                     </tr>

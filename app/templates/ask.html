@@ -68,7 +68,7 @@
                     {% if session['admin'] is defined and session['admin'] == 'true' %}
                     <tr>
                         <td class="text-center"><button class="rounded border-0 text-primary"
-                                onclick='delete_ask("{{ask[' url']}}")'>Del</button></td>
+                                onclick='delete_ask("{{ask['url']}}")'>Del</button></td>
                         <td>{{ask['name']}}</td>
                         <td>{{ask['url']}}</td>
                     </tr>

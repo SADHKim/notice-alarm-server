@@ -54,14 +54,13 @@
                         {% if session['user'] is defined %}
                         {% if session['admin'] is defined and session['admin'] == 'true' %}
                         <td class="text-center"><button class="btn btn-sm btn-danger btn-circle"
-                                onclick='delete_website("{{site[' name']}}")'><i class="fas fa-trash"></i></button></td>
+                                onclick='delete_website("{{site['name']}}")'><i class="fas fa-trash"></i></button></td>
                         {% else %}
 
                         {% if site['name'] in user_websites %}
                         <td></td>
                         {% else %}
-                        <td class="text-center"><button class="rounded border-0" onclick='add_website("{{session['
-                                user']}}", "{{site['name']}}" )'><img src="../static/image/add.svg" alt="add"></button>
+                        <td class="text-center"><button class="rounded border-0" onclick='add_website("{{session['user']}}", "{{site['name']}}" )'><img src="../static/image/add.svg" alt="add"></button>
                         </td>
                         {% endif %}
                         {% endif %}

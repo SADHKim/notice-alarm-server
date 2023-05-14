@@ -132,9 +132,7 @@
                             {% for website in websites %}
                             <tr>
                                 <td class="text-center"><button class="btn btn-sm btn-danger btn-circle"
-                                        onclick='delete_user_website("{{session['
-                                        user']}}", "{{website['website_name']}}" )'><i
-                                            class="fas fa-trash"></i></button></td>
+                                        onclick='delete_user_website("{{session['user']}}", "{{website['website_name']}}" )'><i class="fas fa-trash"></i></button></td>
                                 <td>{{website['website_name']}}</td>
                             </tr>
                             {% endfor %}

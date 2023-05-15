@@ -68,7 +68,7 @@ def register():
             return render_template('register.html', msg="Check your E-mail format")
         
         if connectDB.push_user(info):
-            return render_template('register.html', msg = "your ID has been added. go to login.")
+            return redirect(url_for('login'))
         else:
             return render_template('register.html', msg='Error. try agian later')
         

@@ -137,7 +137,7 @@ def f_password(conn, id, email):
         sql = "update users set passwd = '%s' where id = '%s' and email = '%s'" % (newPass, id, email)
         cursor.execute(sql)
         
-        cursor.commit()
+        conn.commit()
         cursor.close()
         
         return newPass

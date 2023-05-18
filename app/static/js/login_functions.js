@@ -50,3 +50,7 @@ function find_password(){
 
     http.send(JSON.stringify({'id' : id, 'email' : email}));
 }
+
+function close_modal(){
+    document.getElementById('find-form-comment').style.display = 'none';
+}

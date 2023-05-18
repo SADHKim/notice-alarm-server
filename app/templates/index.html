@@ -47,9 +47,42 @@
 										class="form-control btn btn-primary rounded submit px-3" style="color:#5671d7">Login</button>
 								</div>
 								<div class="form-group d-md-flex">
-									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+									<a href="#find-password" type="button" data-toggle="modal" data-target="#exampleModal">
 										Forgot Password?
 									</button>
+
+									<!-- 비밀번호 찾기 탭 -->
+									<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLabel">비밀번호 찾기</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body" id="modal-body">
+													사용자의 아이디와 등록한 이메일 주소를 입력해주세요.<br>
+													임의로 비밀번호를 설정해서 알려드립니다.<br><br>
+												
+													<form onsubmit="find_password()" name="find-form">
+														<div class="form-group">
+															<label for="username">Your ID</label>
+															<input type="text" class="form-control" id="username" name="id" placeholder="ID" required>
+														</div>
+														<div class="form-group">
+															<label for="useremail">Email Address</label>
+															<input type="email" class="form-control" id="useremail" name="email" placeholder="Email" required>
+														</div>
+													</form>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+													<button type="submit" class="btn btn-primary" id="find-form-submit">비밀번호 찾기</button>
+												</div>
+											</div>
+										</div>
+									</div>
 
 									<div class="w-100 text-right">
 										<a href="/register">Sign Up</a>
@@ -61,39 +94,5 @@
 				</div>
 			</div>
 		</section>
-
-
-		<!-- 비밀번호 찾기 탭 -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-			  <div class="modal-content">
-				<div class="modal-header">
-				  <h5 class="modal-title" id="exampleModalLabel">비밀번호 찾기</h5>
-				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				  </button>
-				</div>
-				<div class="modal-body" id="modal-body">
-				  사용자의 아이디와 등록한 이메일 주소를 입력해주세요.<br>
-				  임의로 비밀번호를 설정해서 알려드립니다.<br><br>
-
-					<form onsubmit="find_password()" name="find-form">
-						<div class="form-group">
-							<label for="username">Your ID</label>
-							<input type="text" class="form-control" id="username" name="id" placeholder="ID" required>
-						</div>
-						<div class="form-group">
-							<label for="useremail">Email Address</label>
-							<input type="email" class="form-control" id="useremail" name="email" placeholder="Email" required>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-				  <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-				  <button type="submit" class="btn btn-primary" id="find-form-submit">비밀번호 찾기</button>
-				</div>
-			  </div>
-			</div>
-		</div>
 	</body>
 </html>

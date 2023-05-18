@@ -14,8 +14,8 @@ function login_check(){
 }
 
 function find_password(){
-    let id = document.find_password.id.value;
-    let email = document.find_password.email.value;
+    let id = document.getElementById('find-form-id').value;
+    let email = document.getElementById('find-from-email').value;
 
     let http = new XMLHttpRequest();
     let url = '/api/find-password';
@@ -49,8 +49,6 @@ function find_password(){
 
                 body.appendChild(script);
             }
-
-            return false;
         }
     }
 

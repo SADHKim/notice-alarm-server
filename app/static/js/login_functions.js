@@ -37,6 +37,8 @@ function find_password(){
                 let script = document.createElement('p');
                 script.className = 'text-danger small';
                 script.innerText = '입력하신 ID 혹은 Email이 올바르지 않습니다. 다시 시도해주세요';
+
+                body.appendChild(script);
             }
             else{
                 let body = document.getElementById('modal-body');
@@ -44,7 +46,11 @@ function find_password(){
                 let script = document.createElement('p');
                 script.className = 'text-danger small';
                 script.innerText = '오류가 발생했습니다. 나중에 다시 시도해주세요.';   
+
+                body.appendChild(script);
             }
+
+            return false;
         }
     }
 

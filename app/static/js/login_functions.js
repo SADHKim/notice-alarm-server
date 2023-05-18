@@ -32,22 +32,14 @@ function find_password(){
                 document.getElementById('find-form-submit').style.display = 'none';
             }
             else if(http.response.error == 1){
-                let body = document.getElementById('modal-body');
-                
-                let script = document.createElement('p');
-                script.className = 'text-danger small';
-                script.innerText = '입력하신 ID 혹은 Email이 올바르지 않습니다. 다시 시도해주세요';
-
-                body.appendChild(script);
+                let comment = document.getElementById('find-form-comment')
+                comment.innerText = '입력하신 ID 혹은 Email이 올바르지 않습니다. 다시 시도해주세요.';
+                comment.style.display = 'block'
             }
             else{
-                let body = document.getElementById('modal-body');
-                
-                let script = document.createElement('p');
-                script.className = 'text-danger small';
-                script.innerText = '오류가 발생했습니다. 나중에 다시 시도해주세요.';   
-
-                body.appendChild(script);
+                let comment = document.getElementById('find-form-comment')
+                comment.innerText = '오류가 발생했습니다. 나중에 다시 시도해주세요.';
+                comment.style.display = 'block'
             }
         }
     }

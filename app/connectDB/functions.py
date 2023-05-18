@@ -48,6 +48,9 @@ def id_overlap_check(id):
 def login(userid, userpwd):
     return c_login(conn, userid, userpwd)
 
+def find_password(id, email):
+    return f_password(conn, id, email)
+
 ## db_website ##
 def get_asks():
     return g_asks(conn)
@@ -60,12 +63,6 @@ def delete_ask(url):
 
 def get_user_websites(user):
     return g_user_websites(conn, user)
-
-def get_keyword_websites(keyword):
-    return g_keyword_websites(conn, keyword)
-
-def get_keyword_asks(keyword):
-    return g_keyword_asks(conn, keyword)
 
 def delete_user_webiste(user, website):
     return d_user_website(conn, user, website)

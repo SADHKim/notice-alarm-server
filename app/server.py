@@ -372,6 +372,19 @@ def api_id_overlap():
     else:
         return jsonify({'msg' : flag, 'error' : 1})
     
+    
+@app.route('/api/find-password', methods = ['POST'])
+def api_find_password():
+    data = request.get_json()
+    
+    flag = connectDB.find_password(data['id'], data['email'])
+    if flag == False:
+        return jsonify({'error' : 1})
+    elif flag == 'error':
+        return jsonify({'error' : -1})
+    else:
+        return jsonify({'error' : 0, 'pass' : flag})
+    
 
 def start():
     app.run(host='0.0.0.0', port="9999")

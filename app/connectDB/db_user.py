@@ -1,4 +1,5 @@
 import pymysql
+import random
 
 # check if user's id is overlaped #
 def c_id_overlap(conn, userid):
@@ -120,3 +121,26 @@ def g_user_info(conn, user):
     except Exception as e:
         cursor.close()
         return e
+    
+def f_password(conn, id, email):
+    try:
+        cursor = conn.cursor()
+        
+        sql = "select id from users where id = '%s' and email = '%s'" % (id, email)
+        cursor.execute(sql)
+        
+        row = cursor.fetchone()
+        if not row:
+            return False
+        
+        newPass = 'noticealarm' + str(random.randint(0, 10000))
+        sql = "update users set passwd = '%s' where id = '%s' and email = '%s'" % (newPass, id, email)
+        cursor.execute(sql)
+        
+        cursor.commit()
+        cursor.close()
+        
+        return newPass
+    except:
+        cursor.close()
+        return 'error'

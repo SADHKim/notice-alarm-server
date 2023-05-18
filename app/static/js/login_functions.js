@@ -14,8 +14,8 @@ function login_check(){
 }
 
 function find_password(){
-    let id = document.find_form.id.value;
-    let email = document.find_form.email.value;
+    let id = document.find_password.id.value;
+    let email = document.find_password.email.value;
 
     let http = new XMLHttpRequest();
     let url = '/api/find-password';

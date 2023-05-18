@@ -51,6 +51,9 @@ def login(userid, userpwd):
 def find_password(id, email):
     return f_password(conn, id, email)
 
+def delete_user(user, password):
+    return d_user(conn, user, password)
+
 ## db_website ##
 def get_asks():
     return g_asks(conn)

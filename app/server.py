@@ -36,21 +36,38 @@ def index():
 def main():
     return render_template('main.html')
 
-@app.route('/profile')
+@app.route('/profile', methods = ['GET', 'POST'])
 def profile():
-    if 'user' not in session:
-        return redirect(url_for('login'))
-    
-    user_websites = connectDB.get_user_websites(session['user'])
-    param = request.args.to_dict()
-    if 'error' in param and param['error'] == '1':
-        return render_template('profile.html', msg='Check your password', websites=user_websites)
-    elif 'error' in param and param['error'] == '2':
-        return render_template('profile.html', msg='Invalid E-mail format. try again', websites=user_websites)
-    elif 'error' in param and param['error'] == '-1':
-        return render_template('profile.html', msg='Error try again later', websites=user_websites)
-    else:
-        return render_template('profile.html', websites=user_websites)
+    if request.method == 'GET':    
+        if 'user' not in session:
+            return redirect(url_for('login'))
+        
+        user_websites = connectDB.get_user_websites(session['user'])
+        param = request.args.to_dict()
+        if 'error' in param and param['error'] == '1':
+            return render_template('profile.html', msg='Check your password', websites=user_websites)
+        elif 'error' in param and param['error'] == '2':
+            return render_template('profile.html', msg='Invalid E-mail format. try again', websites=user_websites)
+        elif 'error' in param and param['error'] == '-1':
+            return render_template('profile.html', msg='Error try again later', websites=user_websites)
+        else:
+            return render_template('profile.html', websites=user_websites)
+        
+    elif request.method == 'POST':
+        user = session['user']
+        passwd = request.form['password']
+        
+        flag = connectDB.delete_user(user, passwd)
+        if flag == False:
+            return redirect(url_for('profile', error=1))
+        elif flag == True:
+            session.pop('user')
+            session.pop('email')
+            session.pop('key')
+            
+            return redirect(url_for('main'))
+        else:
+            return redirect(url_for('profile', error=-1))
             
 @app.route('/register', methods = ['GET', 'POST'])
 def register():

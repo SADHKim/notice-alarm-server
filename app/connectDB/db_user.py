@@ -144,3 +144,25 @@ def f_password(conn, id, email):
     except:
         cursor.close()
         return 'error'
+    
+def d_user(conn, user, password):
+    try:
+        cursor = conn.cursor()
+        sql = "select id from users where id = '%s' and passwd = '%s'" % (user, password)
+        
+        cursor.execute(sql)
+        row = cursor.fetchone()
+        
+        if not row:
+            return False
+        
+        sql = "delete from users where id = '%s' and passwd = '%s'" %(user, password)
+        cursor.execute(sql)
+        sql = "delete from email_list where user_id = '%s'" % user
+        cursor.execute(sql)
+        
+        conn.commit()
+        cursor.close()
+        return True
+    except:
+        return 'error'

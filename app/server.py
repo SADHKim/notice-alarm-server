@@ -45,6 +45,13 @@ def profile():
         if 'user' not in session:
             return redirect(url_for('login'))
         
+        if session['key'] == hash(connectDB.get_user_info('admin')['passwd']):
+            data = connectDB.get_admin_profile()
+            if data is False:
+                return render_template('profile.html')
+            else:
+                return render_template('profile.html', user_num=data['user_num'], subscription = data['subscription_info'])
+        
         user_websites = connectDB.get_user_websites(session['user'])
         param = request.args.to_dict()
         if 'error' in param and param['error'] == '1':

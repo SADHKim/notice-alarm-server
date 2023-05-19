@@ -95,3 +95,24 @@ def push_notice(title, content, time):
 
 def delete_notice(num):
     return d_notice(conn, num)
+
+## for admin ##
+def get_admin_profile():
+    try:
+        ret = {}
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        
+        sql = "select id from users"
+        tmp = cursor.execute(sql)
+        ret['user_num'] = tmp
+        
+        sql = "select website_name, count(user_id) as cnt from email_list group by website_name"
+        cursor.execute(sql)
+        tmp = cursor.fetchall()
+        ret['subscription_info'] = tmp
+        
+        cursor.close()
+        return ret
+    except Exception as e:
+        print(e)
+        return False

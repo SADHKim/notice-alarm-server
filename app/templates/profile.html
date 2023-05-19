@@ -115,22 +115,41 @@
         <!-- website table-->
         <div class="card shadow mb-4" id="websites-info">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Websites</h6>
+                {% if 'admin' in session and session['admin'] == 'true' %}
+                <h6 class="m-0 font-weight-bold text-primary">서비스 이용자 수 : {{user_num - 1}}</h6>
+                {% else %}
+                <h6 class="m-0 font-weight-bold text-primary">웹사이트 관리</h6>
+                {% endif %}
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <colgroup>
-                            <col width="25%">
-                            <col width="75%">
+                            <col width="20%">
+                            <col width="80%">
                         </colgroup>
-                        <thead>
+                        <thead class="text-center">
+                            {% if 'admin' in session and session['admin'] == 'true' %}
                             <tr>
-                                <td></td>
-                                <td>Name</td>
+                                <td>구독자 수</td>
+                                <td>웹사이트</td>
                             </tr>
+                            {% else %}
+                            <tr>
+                                <td>삭제</td>
+                                <td>웹사이트</td>
+                            </tr>
+                            {% endif %}
                         </thead>
                         <tbody>
+                            {% if 'admin' in session and session['admin'] == 'true' %}
+                            {% for website in subscription %}
+                            <tr>
+                                <td><strong class="text-center text-primary">{{website['cnt']}}</strong></td>
+                                <td>{{website['website_name']}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
                             {% for website in websites %}
                             <tr>
                                 <td class="text-center"><button class="btn btn-sm btn-danger btn-circle"
@@ -138,6 +157,7 @@
                                 <td>{{website['website_name']}}</td>
                             </tr>
                             {% endfor %}
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>

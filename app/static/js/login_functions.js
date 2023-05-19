@@ -14,6 +14,14 @@ function login_check(){
 }
 
 function find_password(){
+    let comment = document.getElementById('find-form-comment')
+    comment.innerHTML = '<div class="d-flex justify-content-center">\
+        <div class="spinner-border text-primary" role="status">\
+            <span class="sr-only">Loading...</span>\
+        </div>\
+    </div>'
+    comment.style.display = 'block'
+
     let id = document.getElementById('find-form-id').value;
     let email = document.getElementById('find-form-email').value;
 
@@ -24,9 +32,8 @@ function find_password(){
         if(http.readyState == http.DONE){
             if(http.response.error == 0){
                 let body = document.getElementById('modal-body');
-                let pass = http.response.pass;
                 body.innerHTML = '비밀번호가 재설정되었습니다.<br>';
-                body.innerHTML += '비밀번호는 <span class="text-primary">' + pass + '</span>입니다.<br>';
+                body.innerHTML += '등록된 E-mail을 통해 변경된 비밀번호를 안내해드립니다.<br>';
                 body.innerHTML += '로그인 후에 비밀번호를 변경하세요.';
 
                 document.getElementById('find-form-submit').style.display = 'none';
@@ -52,5 +59,22 @@ function find_password(){
 }
 
 function close_modal(){
+    let body = document.getElementById('modal-body')
+    body.innerHTML = '사용자의 아이디와 등록한 이메일 주소를 입력해주세요.<br>\
+    임의로 비밀번호를 설정해서 등록된 Email을 통해 알려드립니다.<br><br>\
+    \
+    <form>\
+        <div class="form-group">\
+            <label for="find-from-id">Your ID</label>\
+            <input type="text" class="form-control" id="find-form-id" placeholder="ID" required>\
+        </div>\
+        <div class="form-group">\
+            <label for="find-form-email">Email Address</label>\
+            <input type="email" class="form-control" id="find-form-email" placeholder="Email" required>\
+        </div>\
+    </form>\
+    \
+    <div class="text-danger small" style="display: none;" id="find-form-comment"></div>';
+
     document.getElementById('find-form-comment').style.display = 'none';
 }

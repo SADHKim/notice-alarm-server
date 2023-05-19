@@ -4,7 +4,10 @@ from datetime import datetime
 
 import htmlcoder
 import connectDB
-from conf import SECRET_KEY
+from conf import SECRET_KEY, MAIL_ID, MAIL_PWD
+
+import smtplib
+from email.mime.text import MIMEText
 
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 def check_email(email):
@@ -394,13 +397,35 @@ def api_id_overlap():
 def api_find_password():
     data = request.get_json()
     
+    emailFlag = check_email(data['email'])
+    if emailFlag == False:
+        return jsonify({'error' : 1})
+    
     flag = connectDB.find_password(data['id'], data['email'])
     if flag == False:
         return jsonify({'error' : 1})
     elif flag == 'error':
         return jsonify({'error' : -1})
     else:
-        return jsonify({'error' : 0, 'pass' : flag})
+        mail = smtplib.SMTP('smtp.gmail.com', 587)
+        mail.starttls()
+        
+        mail.login(MAIL_ID, MAIL_PWD)
+        tmp = '''
+        <img src="http://notice-alarm.com/static/image/logo.png" alt="notice-alarm logo">
+        <h3>비밀번호 재설정 안내</h3>
+        <p style="font-size: lager;">
+        재설정된 비밀번호는 <span style="color: blue;">''' + flag + '''</span>입니다.<br>
+        <br>
+        해당 비밀번호는 보안성이 약한 비밀번호입니다.<br>
+        로그인 후에 비밀번호 변경을 진행해주세요.
+        </p>
+        '''
+        msg = MIMEText(tmp, 'html')
+        msg['Subject'] = '[Notice Alarm] 비밀번호 재설정 안내'
+        
+        mail.sendmail(MAIL_ID, data['email'], msg.as_string())
+        return jsonify({'error' : 0})
     
 
 def start():

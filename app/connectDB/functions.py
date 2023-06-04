@@ -330,14 +330,14 @@ def push_user_website(user, email, name):
     try:
         cursor = conn.cursor()
         
-        sql = "SELECT user_id FROM email_list WHERE user_id = '%s' AND website_name = '%s'" % (user, website)
+        sql = "SELECT user_id FROM email_list WHERE user_id = '%s' AND website_name = '%s'" % (user, name)
         cursor.execute(sql)
         row = cursor.fetchone()
         
         if row:
             return False
         
-        sql = "INSERT INTO email_list (user_id, email, website_name) VALUES ('%s', '%s', '%s')" %(user, email, website)
+        sql = "INSERT INTO email_list (user_id, email, website_name) VALUES ('%s', '%s', '%s')" %(user, email, name)
         cursor.execute(sql)
         
         conn.commit()
